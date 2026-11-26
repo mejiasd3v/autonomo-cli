@@ -30,7 +30,38 @@ alerts, your next RETA cuota and overdue invoices, in one answer.
 - **No telemetry.** Requests go only to AEAT, Seguridad Social and
   FacturaDirecta.
 
-## Install
+## Set up with your agent
+
+Paste this into Claude Code, Codex or any coding agent with a terminal:
+
+```text
+Set up autonomo for me: https://github.com/mejiasd3v/autonomo-cli
+
+1. Ask me which sources I use: AEAT (Hacienda), Seguridad Social, FacturaDirecta.
+   AEAT and Seguridad Social need my digital certificate (FNMT or similar).
+   FacturaDirecta needs an API key.
+2. Check for Python 3.11+ and uv. If uv is missing, ask me before you install it.
+3. Clone the repo into a permanent folder (default ~/.local/share/autonomo-cli),
+   then run `uv tool install -e .` there. Confirm with `autonomo providers`.
+4. Create ~/.config/autonomo/config.toml from config.example.toml. Do not
+   overwrite an existing file. Keep only the sections for the sources I use.
+5. Link skills/autonomo into your skills directory
+   (Claude Code: ~/.claude/skills/autonomo) and read skills/autonomo/SKILL.md.
+6. Certificate: follow "Certificate setup" in SKILL.md step by step. Let me
+   choose the certificate. The password goes only into a hidden prompt in my
+   own terminal (`autonomo cert import`) or a private secret-input tool.
+7. FacturaDirecta: I give you the company id (Ajustes > API e integraciones)
+   for config.toml. I create a key with :read scopes only and run
+   `autonomo secret set AUTONOMO_FD_API_KEY` in my own terminal.
+8. Run `autonomo doctor --online` and fix failures for the sources I use. Then
+   run `autonomo get panel pendientes` and summarize it for me.
+
+Rules: never ask me for a password or API key in chat, and never put one in a
+command line. Never open a notification (it counts as legal receipt). Never
+delete my certificate files.
+```
+
+## Install by hand
 
 Needs Python 3.11+ and [uv](https://docs.astral.sh/uv/).
 
