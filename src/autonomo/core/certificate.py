@@ -99,6 +99,10 @@ class Certificate:
         match = ID_RE.search(cn(self.cert.subject).upper())
         return match.group(1) if match else None
 
+    def holder_name(self) -> str:
+        """Holder name. FNMT CN is "SURNAMES GIVEN NAME - NIF"; the NIF suffix is dropped."""
+        return cn(self.cert.subject).rsplit(" - ", 1)[0].strip()
+
     def ssl_context(self) -> ssl.SSLContext:
         ctx = default_ssl_context()
         one_time = secrets.token_bytes(32)

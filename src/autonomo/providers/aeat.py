@@ -18,8 +18,9 @@ from urllib.parse import unquote, urlparse
 from ..core.config import setting
 from ..core.errors import ConfigError, RemoteError, UsageError
 from ..core.http import QUERY
-from ..core.provider import Param
-from . import datos_fiscales
+from ..core.provider import FetchOptions, Param
+from ..core.redact import mask_text, mask_tree
+from . import datos_fiscales, verifactu
 from ._cert_portal import CertPortal, Service
 
 WWW1 = "https://www1.agenciatributaria.gob.es"
@@ -49,7 +50,7 @@ YEAR = Param("year", "Ejercicio fiscal (por defecto, el año anterior)")
 class AEAT(CertPortal):
     name = "aeat"
     title = "Agencia Tributaria"
-    description = "Sede de la AEAT con certificado digital: deudas, alertas, notificaciones no leídas, últimos accesos, datos fiscales, domicilio fiscal."
+    description = "Sede de la AEAT con certificado digital: deudas, alertas, notificaciones no leídas, últimos accesos, datos fiscales, domicilio fiscal, registros Verifactu."
     hosts = (
         "www1.agenciatributaria.gob.es",
         "www2.agenciatributaria.gob.es",
@@ -90,6 +91,20 @@ class AEAT(CertPortal):
             status="stable",
         ),
         Service(
+            "verifactu",
+            "Registros de facturación Verifactu que constan en AEAT (ConsultaFactuSistemaFacturacion; solo consulta, nunca da de alta ni anula)",
+            verifactu.ENDPOINT,
+            params=(
+                Param("rol", "emitidas (defecto): facturas que expediste. recibidas: facturas en las que eres destinatario"),
+                Param("year", "Ejercicio (por defecto, el de desde/hasta o el actual)"),
+                Param("mes", "Mes 01-12. Sin mes: cada mes del año (hasta el actual), una consulta por mes"),
+                Param("numserie", "Serie y número de la factura"),
+                Param("desde", "Fecha de expedición desde, YYYY-MM-DD"),
+                Param("hasta", "Fecha de expedición hasta, YYYY-MM-DD"),
+            ),
+            note="Sin verificar con datos reales",
+        ),
+        Service(
             "alertas",
             "Mis alertas: avisos personales de la AEAT",
             WWW1 + "/wlpl/IIIC-ALER/SvObtAlertas",
@@ -108,6 +123,14 @@ class AEAT(CertPortal):
         if not nif:
             raise ConfigError("Cannot find the NIF in the certificate.", hint="Set `nif = ...` under [aeat] or AUTONOMO_NIF.")
         return str(nif).upper()
+
+    def holder_name(self) -> str:
+        return str(setting(self.settings, "nombre", "AUTONOMO_NOMBRE") or self.certificate.holder_name()).upper()
+
+    def fetch(self, resource: str, params: dict[str, str], options: FetchOptions) -> Any:
+        if resource == "verifactu":
+            return self._verifactu(params, options.all_pages)
+        return super().fetch(resource, params, options)
 
     def check_host(self, url: str) -> None:
         super().check_host(url)
@@ -183,3 +206,98 @@ class AEAT(CertPortal):
         if data.get("status") != "OK":
             raise RemoteError(f"AEAT: {data.get('mensaje', 'unknown error')}", body=response.text[:1000])
         return {"year": year, **data.get("respuesta", {})}
+
+    # -- verifactu -----------------------------------------------------------
+
+    def _verifactu(self, params: dict[str, str], all_pages: bool) -> dict[str, Any]:
+        rol = params.get("rol", "emitidas").lower()
+        if rol not in verifactu.ROLES:
+            raise UsageError("rol must be emitidas or recibidas.")
+        desde, hasta = _iso_date(params, "desde"), _iso_date(params, "hasta")
+        today = dt.date.today()
+        raw_year = params.get("year") or str((desde or hasta or today).year)
+        if not raw_year.isdigit() or not 2000 <= int(raw_year) <= today.year:
+            raise UsageError(f"Invalid year '{raw_year}'.")
+        year = int(raw_year)
+        if any(d and d.year != year for d in (desde, hasta)) or (desde and hasta and desde > hasta):
+            raise UsageError(f"desde and hasta must be in {year}, with desde <= hasta.")
+        numserie = params.get("numserie") or None
+        if numserie and len(numserie) > 60:
+            raise UsageError("numserie has at most 60 characters.")
+
+        if params.get("mes"):
+            raw = params["mes"]
+            if not raw.isdigit() or not 1 <= int(raw) <= 12:
+                raise UsageError(f"Invalid mes '{raw}'. Use 01-12.")
+            months = [int(raw)]
+        else:
+            last = today.month if year == today.year else 12
+            months = list(range(desde.month if desde else 1, (hasta.month if hasta else last) + 1))
+
+        query = {
+            "rol": rol,
+            "nif": self.nif(),
+            "nombre": self.holder_name(),
+            "year": year,
+            "numserie": numserie,
+            "desde": verifactu.aeat_date(desde.isoformat()) if desde else None,
+            "hasta": verifactu.aeat_date(hasta.isoformat()) if hasta else None,
+        }
+        items: list[dict[str, Any]] = []
+        truncated: list[str] = []
+        for month in months:
+            clave, seen = None, set()
+            while True:
+                page = self._verifactu_page(verifactu.build_request(month=month, clave=clave, **query))
+                items += [{"periodo": f"{year}-{month:02d}", **record} for record in page["records"]]
+                if not page["more"]:
+                    break
+                if not all_pages:
+                    truncated.append(f"{year}-{month:02d}")
+                    break
+                clave = page["clave"]
+                cursor = tuple(clave.get(f) for f in verifactu.CURSOR) if isinstance(clave, dict) else ()
+                if not all(isinstance(v, str) and v for v in cursor) or len(cursor) != 3 or cursor in seen:
+                    raise RemoteError(f"Verifactu said {year}-{month:02d} has more records but gave no new valid ClavePaginacion.")
+                seen.add(cursor)
+        result: dict[str, Any] = {
+            "rol": rol,
+            "year": year,
+            "periodos": [f"{year}-{m:02d}" for m in months],
+            "count": len(items),
+            "more": bool(truncated),
+            "items": items,
+        }
+        if truncated:
+            result["note"] = f"More records in {', '.join(truncated)}. Repeat with --all."
+        return mask_tree(result)
+
+    def _verifactu_page(self, body: bytes) -> dict[str, Any]:
+        try:
+            response = self.request(
+                "POST",
+                verifactu.ENDPOINT,
+                content=body,
+                headers={"Content-Type": "text/xml; charset=utf-8", "SOAPAction": '""'},
+                extensions={QUERY: True},  # ConsultaFactuSistemaFacturacion only reads
+            )
+        except RemoteError as exc:
+            if fault := verifactu.fault_from_body(exc.body):
+                raise RemoteError(f"Verifactu: {fault}", hint=verifactu.FAULT_HINT, status=exc.status) from exc
+            raise
+        if "xml" not in response.headers.get("content-type", ""):
+            raise RemoteError(
+                "Verifactu did not return a SOAP response.",
+                hint=verifactu.CERT_HINT,
+                body=mask_text(response.text[:1000]),
+            )
+        return verifactu.parse_response(response.content)
+
+
+def _iso_date(params: dict[str, str], key: str) -> dt.date | None:
+    if not (raw := params.get(key)):
+        return None
+    try:
+        return dt.date.fromisoformat(raw)
+    except ValueError:
+        raise UsageError(f"Invalid {key} '{raw}'. Use YYYY-MM-DD.") from None

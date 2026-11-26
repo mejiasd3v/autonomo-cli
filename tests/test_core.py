@@ -1,6 +1,7 @@
 import datetime as dt
 import json
 import stat
+import xml.etree.ElementTree as ET
 from pathlib import Path
 
 import httpx
@@ -612,3 +613,61 @@ def test_facturadirecta_download_follows_up_to_the_redirect_limit(fd_env):
 
     fd = FacturaDirecta({}, transport=httpx.MockTransport(handler))
     assert fd.fetch("download", {"url": "https://storage.example.com/0"}, FetchOptions()).content == b"%PDF"
+
+
+# -- AEAT Verifactu ----------------------------------------------------------------
+
+VF_RESPONSE = """<?xml version="1.0" encoding="UTF-8"?>
+<env:Envelope xmlns:env="http://schemas.xmlsoap.org/soap/envelope/"
+  xmlns:r="https://www2.agenciatributaria.gob.es/static_files/common/internet/dep/aplicaciones/es/aeat/tike/cont/ws/RespuestaConsultaLR.xsd"
+  xmlns:sf="https://www2.agenciatributaria.gob.es/static_files/common/internet/dep/aplicaciones/es/aeat/tike/cont/ws/SuministroInformacion.xsd">
+<env:Body><r:RespuestaConsultaFactuSistemaFacturacion>
+  <r:IndicadorPaginacion>{more}</r:IndicadorPaginacion><r:ResultadoConsulta>ConDatos</r:ResultadoConsulta>
+  <r:RegistroRespuestaConsultaFactuSistemaFacturacion>
+    <r:IDFactura><sf:IDEmisorFactura>12345678Z</sf:IDEmisorFactura><sf:NumSerieFactura>{num}</sf:NumSerieFactura><sf:FechaExpedicionFactura>05-03-2026</sf:FechaExpedicionFactura></r:IDFactura>
+    <r:DatosRegistroFacturacion><r:TipoFactura>F1</r:TipoFactura>
+      <r:Desglose><sf:DetalleDesglose><sf:CuotaRepercutida>21.00</sf:CuotaRepercutida></sf:DetalleDesglose></r:Desglose>
+      <r:ImporteTotal>121.00</r:ImporteTotal></r:DatosRegistroFacturacion>
+    <r:EstadoRegistro><r:EstadoRegistro>Correcto</r:EstadoRegistro></r:EstadoRegistro>
+  </r:RegistroRespuestaConsultaFactuSistemaFacturacion>
+  {clave}
+</r:RespuestaConsultaFactuSistemaFacturacion></env:Body></env:Envelope>"""
+VF_CLAVE = "<r:ClavePaginacion><sf:IDEmisorFactura>12345678Z</sf:IDEmisorFactura><sf:NumSerieFactura>A1</sf:NumSerieFactura><sf:FechaExpedicionFactura>05-03-2026</sf:FechaExpedicionFactura></r:ClavePaginacion>"
+
+
+def test_aeat_verifactu_query_paginates_and_masks():
+    seen = []
+
+    def handler(request):
+        seen.append(request)
+        first = b"ClavePaginacion" not in request.content
+        body = VF_RESPONSE.format(more="S" if first else "N", num="A1" if first else "A2", clave=VF_CLAVE if first else "")
+        return httpx.Response(200, text=body, headers={"content-type": "text/xml"})
+
+    aeat = AEAT({"nif": "12345678Z", "nombre": "Garcia Lopez Ana"}, transport=httpx.MockTransport(handler))
+    result = aeat.fetch("verifactu", {"year": "2026", "mes": "3"}, FetchOptions(all_pages=True))
+
+    assert [r.method for r in seen] == ["POST", "POST"]
+    sent = {el.tag.rsplit("}", 1)[-1]: el.text for el in ET.fromstring(seen[0].content).iter()}
+    assert sent["Ejercicio"] == "2026" and sent["Periodo"] == "03"
+    key = ET.fromstring(seen[1].content).find(".//{*}ClavePaginacion")
+    assert [el.text for el in key] == ["12345678Z", "A1", "05-03-2026"]
+    assert b"GARCIA LOPEZ ANA" in seen[0].content and b"RegFactu" not in seen[0].content
+    assert result["count"] == 2 and result["more"] is False
+    item = result["items"][0]
+    assert item["periodo"] == "2026-03" and item["IDFactura"]["IDEmisorFactura"].endswith("78Z")
+    assert "12345678Z" not in json.dumps(result)
+    assert item["DatosRegistroFacturacion"]["Desglose"]["DetalleDesglose"] == [{"CuotaRepercutida": "21.00"}]
+
+    partial = aeat.fetch("verifactu", {"year": "2026", "mes": "03"}, FetchOptions())
+    assert partial["more"] is True and partial["count"] == 1
+
+
+def test_aeat_verifactu_fault_becomes_remote_error():
+    fault = '<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/"><s:Body><s:Fault><faultcode>s:Server</faultcode><faultstring>Codigo[4102].NIF 12345678Z no identificado</faultstring></s:Fault></s:Body></s:Envelope>'
+    aeat = AEAT({"nif": "12345678Z", "nombre": "X"}, transport=httpx.MockTransport(lambda r: httpx.Response(500, text=fault, headers={"content-type": "text/xml"})))
+    with pytest.raises(RemoteError, match=r"4102") as exc:
+        aeat.fetch("verifactu", {"year": "2026", "mes": "01"}, FetchOptions())
+    assert "12345678Z" not in exc.value.message
+    with pytest.raises(UsageError):
+        aeat.fetch("verifactu", {"year": "2026", "desde": "2025-12-01"}, FetchOptions())
