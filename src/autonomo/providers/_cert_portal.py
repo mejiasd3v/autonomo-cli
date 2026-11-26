@@ -7,6 +7,7 @@ and redirects are followed by hand so the certificate session never leaves it.
 
 from __future__ import annotations
 
+import gzip
 from typing import Any
 from urllib.parse import urljoin, urlparse
 
@@ -19,7 +20,6 @@ from ..core.http import make_client, send
 from ..core.provider import Binary, Check, FetchOptions, Param, Provider, Resource
 
 MAX_REDIRECTS = 8
-LOGIN_HOST_MARKERS = ("clave.gob.es", "pasarela.clave", "idp.")
 
 
 class Service:
@@ -38,8 +38,18 @@ class Service:
         return Resource(self.name, summary, self.params, status=self.status)  # type: ignore[arg-type]
 
 
+def decode_body(response: httpx.Response) -> str:
+    """Response text. Some Seguridad Social hosts send gzip without Content-Encoding."""
+    raw = response.content
+    if raw[:2] == b"\x1f\x8b":
+        return gzip.decompress(raw).decode(response.encoding or "utf-8", "replace")
+    return response.text
+
+
 class CertPortal(Provider):
     hosts: tuple[str, ...] = ()
+    # Redirects to these hosts mean an interactive login the provider cannot do.
+    login_host_markers: tuple[str, ...] = ("clave.gob.es", "pasarela.clave", "idp.")
     probe_url: str = ""
     services: tuple[Service, ...] = ()
 
@@ -109,7 +119,7 @@ class CertPortal(Provider):
                 return response
             target = urljoin(str(response.url), response.headers.get("location", ""))
             host = urlparse(target).hostname or ""
-            if any(marker in host for marker in LOGIN_HOST_MARKERS):
+            if any(marker in host for marker in self.login_host_markers):
                 raise RemoteError(
                     f"{url} redirected to a login page ({host}).",
                     hint="This service needs Cl@ve or an interactive login. Certificate-only access is not available for it.",
@@ -125,7 +135,7 @@ class CertPortal(Provider):
     def parse(self, response: httpx.Response) -> Any:
         content_type = response.headers.get("content-type", "")
         if "html" in content_type:
-            return {"status": response.status_code, **html_to_page(response.text, str(response.url))}
+            return {"status": response.status_code, **html_to_page(decode_body(response), str(response.url))}
         if "json" in content_type:
             return response.json()
         if content_type.startswith("text/"):

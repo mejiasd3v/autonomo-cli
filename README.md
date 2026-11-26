@@ -56,7 +56,7 @@ autonomo config
 |---|---|---|---|
 | `facturadirecta` | API key header (OS keyring or env) | 49: documents, contacts, banks, journal, reports, tax forms, attachments, versions, raw GET | Verified live against a sandbox company (2026-11-26): every list, report and settings resource, item fetch, versions, cursor and offset pagination. The sandbox has almost no documents, so invoice/bill payloads and attachment downloads are untested |
 | `aeat` | Certificate (mTLS on www1) | `deudas`, `notificaciones` (unread summary), `alertas`, `ultimos-accesos`, `datos-fiscales` (parsed JSON), `domicilio-ratificado`, `page` | All verified live on a real account (2026-11-26). Lists with entries were seen only for `ultimos-accesos`; the others returned empty states, so non-empty pages are parsed generically (text + tables) |
-| `seguridad-social` | Certificate | `certificate`, `page` | Login flow not mapped. Needs a browser session study |
+| `seguridad-social` | Certificate: SAML login through idp/ipce.seg-social.es, plain HTTP | `resumen`, `recibos`, `vida-laboral`, `bases-cotizacion`, `regularizacion`, `avisos`, `expedientes`, `page` | Verified live (2026-11-26). Notifications and debts live in the sede (Prosa apps) and are not covered yet |
 
 ## Design
 
@@ -89,6 +89,7 @@ same without touching this repo.
 
 - AEAT Verifactu `ConsultaFactuSistemaFacturacion` (SOAP over mTLS, official WSDL).
 - DEHú `Localiza` (needs Gran Destinatario registration and WS-Security signing; never call `PeticionAcceso`).
-- Seguridad Social: map the certificate login (`ipce.seg-social.es`) and Importass pages.
+- Seguridad Social sede (`sp.seg-social.es`, Prosa apps): debts and notifications. SSO already works; the apps render XML client-side and need their ticket flow. Notifications: list only, never comparecencia.
+- Seguridad Social: receipts for past years and older contribution bases (filter forms and pagination).
 - Datos fiscales layout for each new fiscal year: `uv run --with openpyxl python scripts/build_datos_fiscales_layout.py FILE.xlsx YEAR` (source Excel: AEAT Desarrolladores > IRPF > Modelo 100 > Ejercicio YYYY).
 - AEAT full notification history (`GNNO-JDIT/SvInteresadosQuery`): blocked until verified that listing cannot trigger comparecencia.

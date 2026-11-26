@@ -53,10 +53,13 @@ class _Extractor(HTMLParser):
         if tag in ("td", "th"):
             self._emit(" | ")
             self._cell = []
+        if tag == "base" and (base := dict(attrs).get("href")):
+            # Portals such as IBM WebSphere resolve relative links against <base href>.
+            self.base_url = urljoin(self.base_url, base.strip())
         if tag == "a":
             href = dict(attrs).get("href")
-            if href and not href.startswith(("javascript:", "#", "mailto:")):
-                self._href = urljoin(self.base_url, href)
+            if href and not href.strip().startswith(("javascript:", "#", "mailto:")):
+                self._href = urljoin(self.base_url, href.strip())
                 self._link_text = []
 
     def handle_endtag(self, tag):

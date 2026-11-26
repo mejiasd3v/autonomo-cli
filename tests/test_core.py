@@ -347,3 +347,50 @@ def test_secret_set_stores_in_keyring_and_env_wins(tmp_path, cert_home, monkeypa
     assert secret("AUTONOMO_FD_API_KEY", "x") == "from-env"
     assert main(["secret", "set", "OTHER", "--value-file", str(value)]) == 2
     assert main(["secret", "delete", "AUTONOMO_FD_API_KEY"]) == 0 and not ring.store
+
+
+# -- Seguridad Social ---------------------------------------------------------------
+
+
+def test_seguridad_social_certificate_login_chain():
+    from autonomo.providers.seguridad_social import SeguridadSocial
+
+    portal = "https://portal.seg-social.gob.es"
+    login_page = (
+        f'<html><head><title>Iniciar sesión</title><base href="{portal}/wps/portal/importass/!ut/p/z1/abc/"></head>'
+        '<body><form id="P017_login" method="post" action="p0/IZ7_X=CZ6_Y/#Z7_X"><input name="loginFormSubmit" type="hidden" value="ACCESO"/></form></body></html>'
+    )
+
+    def saml(action, kind):
+        return f'<form name="redirectForm" method="POST" action="{action}"><input type="hidden" name="RelayState" value="r"/><input type="hidden" name="{kind}" value="x"/></form>'
+
+    steps = []
+
+    def handler(request):
+        url, method = str(request.url), request.method
+        steps.append((method, request.url.host, request.url.path))
+        if method == "GET" and url.startswith(f"{portal}/wps/myportal/importass/importass/personal"):
+            if "LtpaToken2" in request.headers.get("cookie", ""):
+                return httpx.Response(200, html="<title>Área personal general</title><main>{}\nHola\nNUSS: 28/12345678/90 NIF 12345678Z</main>")
+            return httpx.Response(200, html=login_page)
+        if method == "POST" and request.url.path.endswith("/p0/IZ7_X=CZ6_Y/"):
+            return httpx.Response(200, html=saml("https://idp.seg-social.es/PGIS/Login", "SAMLRequest"))
+        if method == "POST" and url == "https://idp.seg-social.es/PGIS/Login":
+            return httpx.Response(200, html="<button formaction='https://idp.seg-social.es/PGIS/Login?seleccion=IPCE'>cert</button>")
+        if method == "POST" and url.endswith("seleccion=IPCE"):
+            return httpx.Response(200, html=saml("https://ipce.seg-social.es/IPCE/Login", "SAMLRequest"))
+        if method == "POST" and request.url.host == "ipce.seg-social.es":
+            return httpx.Response(200, html=saml("https://idp.seg-social.es/PGIS/PostLogin?IdSesion=1", "SAMLResponse"))
+        if method == "POST" and request.url.path == "/PGIS/PostLogin":
+            return httpx.Response(200, html=saml(f"{portal}/wps/portal/importass/acs?loginFormSubmit=LOGIN", "SAMLResponse"))
+        if method == "POST" and request.url.path == "/wps/portal/importass/acs":
+            return httpx.Response(302, headers={"location": "/wps/myportal/importass/importass/personal/", "set-cookie": "LtpaToken2=t; Path=/"})
+        return httpx.Response(404)
+
+    ss = SeguridadSocial({}, transport=httpx.MockTransport(handler))
+    page = ss.fetch("resumen", {}, FetchOptions())
+
+    assert [h for _, h, _ in steps].count("ipce.seg-social.es") == 1
+    assert page["text"].startswith("Hola") and "12345678Z" not in page["text"] and "12345678/90" not in page["text"]
+    with pytest.raises(ReadOnlyViolation):  # only login steps may POST
+        ss.client.post(f"{portal}/wps/myportal/importass/importass/tramites/baja")

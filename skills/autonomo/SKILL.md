@@ -1,6 +1,6 @@
 ---
 name: autonomo
-description: Read the user's Spanish self-employed (autónomo) data with the autonomo CLI. FacturaDirecta invoices, expenses, contacts, banks, accounting, and generated tax forms; AEAT debts, unread notifications, alerts, recent logins, Renta datos fiscales (modelo 130 payments, RETA contributions, income, properties), and fiscal address status; Seguridad Social pages (experimental). Read-only. Use for questions about the user's invoices, taxes, Hacienda, Seguridad Social, or cuotas.
+description: Read the user's Spanish self-employed (autónomo) data with the autonomo CLI. FacturaDirecta invoices, expenses, contacts, banks, accounting, and generated tax forms; AEAT debts, unread notifications, alerts, recent logins, Renta datos fiscales (modelo 130 payments, RETA contributions, income, properties), and fiscal address status; Seguridad Social (Importass: next cuota, RETA receipts, vida laboral, contribution bases, regularization, notices, files). Read-only. Use for questions about the user's invoices, taxes, Hacienda, Seguridad Social, or cuotas.
 ---
 
 # autonomo
@@ -138,11 +138,28 @@ notification counts as legal receipt (comparecencia) and starts deadlines. The
 CLI blocks those URLs. Report the list to the user and tell them to open the
 notification themselves when they decide to.
 
-### Seguridad Social (experimental)
+### Seguridad Social (Importass, needs the digital certificate)
 
-Only `certificate` and `page` exist. The login flow is not mapped yet, so pages
-usually end on a login screen (exit 5 with a hint). Say so to the user instead
-of retrying.
+```sh
+autonomo get seguridad-social resumen            # alta status, days, current base, next cuota + breakdown
+autonomo get seguridad-social recibos            # RETA receipts this year: amount, breakdown, charge date
+autonomo get seguridad-social vida-laboral       # table: employer/regime, dates, days per period
+autonomo get seguridad-social bases-cotizacion   # monthly bases, 12 most recent months
+autonomo get seguridad-social regularizacion     # yearly regularization results (a ingresar / a devolver)
+autonomo get seguridad-social avisos             # Importass notices (not legal notifications)
+autonomo get seguridad-social expedientes        # files and requests before the TGSS
+```
+
+Each call logs in with the certificate (about 10 seconds). Pages come back as
+`{title, text, tables, links}`; amounts are Spanish formatted text such as
+`607,35 €`. NIF and NUSS are masked. `recibos` covers the current year and
+`bases-cotizacion` the latest 12 months; say so when the user asks about older
+periods.
+
+Not available yet: Seguridad Social notifications and debts. Both live in the
+sede, not in Importass. Tell the user to check them in the sede. Do not use
+`page` to follow links into trámites (altas, bajas, modificaciones, "Informar
+error"): the CLI blocks their form submissions anyway.
 
 ## Privacy
 
