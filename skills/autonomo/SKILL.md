@@ -149,6 +149,8 @@ autonomo get seguridad-social bases-cotizacion --all   # every monthly base, by 
 autonomo get seguridad-social regularizacion     # yearly regularization results (a ingresar / a devolver)
 autonomo get seguridad-social avisos             # Importass notices (not legal notifications)
 autonomo get seguridad-social expedientes        # files and requests before the TGSS
+autonomo get seguridad-social notificaciones     # pending sede notifications (list only, last 60 days)
+autonomo get seguridad-social deudas             # pending debts: has_debts + the sede's own messages
 ```
 
 Each call logs in with the certificate (about 10 seconds). Pages come back as
@@ -160,8 +162,12 @@ entry, 12 per page. Without `--all` you only have the newest page: check
 `count: 0` and a `note`. Receipts include regularization charges as separate
 concepts ("Regularización cuotas ...").
 
-Not available yet: Seguridad Social notifications and debts. Both live in the
-sede, not in Importass. Tell the user to check them in the sede. Do not use
+`notificaciones` and `deudas` come from the sede (about 7 seconds each). For
+`deudas`, trust `has_debts` and quote `messages`: `false` comes with the
+sede's "No existen liquidaciones ni deudas" text; `true` returns the sede's
+screen data under `data`; `null` means the answer was unclear, so say so.
+Notifications: never try to open or sign one (comparecencia); tell the user to
+do it in the sede. The list covers the sede's default window only. Do not use
 `page` to follow links into trámites (altas, bajas, modificaciones, "Informar
 error"): the CLI blocks their form submissions anyway.
 

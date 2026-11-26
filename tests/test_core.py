@@ -419,3 +419,25 @@ def test_importass_quota_history_parser():
     }
     assert items[1] == {"period": "2026-10", "concept": "Régimen Especial", "amount_eur": 1633.99}
     assert page_position("1 de 7") == (1, 7)
+
+
+def test_prosa_page_parsing():
+    from autonomo.providers import prosa
+
+    page = """<html><script id="xslUri" href="/Notificaciones/templates/ListaNotif_ES.xsl" type="text/plain"></script>
+    <script id="xml" type="text/plain"><ProsaXMLData><SPM arqobj="ed">
+      <NOTIFICACIONES><NOTIFICACION><ID_NOT_GESTION>1</ID_NOT_GESTION><MATERIA><NOMBRE_MATERIA><![CDATA[Recaudación]]></NOMBRE_MATERIA></MATERIA></NOTIFICACION>
+      <NOTIFICACION><ID_NOT_GESTION>2</ID_NOT_GESTION></NOTIFICACION></NOTIFICACIONES>
+      <ARQ id="ARQ"><SPM.TICKET>t1</SPM.TICKET><SPM.URLFRONTEND>/ProsaInternet/OnlineAccessUtf8</SPM.URLFRONTEND>
+        <SPM.IDSESSION>;jsessionid=abc</SPM.IDSESSION><SPM.CONTEXT><![CDATA[internet]]></SPM.CONTEXT>
+        <MESSAGES><MESSAGE><TIPO>AVISO</TIPO><TEXTO><![CDATA[No existen  deudas.]]></TEXTO></MESSAGE></MESSAGES></ARQ>
+    </SPM></ProsaXMLData></script></html>"""
+
+    parsed = prosa.parse(page)
+
+    assert parsed.view.endswith("ListaNotif_ES.xsl")
+    notifs = prosa.as_list(parsed.data["NOTIFICACIONES"]["NOTIFICACION"])
+    assert [n["ID_NOT_GESTION"] for n in notifs] == ["1", "2"] and notifs[0]["MATERIA"]["NOMBRE_MATERIA"] == "Recaudación"
+    assert parsed.messages == [{"type": "AVISO", "text": "No existen deudas."}]
+    assert parsed.form_url("sp.seg-social.es") == "https://sp.seg-social.es/ProsaInternet/OnlineAccessUtf8;jsessionid=abc"
+    assert parsed.form_base()["ARQ.SPM.TICKET"] == "t1" and "ARQ" not in parsed.data

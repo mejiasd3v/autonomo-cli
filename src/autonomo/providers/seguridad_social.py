@@ -12,9 +12,12 @@ Each login POST is a pure authentication step and is marked QUERY for the
 read-only guard. Every other POST stays blocked, so Importass forms that change
 data (bajas, modificaciones, "informar error") cannot be submitted.
 
-Not covered yet: notificaciones and deudas. Both leave Importass for the sede
-(sp.seg-social.es, "Prosa" apps rendered client-side from XML). Opening a
-notification there would also count as comparecencia.
+Sede apps (sp.seg-social.es, "Prosa"): reached through Importass's redirector
+with the same IdP session (SSO). See prosa.py for the page format.
+* notificaciones: the list screen only. Signing a notification (SPM.ACC.FIRMARNOT)
+  is comparecencia and is never sent.
+* deudas: one query step (option 1: by NAF). The later steps that generate a
+  payment document are never sent.
 """
 
 from __future__ import annotations
@@ -31,6 +34,7 @@ from ..core.errors import RemoteError, UsageError
 from ..core.http import QUERY
 from ..core.html import html_to_page
 from ..core.provider import Check, FetchOptions, Param
+from . import prosa
 from ._cert_portal import CertPortal, Service, decode_body
 from .importass import page_position, parse_quota_history
 
@@ -58,14 +62,23 @@ def _mask(text: str) -> str:
     return _NUSS_RE.sub(lambda m: "*" * 10 + m.group(3), mask_ids(text))
 
 
+def _mask_tree(value: Any) -> Any:
+    if isinstance(value, dict):
+        return {k: _mask_tree(v) for k, v in value.items()}
+    if isinstance(value, list):
+        return [_mask_tree(v) for v in value]
+    return _mask(value) if isinstance(value, str) else value
+
+
 class SeguridadSocial(CertPortal):
     name = "seguridad-social"
     title = "Seguridad Social"
-    description = "Importass con certificado digital: resumen, recibos de autónomo, vida laboral, bases de cotización, regularización, avisos y expedientes."
+    description = "Importass y sede con certificado digital: resumen, recibos, vida laboral, bases, regularización, avisos, expedientes, notificaciones (lista) y deudas."
     hosts = (
         "portal.seg-social.gob.es",
         "idp.seg-social.es",
         "ipce.seg-social.es",
+        "sp.seg-social.es",
     )
     # idp.seg-social.es is the Seguridad Social IdP that this provider drives itself.
     login_host_markers = ("clave.gob.es", "pasarela.clave")
@@ -90,6 +103,18 @@ class SeguridadSocial(CertPortal):
         Service("regularizacion", "Regularización anual de cuotas de años anteriores: resultado por año (a ingresar o a devolver)", f"{IMPORTASS}/tramites/regularizacionCuotasAnyosAnteriores", status="stable"),
         Service("avisos", "Avisos de Importass, leídos y no leídos (no son notificaciones oficiales)", f"{IMPORTASS}/tramites/avisosComunicaciones/", status="stable"),
         Service("expedientes", "Expedientes y solicitudes presentados ante la TGSS", f"{IMPORTASS}/tramites/consultaTramitesConAutenticacion", status="stable"),
+        Service(
+            "notificaciones",
+            "Notificaciones telemáticas de la Seguridad Social pendientes en la sede (últimos 60 días). Solo la lista: nunca se abren ni firman, para no producir comparecencia",
+            f"{PORTAL}/wps/portal/importass/Seguridad/PortalRedirectorN2A?idApp=323",
+            status="stable",
+        ),
+        Service(
+            "deudas",
+            "Deudas y liquidaciones pendientes con la Seguridad Social (consulta en la sede por NAF; nunca genera documento de pago)",
+            f"{PORTAL}/wps/portal/importass/Seguridad/PortalRedirectorN1A?idApp=370&N1&A",
+            status="stable",
+        ),
     )
 
     def __init__(self, settings: dict[str, Any], transport: httpx.BaseTransport | None = None):
@@ -150,7 +175,80 @@ class SeguridadSocial(CertPortal):
     def fetch_service(self, service: Service, params: dict[str, str]) -> Any:
         if service.name in HISTORY_SEARCH:
             return self._history(service, params)
+        if service.name == "notificaciones":
+            return self._notificaciones(service)
+        if service.name == "deudas":
+            return self._deudas(service)
         return super().fetch_service(service, params)
+
+    # -- sede (Prosa) ----------------------------------------------------------
+
+    def _open_sede(self, redirector_url: str) -> tuple[httpx.Response, prosa.ProsaPage]:
+        """Importass redirector -> sede app, reusing the IdP session."""
+        response = self.request("GET", redirector_url)
+        page = decode_body(response)
+        link = re.search(r'id="importassPortalRedirectorLinkPage"[^>]*href="\s*([^"]+)"', page)
+        base = _BASE_RE.search(page)
+        if not link or not base:
+            raise RemoteError("Importass did not offer the link to the sede.", hint="The redirector page may have changed.")
+        response = self.request("GET", urljoin(base.group(1), html.unescape(link.group(1)).split("#")[0]))
+        for _ in range(MAX_LOGIN_STEPS):
+            page = decode_body(response)
+            if prosa.is_prosa(page):
+                return response, prosa.parse(page)
+            response = self._next_login_step(response, page)
+        raise RemoteError("Could not open the Seguridad Social sede app.")
+
+    def _notificaciones(self, service: Service) -> dict[str, Any]:
+        _, page = self._open_sede(service.url)
+        if "ListaNotif" not in page.view:
+            raise RemoteError(f"Unexpected sede screen: {page.view}", hint="The notifications app may have changed.")
+        items = [_mask_tree(n) for n in prosa.as_list(page.data.get("NOTIFICACIONES", {}).get("NOTIFICACION") if isinstance(page.data.get("NOTIFICACIONES"), dict) else None)]
+        criteria = page.data.get("CRITERIOS_BUSQUEDA", {})
+        return {
+            "items": items,
+            "count": len(items),
+            "window": {"desde": criteria.get("FECHA_DESDE"), "hasta": criteria.get("FECHA_HASTA")} if isinstance(criteria, dict) else None,
+            "messages": page.messages,
+            "note": "Pending notifications in the sede's default window. Opening one counts as comparecencia: the user must do it in the sede.",
+        }
+
+    def _deudas(self, service: Service) -> dict[str, Any]:
+        response, page = self._open_sede(service.url)
+        if "IdentificarDocumento" not in page.view:
+            raise RemoteError(f"Unexpected sede screen: {page.view}", hint="The debts app may have changed.")
+        data = {
+            **page.form_base(),
+            "OPCION": "1",  # option 1: by identifier
+            "TIPO_IDENTIFICADOR": "07",  # NAF
+            "IDENTIFICADOR": self._naf(),
+            "MES_DESDE": "", "ANYO_DESDE": "", "MES_HASTA": "", "ANYO_HASTA": "",
+            "CC6Cotizacion": "", "IP3Identificador": "", "NA5NAF": "", "NIFApoderado": "", "NIFPoderdante": "",
+            "SPM.ACC.CONTINUAR": "CONTINUAR",
+        }
+        # The query step only lists debts; generating a payment document is a later step that is never sent.
+        result = self.request("POST", page.form_url("sp.seg-social.es"), data=data, extensions={QUERY: True})
+        body = decode_body(result)
+        if not prosa.is_prosa(body):
+            text = html_to_page(body, str(result.url))["text"]
+            raise RemoteError("The sede rejected the debts query.", body=text[:500])
+        answer = prosa.parse(body)
+        found = "IdentificarDocumento" not in answer.view
+        # A new screen means a list of debts; staying on the form with a message means none.
+        has_debts = True if found else (False if answer.messages else None)
+        return {
+            "has_debts": has_debts,
+            "messages": answer.messages,
+            "screen": answer.view.rsplit("/", 1)[-1],
+            "data": _mask_tree({k: v for k, v in answer.data.items() if k not in {"estado", "NIFApoderado", "NIFPoderdante", "IP3Identificador", "CC2Regimen", "CC6Cotizacion", "NA5NAF", "REGIdentificador", "NIFIdentificador"}}) if found else {},
+        }
+
+    def _naf(self) -> str:
+        page = decode_body(self.request("GET", PERSONAL))
+        m = re.search(r"NUSS\)?:?\s*(?:<[^>]+>\s*)*(\d{2})[ /]?(\d{8})[ /]?(\d{2})", page)
+        if not m:
+            raise RemoteError("Could not read the NUSS from the Importass personal area.")
+        return "".join(m.groups())
 
     def _history(self, service: Service, params: dict[str, str]) -> dict[str, Any]:
         """Receipts or bases as records. Search form only when a range is given."""
