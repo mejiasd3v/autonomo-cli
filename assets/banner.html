@@ -1,0 +1,159 @@
+<!doctype html>
+<!--
+  Source for assets/banner.png (1280x640, README + GitHub social preview)
+  and assets/x-card.png (1600x900, X/Twitter). Render with: scripts/render_banner.sh
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style>
+  :root {
+    --bg: #06100e;
+    --teal: #14b8a6;
+    --teal-soft: #5eead4;
+    --ink: #e6f2ef;
+    --muted: #8aa39d;
+    --line: rgba(94, 234, 212, 0.14);
+    --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+    --sans: -apple-system, "SF Pro Display", "Inter", system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 100vw; height: 100vh; overflow: hidden; }
+  body {
+    background:
+      radial-gradient(ellipse 60% 70% at 78% 55%, rgba(20, 184, 166, 0.20), transparent 70%),
+      radial-gradient(ellipse 45% 60% at 8% 0%, rgba(20, 184, 166, 0.10), transparent 70%),
+      var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    display: grid;
+    grid-template-columns: 1.12fr 1fr;
+    align-items: center;
+    gap: 3.5vw;
+    padding: 0 5.5vw;
+    position: relative;
+  }
+  body::before {
+    content: "";
+    position: absolute; inset: 0;
+    background-image: radial-gradient(rgba(230, 242, 239, 0.07) 1px, transparent 1px);
+    background-size: 22px 22px;
+    mask-image: linear-gradient(90deg, transparent, #000 25%, #000 75%, transparent);
+    pointer-events: none;
+  }
+  .left, .term { position: relative; }
+
+  .brand { display: flex; align-items: center; gap: 14px; margin-bottom: 26px; }
+  .tile {
+    width: 46px; height: 46px; border-radius: 11px;
+    background: linear-gradient(145deg, #14b8a6, #0d9488);
+    display: grid; place-items: center;
+    font: 700 19px/1 var(--sans); color: #fff; letter-spacing: -0.02em;
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.12) inset, 0 8px 24px rgba(20,184,166,0.35);
+  }
+  .kicker { font: 500 15px/1.2 var(--mono); color: var(--teal-soft); letter-spacing: 0.02em; }
+
+  h1 {
+    font: 800 88px/0.95 var(--mono);
+    letter-spacing: -0.045em;
+    display: flex; align-items: center;
+  }
+  .cursor {
+    display: inline-block; width: 0.5em; height: 0.82em; margin-left: 0.08em;
+    background: var(--teal); border-radius: 3px;
+    box-shadow: 0 0 22px rgba(20,184,166,0.7);
+  }
+  .tagline {
+    margin-top: 26px;
+    font: 650 31px/1.22 var(--sans); letter-spacing: -0.02em;
+  }
+  .tagline em { font-style: normal; color: var(--teal-soft); }
+  .sub { margin-top: 14px; font: 400 19px/1.45 var(--sans); color: var(--muted); max-width: 30em; }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 30px; }
+  .chip {
+    font: 500 13px/1 var(--mono); color: var(--ink);
+    padding: 9px 10px; border-radius: 8px;
+    border: 1px solid var(--line); background: rgba(230,242,239,0.03);
+  }
+  .chip.lock { color: #06100e; background: var(--teal-soft); border-color: transparent; font-weight: 700; }
+
+  .term {
+    border-radius: 14px;
+    background: linear-gradient(180deg, rgba(14, 28, 25, 0.96), rgba(8, 18, 16, 0.96));
+    border: 1px solid rgba(94, 234, 212, 0.18);
+    box-shadow: 0 30px 80px rgba(0,0,0,0.55), 0 0 0 1px rgba(0,0,0,0.4), 0 0 60px rgba(20,184,166,0.12);
+    overflow: hidden;
+  }
+  .bar { display: flex; align-items: center; gap: 8px; padding: 13px 16px; border-bottom: 1px solid var(--line); }
+  .dot { width: 12px; height: 12px; border-radius: 50%; }
+  .bar .title { margin-left: 10px; font: 500 13px/1 var(--mono); color: var(--muted); }
+  pre {
+    padding: 20px 22px 24px;
+    font: 500 15.5px/1.62 var(--mono);
+    color: var(--ink);
+    white-space: pre;
+  }
+  .p { color: var(--teal); font-weight: 700; }
+  .cmd { color: #fff; font-weight: 600; }
+  .k { color: #93c5fd; }
+  .s { color: #fde68a; }
+  .n { color: #f9a8d4; }
+  .c { color: #55716a; }
+  .ok { color: #4ade80; }
+  .warn { color: #fb923c; }
+
+  /* X card (banner.html?x): 16:9, more vertical room */
+  .x h1 { font-size: 112px; }
+  .x .tagline { font-size: 40px; }
+  .x .sub { font-size: 23px; }
+  .x .chip { font-size: 16px; padding: 10px 13px; }
+  .x pre { font-size: 20px; }
+  .x .bar .title { font-size: 15px; }
+  .x .tile { width: 56px; height: 56px; font-size: 23px; border-radius: 13px; }
+  .x .kicker { font-size: 18px; }
+</style>
+</head>
+<body>
+<script>if (location.search.includes("x")) document.body.className = "x";</script>
+  <div class="left">
+    <div class="brand">
+      <div class="tile">AC</div>
+      <div class="kicker">open source · MIT</div>
+    </div>
+    <h1>autonomo<span class="cursor"></span></h1>
+    <p class="tagline">Hacienda, Seguridad Social and your invoices, <em>as JSON.</em></p>
+    <p class="sub">A read-only CLI and agent skill for Spanish autónomos. Ask your agent what needs attention today.</p>
+    <div class="chips">
+      <span class="chip lock">read-only</span>
+      <span class="chip">AEAT</span>
+      <span class="chip">Seguridad Social</span>
+      <span class="chip">FacturaDirecta</span>
+      <span class="chip">Verifactu</span>
+    </div>
+  </div>
+
+  <div class="term">
+    <div class="bar">
+      <span class="dot" style="background:#ff5f57"></span>
+      <span class="dot" style="background:#febc2e"></span>
+      <span class="dot" style="background:#28c840"></span>
+      <span class="title">~ zsh</span>
+    </div>
+<pre><span class="p">$</span> <span class="cmd">autonomo get panel pendientes</span>
+{
+  <span class="k">"summary"</span>: { <span class="k">"ok"</span>: <span class="n">7</span>, <span class="k">"attention"</span>: <span class="n">1</span> },
+  <span class="k">"checks"</span>: [
+    { <span class="k">"source"</span>: <span class="s">"aeat"</span>, <span class="k">"item"</span>: <span class="s">"deudas"</span>,
+      <span class="k">"status"</span>: <span class="ok">"ok"</span> },
+    { <span class="k">"source"</span>: <span class="s">"seguridad-social"</span>,
+      <span class="k">"item"</span>: <span class="s">"notificaciones"</span>, <span class="k">"status"</span>: <span class="ok">"ok"</span> },
+    { <span class="k">"source"</span>: <span class="s">"facturadirecta"</span>,
+      <span class="k">"item"</span>: <span class="s">"facturas vencidas"</span>,
+      <span class="k">"status"</span>: <span class="warn">"attention"</span> },
+    <span class="c">...</span>
+  ]
+}</pre>
+  </div>
+</body>
+</html>
