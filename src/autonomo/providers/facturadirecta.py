@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import re
 from typing import Any
-from urllib.parse import urlparse
+from urllib.parse import urljoin, urlparse
 
 import httpx
 
@@ -128,6 +128,8 @@ class FacturaDirecta(Provider):
                 base_url=self.base_url,
                 headers={"facturadirecta-api-key": api_key, "Accept": "application/json"},
                 transport=self._transport,
+                # httpx keeps custom headers on cross-origin redirects: never follow with the key.
+                follow_redirects=False,
             )
         return self._client
 
@@ -194,14 +196,22 @@ class FacturaDirecta(Provider):
         parsed = urlparse(url)
         if parsed.scheme != "https":
             raise UsageError("Only https attachment URLs are allowed.")
-        # The API key only goes to FacturaDirecta hosts; presigned storage URLs need no key.
-        if parsed.hostname and (parsed.hostname == "facturadirecta.com" or parsed.hostname.endswith(".facturadirecta.com")):
+        api = urlparse(self.base_url)
+        if (parsed.hostname, parsed.port) == (api.hostname, api.port):
+            # Same origin as the API: the key is needed. Any redirect is followed without it.
             response = send(self.client, "GET", url)
+            if response.is_redirect:
+                url = urljoin(url, response.headers.get("location", ""))
+                response = self._anonymous_get(url)
         else:
-            with make_client(transport=self._transport) as anon:
-                response = send(anon, "GET", url)
-        name = parsed.path.rsplit("/", 1)[-1] or None
+            # Presigned storage URLs need no key.
+            response = self._anonymous_get(url)
+        name = urlparse(url).path.rsplit("/", 1)[-1] or None
         return Binary(response.content, response.headers.get("content-type", "application/octet-stream"), name)
+
+    def _anonymous_get(self, url: str) -> httpx.Response:
+        with make_client(transport=self._transport) as anon:
+            return send(anon, "GET", url)
 
     # -- doctor --------------------------------------------------------------
 

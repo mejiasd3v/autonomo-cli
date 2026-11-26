@@ -228,7 +228,7 @@
      "kind": "text"
     },
     {
-     "name": "fecha_de_modificacion",
+     "name": "fecha_de_modificacion_pos206",
      "label": "Fecha de modificación",
      "pos": 206,
      "len": 8,

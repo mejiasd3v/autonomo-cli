@@ -16,7 +16,7 @@ from cryptography.x509.oid import NameOID
 from autonomo.cli import main
 from autonomo.core.config import load_config
 from autonomo.core.certificate import Certificate, mask_ids
-from autonomo.core.errors import ReadOnlyViolation, RemoteError, UsageError
+from autonomo.core.errors import ConfigError, ReadOnlyViolation, RemoteError, UsageError
 from autonomo.core.http import QUERY, make_client, writes_unlocked
 from autonomo.core.provider import FetchOptions
 from autonomo.providers.aeat import AEAT
@@ -88,19 +88,23 @@ def test_facturadirecta_item_and_array_params(fd_env):
     assert "documentType" not in seen[1].url.params
 
 
-def test_facturadirecta_download_keeps_key_on_own_hosts(fd_env):
+def test_facturadirecta_download_sends_key_only_to_api_origin(fd_env):
     seen = []
 
     def handler(request):
         seen.append(request)
+        if request.url.path == "/api/files/redirect.pdf":
+            return httpx.Response(302, headers={"location": "https://storage.example.com/f.pdf"})
         return httpx.Response(200, content=b"%PDF", headers={"content-type": "application/pdf"})
 
     fd = FacturaDirecta({}, transport=httpx.MockTransport(handler))
     fd.fetch("download", {"url": "https://storage.example.com/f.pdf"}, FetchOptions())
-    fd.fetch("download", {"url": "https://app.facturadirecta.com/files/f.pdf"}, FetchOptions())
+    fd.fetch("download", {"url": "https://evil.facturadirecta.com/f.pdf"}, FetchOptions())
+    fd.fetch("download", {"url": "https://app.facturadirecta.com/api/files/redirect.pdf"}, FetchOptions())
 
-    assert "facturadirecta-api-key" not in seen[0].headers
-    assert seen[1].headers["facturadirecta-api-key"] == "test-key"
+    keyed = [r.url.host for r in seen if "facturadirecta-api-key" in r.headers]
+    assert keyed == ["app.facturadirecta.com"]
+    assert str(seen[-1].url) == "https://storage.example.com/f.pdf"
 
 
 # -- certificate portals ---------------------------------------------------------
@@ -117,7 +121,7 @@ def test_portal_stays_inside_allowlist():
         aeat.get_page("https://evil.example.com/")
     with pytest.raises(RemoteError, match="login"):
         aeat.get_page("https://www1.agenciatributaria.gob.es/clave")
-    with pytest.raises(RemoteError, match="outside the allowlist"):
+    with pytest.raises(RemoteError, match="Redirect blocked"):
         aeat.get_page("https://www1.agenciatributaria.gob.es/other")
 
 
@@ -493,3 +497,59 @@ def test_panel_pendientes_reports_every_source():
     assert status[("seguridad-social", "avisos no leídos")] == "info"
     assert status[("facturadirecta", "facturas vencidas")] == "skipped"
     assert next(c for c in result["checks"] if c["item"] == "próxima cuota")["detail"] == "607,35 € on 30 nov 2026"
+
+
+def test_cert_portal_policy_applies_to_every_redirect_hop():
+    target = "https://www1.agenciatributaria.gob.es/wlpl/GNNO-JDIT/AbrirNotificacion?id=1"
+    seen = []
+
+    def handler(request):
+        seen.append(str(request.url))
+        return httpx.Response(302, headers={"location": target})
+
+    aeat = AEAT({"nif": "12345678Z"}, transport=httpx.MockTransport(handler))
+    with pytest.raises(RemoteError, match="Redirect blocked"):
+        aeat.fetch("notificaciones", {}, FetchOptions())
+    assert target not in seen  # the notification-opening URL is never requested
+
+
+def test_seguridad_social_page_and_saml_form_policy():
+    from autonomo.providers.seguridad_social import SeguridadSocial, _saml_form
+
+    ss = SeguridadSocial({}, transport=httpx.MockTransport(ok))
+    for url in ("https://sp.seg-social.es/ProsaInternet/OnlineAccess", "https://portal.seg-social.gob.es/wps/x/p0/IZ7=Eaccion!BAJA==/"):
+        with pytest.raises(UsageError):
+            ss.check_page(url)
+    page = (
+        '<form name="langForm" action="https://idp.seg-social.es/PGIS/Login?seleccion=none"><input type="hidden" name="sessionLocale" value="fr"/></form>'
+        '<form name="redirectForm" action="https://ipce.seg-social.es/IPCE/Login"><input type="hidden" name="SAMLRequest" value="x"/>'
+        '<input type="hidden" name="RelayState" value="r"/><input type="hidden" name="accion" value="BAJA"/></form>'
+    )
+    assert _saml_form(page) == ("https://ipce.seg-social.es/IPCE/Login", {"SAMLRequest": "x", "RelayState": "r"})
+
+
+def test_http_errors_hide_query_and_ids():
+    client = make_client(transport=httpx.MockTransport(lambda r: httpx.Response(400, text="NIF 12345678Z no valido")))
+    from autonomo.core.http import send
+
+    with pytest.raises(RemoteError) as err:
+        send(client, "GET", "https://x.test/a?nif=12345678Z")
+    assert "12345678Z" not in err.value.message and "12345678Z" not in err.value.body
+
+
+def test_cert_reimport_keeps_working_copy_when_keyring_fails(tmp_path, cert_home, monkeypatch):
+    from autonomo.core import certstore
+
+    original = make_p12(tmp_path / "c.p12", password=b"pw")
+    pw = tmp_path / "pw"
+    pw.write_text("pw")
+    assert main(["cert", "import", str(original), "--password-file", str(pw)]) == 0
+    section = load_config()["certificate"]
+
+    def broken(*args):
+        raise ConfigError("keyring down")
+
+    monkeypatch.setattr(certstore, "keyring_set", broken)
+    assert main(["cert", "import", str(original), "--password-file", str(pw)]) == 3
+    assert Certificate.from_settings(load_config()["certificate"]).password_source == "OS keyring"
+    assert load_config()["certificate"] == section

@@ -30,7 +30,8 @@ from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.serialization import PrivateFormat, pkcs12
 from cryptography.x509.oid import ExtendedKeyUsageOID
 
-from .certificate import Certificate, cn, mask_ids
+from .certificate import Certificate, cn
+from .redact import mask_ids
 from .config import config_path, load_config, remove_table, write_table
 from .errors import ConfigError, UsageError
 
@@ -192,11 +193,17 @@ def import_certificate(source: Path, password: bytes, *, replace: bool = False) 
     directory.mkdir(parents=True, exist_ok=True)
     os.chmod(directory, 0o700)
     target = directory / f"{fp[:16]}.p12"
-    _write_private(target, blob)
-    keyring_set(fp, store_password)
+    # Order matters: a failure before the swap leaves the current certificate usable.
+    staged = _write_private(target.with_suffix(".tmp"), blob)
+    try:
+        keyring_set(fp, store_password)
+    except Exception:
+        staged.unlink(missing_ok=True)
+        raise
+    os.replace(staged, target)
+    write_table("certificate", {"path": str(target), "fingerprint": fp})
     if current.get("fingerprint") and current["fingerprint"] != fp:
         _forget(current)
-    write_table("certificate", {"path": str(target), "fingerprint": fp})
 
     return {
         "imported": True,
@@ -212,12 +219,11 @@ def import_certificate(source: Path, password: bytes, *, replace: bool = False) 
     }
 
 
-def _write_private(path: Path, data: bytes) -> None:
-    tmp = path.with_suffix(".tmp")
-    fd = os.open(tmp, os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o600)
+def _write_private(path: Path, data: bytes) -> Path:
+    fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o600)
     with os.fdopen(fd, "wb") as fh:
         fh.write(data)
-    os.replace(tmp, path)
+    return path
 
 
 def _allows_client_auth(cert: x509.Certificate) -> bool:

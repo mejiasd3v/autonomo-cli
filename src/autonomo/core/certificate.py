@@ -30,6 +30,7 @@ from cryptography.x509.oid import NameOID
 
 from .config import config_path
 from .errors import ConfigError
+from .redact import ID_RE, mask_ids  # noqa: F401  (mask_ids re-exported)
 from .http import default_ssl_context
 
 PATH_ENV = "AUTONOMO_CERT_PATH"
@@ -93,9 +94,9 @@ class Certificate:
         """Holder NIF/NIE. FNMT puts it in serialNumber ("IDCES-12345678Z")."""
         for attr in self.cert.subject.get_attributes_for_oid(NameOID.SERIAL_NUMBER):
             value = str(attr.value).upper()
-            if match := _ID_RE.search(value.removeprefix("IDCES-")):
+            if match := ID_RE.search(value.removeprefix("IDCES-")):
                 return match.group(1)
-        match = _ID_RE.search(cn(self.cert.subject).upper())
+        match = ID_RE.search(cn(self.cert.subject).upper())
         return match.group(1) if match else None
 
     def ssl_context(self) -> ssl.SSLContext:
@@ -132,9 +133,4 @@ def cn(name: x509.Name) -> str:
     return str(attrs[0].value) if attrs else name.rfc4514_string()
 
 
-_ID_RE = re.compile(r"\b([0-9XYZ]\d{7}[A-Z]|[A-HJ-NP-SUVW]\d{7}[0-9A-J])\b")
 
-
-def mask_ids(text: str) -> str:
-    """Mask NIF/NIE/CIF so logs and agent transcripts do not carry them."""
-    return _ID_RE.sub(lambda m: "*" * 6 + m.group(1)[-3:], text)

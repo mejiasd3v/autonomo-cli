@@ -29,7 +29,7 @@ from urllib.parse import urljoin, urlparse
 
 import httpx
 
-from ..core.certificate import mask_ids
+from ..core.redact import mask_text as _mask, mask_tree as _mask_tree
 from ..core.errors import RemoteError, UsageError
 from ..core.http import QUERY
 from ..core.html import html_to_page
@@ -53,21 +53,19 @@ _LOGIN_FORM_RE = re.compile(r'<form[^>]*id="P017_login"[^>]*action="([^"]+)"', r
 _BASE_RE = re.compile(r'<base href="([^"]+)"', re.I)
 # WebSphere portlet state JSON and portlet ids that leak into the text.
 _PORTLET_NOISE_RE = re.compile(r'^\{.*\}$|^[A-Z]{4}\d{2}[A-Za-z]+$', re.M)
-# NUSS / NAF: 12 digits, sometimes as 28/12345678/90.
-_NUSS_RE = re.compile(r"\b(\d{2})[ /]?(\d{8})[ /]?(\d{2})\b")
 
 
-def _mask(text: str) -> str:
-    """Mask NIF/NIE and NUSS so agent transcripts do not carry them."""
-    return _NUSS_RE.sub(lambda m: "*" * 10 + m.group(3), mask_ids(text))
+SAML_FIELDS = {"SAMLRequest", "SAMLResponse", "RelayState", "allowLegalPerson"}
 
 
-def _mask_tree(value: Any) -> Any:
-    if isinstance(value, dict):
-        return {k: _mask_tree(v) for k, v in value.items()}
-    if isinstance(value, list):
-        return [_mask_tree(v) for v in value]
-    return _mask(value) if isinstance(value, str) else value
+def _saml_form(page: str) -> tuple[str, dict[str, str]] | None:
+    """The one form that carries a SAML message: its action and only its SAML fields."""
+    for form in re.findall(r"<form\b.*?</form>", page, re.S | re.I):
+        fields = {k: html.unescape(v) for k, v in _HIDDEN_RE.findall(form) if k in SAML_FIELDS}
+        action = re.search(r'<form\b[^>]*action=["\']([^"\']+)', form, re.I)
+        if action and {"SAMLRequest", "SAMLResponse"} & fields.keys():
+            return html.unescape(action.group(1)), fields
+    return None
 
 
 class SeguridadSocial(CertPortal):
@@ -145,12 +143,8 @@ class SeguridadSocial(CertPortal):
     def _next_login_step(self, response: httpx.Response, page: str) -> httpx.Response:
         if "seleccion=IPCE" in page:
             return self._post(IDP_CHOOSE_CERT, {})
-        fields = dict(_HIDDEN_RE.findall(page))
-        if {"SAMLRequest", "SAMLResponse"} & fields.keys():
-            action = re.search(r'<form[^>]*name="redirectForm"[^>]*action="([^"]+)"', page) or re.search(r'<form[^>]*id="P017_login"[^>]*action="([^"]+)"', page)
-            if not action:
-                raise RemoteError("SAML step without a form action.")
-            return self._post(html.unescape(action.group(1)), fields)
+        if saml := _saml_form(page):
+            return self._post(*saml)
         if form := _LOGIN_FORM_RE.search(page):
             base = _BASE_RE.search(page)
             action = urljoin(base.group(1) if base else str(response.url), html.unescape(form.group(1)).split("#")[0])
@@ -159,6 +153,15 @@ class SeguridadSocial(CertPortal):
             f"Unexpected page during Seguridad Social login: {urlparse(str(response.url)).hostname}{urlparse(str(response.url)).path}",
             hint="The certificate may have been rejected, or the login flow changed.",
         )
+
+    def check_page(self, url: str) -> None:
+        """`page` reads Importass pages only: no IdP or sede hosts, no portlet actions."""
+        super().check_page(url)
+        if urlparse(url).hostname != "portal.seg-social.gob.es" or "accion!" in url:
+            raise UsageError(
+                "`page` only reads plain Importass pages (portal.seg-social.gob.es, no portlet actions).",
+                hint="Use the named resources; sede apps and actions are reachable only through them.",
+            )
 
     def _post(self, url: str, data: dict[str, str]) -> httpx.Response:
         # Authentication handshake only: allowed through the read-only guard.
@@ -209,7 +212,7 @@ class SeguridadSocial(CertPortal):
             "items": items,
             "count": len(items),
             "window": {"desde": criteria.get("FECHA_DESDE"), "hasta": criteria.get("FECHA_HASTA")} if isinstance(criteria, dict) else None,
-            "messages": page.messages,
+            "messages": _mask_tree(page.messages),
             "note": "Pending notifications in the sede's default window. Opening one counts as comparecencia: the user must do it in the sede.",
         }
 
@@ -238,7 +241,7 @@ class SeguridadSocial(CertPortal):
         has_debts = True if found else (False if answer.messages else None)
         return {
             "has_debts": has_debts,
-            "messages": answer.messages,
+            "messages": _mask_tree(answer.messages),
             "screen": answer.view.rsplit("/", 1)[-1],
             "data": _mask_tree({k: v for k, v in answer.data.items() if k not in {"estado", "NIFApoderado", "NIFPoderdante", "IP3Identificador", "CC2Regimen", "CC6Cotizacion", "NA5NAF", "REGIdentificador", "NIFIdentificador"}}) if found else {},
         }

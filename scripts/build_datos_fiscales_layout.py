@@ -87,7 +87,11 @@ def build(xlsx: Path, year: int) -> dict:
                 continue
             if "reservad" in name.lower():
                 continue
-            fields.append({"name": slug(name), "label": name, "pos": int(pos), "len": int(length), **kind(name, int(length), desc)})
+            key = slug(name)
+            if any(f["name"] == key for f in fields):
+                # Some records repeat a label (2025 DOM: two "Fecha de modificación"): keep both.
+                key = f"{key}_pos{int(pos)}"
+            fields.append({"name": key, "label": name, "pos": int(pos), "len": int(length), **kind(name, int(length), desc)})
         if not fields and title not in SPECIAL:
             continue
         records[code] = {"type": rtype, "title": label, "fields": fields}

@@ -17,6 +17,7 @@ from ..core.certificate import Certificate
 from ..core.errors import ConfigError, RemoteError, UsageError
 from ..core.html import html_to_page
 from ..core.http import make_client, send
+from ..core.redact import mask_tree
 from ..core.provider import Binary, Check, FetchOptions, Param, Provider, Resource
 
 MAX_REDIRECTS = 8
@@ -77,6 +78,7 @@ class CertPortal(Provider):
         if resource == "certificate":
             return self.certificate.describe()
         if resource == "page":
+            self.check_page(params["url"])
             return self.get_page(params["url"])
         service = next(s for s in self.services if s.name == resource)
         return self.fetch_service(service, params)
@@ -105,6 +107,10 @@ class CertPortal(Provider):
             )
         return self._client
 
+    def check_page(self, url: str) -> None:
+        """Policy for user-supplied URLs (`page`). Providers narrow it further."""
+        self.check_host(url)
+
     def check_host(self, url: str) -> None:
         parsed = urlparse(url)
         if parsed.scheme != "https" or parsed.hostname not in self.hosts:
@@ -124,8 +130,11 @@ class CertPortal(Provider):
                     f"{url} redirected to a login page ({host}).",
                     hint="This service needs Cl@ve or an interactive login. Certificate-only access is not available for it.",
                 )
-            if host not in self.hosts:
-                raise RemoteError(f"{url} redirected outside the allowlist to {host}.", hint="Report the URL so the provider can be updated.")
+            try:
+                # Same policy on every hop: https, allowed host, provider-specific blocks.
+                self.check_host(target)
+            except UsageError as exc:
+                raise RemoteError(f"Redirect blocked: {exc.message}", hint="Report the URL so the provider can be updated.") from exc
             url, method, kwargs = target, "GET", {}
         raise RemoteError(f"Too many redirects from {url}.")
 
@@ -133,6 +142,11 @@ class CertPortal(Provider):
         return self.parse(self.request("GET", url))
 
     def parse(self, response: httpx.Response) -> Any:
+        """Parsed page with the holder's NIF and NUSS masked."""
+        result = self._parse(response)
+        return mask_tree(result) if isinstance(result, (dict, list)) else result
+
+    def _parse(self, response: httpx.Response) -> Any:
         content_type = response.headers.get("content-type", "")
         if "html" in content_type:
             return {"status": response.status_code, **html_to_page(decode_body(response), str(response.url))}

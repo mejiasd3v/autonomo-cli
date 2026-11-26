@@ -18,12 +18,14 @@ import contextvars
 import ssl
 import time
 from collections.abc import Iterator
+from typing import Any
 
 import certifi
 import httpx
 
 from .. import __version__
 from .errors import ReadOnlyViolation, RemoteError
+from .redact import mask_text
 
 QUERY = "autonomo.read_only_query"
 SAFE_METHODS = frozenset({"GET", "HEAD", "OPTIONS"})
@@ -57,7 +59,7 @@ class ReadOnlyTransport(httpx.BaseTransport):
         method = request.method.upper()
         if method not in SAFE_METHODS and not request.extensions.get(QUERY) and not _writes_unlocked.get():
             raise ReadOnlyViolation(
-                f"Blocked {method} {request.url}: autonomo runs in read-only mode.",
+                f"Blocked {method} {safe_url(request.url)}: autonomo runs in read-only mode.",
                 hint="Write operations are not enabled in this version.",
             )
         return self._inner.handle_request(request)
@@ -92,23 +94,33 @@ def make_client(
 
 def send(client: httpx.Client, method: str, url: str, *, max_rate_retries: int = 3, **kwargs) -> httpx.Response:
     """Send a request, wait on HTTP 429, and turn HTTP errors into RemoteError."""
+    if (kwargs.get("extensions") or {}).get(QUERY):
+        # httpx copies extensions to redirected requests: a 307/308 must not replay a query POST elsewhere.
+        kwargs["follow_redirects"] = False
     for attempt in range(max_rate_retries + 1):
         try:
             response = client.request(method, url, **kwargs)
         except httpx.HTTPError as exc:
-            raise RemoteError(f"{method} {url} failed: {exc}", hint=_network_hint(exc)) from exc
+            raise RemoteError(f"{method} {safe_url(url)} failed: {mask_text(str(exc))}", hint=_network_hint(exc)) from exc
         if response.status_code == 429 and attempt < max_rate_retries:
             time.sleep(_retry_delay(response))
             continue
         break
     if response.is_error:
         raise RemoteError(
-            f"{method} {response.request.url} returned HTTP {response.status_code}.",
+            f"{method} {safe_url(response.request.url)} returned HTTP {response.status_code}.",
             hint=STATUS_HINTS.get(response.status_code, ""),
             status=response.status_code,
-            body=response.text[:2000],
+            # Kept for the API's own validation message; identifiers masked.
+            body=mask_text(response.text[:2000]),
         )
     return response
+
+
+def safe_url(url: Any) -> str:
+    """URL without query string: queries can carry a NIF or signed download tokens."""
+    parsed = httpx.URL(str(url))
+    return f"{parsed.scheme}://{parsed.host}{parsed.path}" + ("?…" if parsed.query else "")
 
 
 def _retry_delay(response: httpx.Response) -> float:

@@ -15,7 +15,7 @@ from functools import cache
 from importlib import resources
 from typing import Any
 
-from ..core.certificate import mask_ids
+from ..core.redact import mask_ids
 
 LAYOUT_PACKAGE = "autonomo.providers.data.datos_fiscales"
 MASKED_FIELDS = {"iban"}
