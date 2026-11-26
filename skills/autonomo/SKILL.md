@@ -90,7 +90,17 @@ autonomo get facturadirecta raw path=invoices/inv_.../versions
 Lists return `{pagination, items}`. `--all` follows pagination and returns
 `{items, count}`. Without `--all`, do not claim you saw every item. List
 resources accept any filter documented in https://app.facturadirecta.com/openapi.json
-(dates are `YYYY-MM-DD`).
+(dates are `YYYY-MM-DD`). Each list item is `{content, creationDate,
+modificationDate, webUrl}`; the id for `invoice id=...` and friends is
+`items[].content.uuid`. `search q=` needs at least 2 characters. A 400 error
+carries the API's own validation message in `body`: read it before retrying.
+
+Setup, when `doctor facturadirecta` fails: the user copies the company id from
+Ajustes > API e integraciones into `[facturadirecta] company_id` in the config
+file, and creates an API key with only `:read` scopes. Store the key like the
+certificate password: the user runs `autonomo secret set AUTONOMO_FD_API_KEY`
+(hidden prompt), or you use a private secret-input tool and
+`--value-file FILE`. Never ask for the key in chat.
 
 ### AEAT (needs the digital certificate; see Certificate setup)
 

@@ -321,3 +321,29 @@ def test_aeat_deudas_submits_query_form_and_drops_links():
     assert [r.method for r in seen] == ["GET", "POST"]
     assert b"faccion=CONS_DDAS" in seen[1].content and b"fnif=12345678Z" in seen[1].content
     assert "No existen deudas" in page["text"] and page["links"] == []
+
+
+def test_facturadirecta_rejects_empty_and_unsafe_ids(fd_env, capsys, monkeypatch, tmp_path):
+    monkeypatch.setenv("AUTONOMO_CONFIG", str(tmp_path / "none.toml"))
+    assert main(["get", "facturadirecta", "product", "id="]) == 2
+    fd = FacturaDirecta({}, transport=httpx.MockTransport(ok))
+    with pytest.raises(UsageError):
+        fd.fetch("invoice", {"id": "../contacts"}, FetchOptions())
+    with pytest.raises(UsageError):
+        fd.fetch("versions", {"type": "products", "id": "x/y"}, FetchOptions())
+
+
+def test_secret_set_stores_in_keyring_and_env_wins(tmp_path, cert_home, monkeypatch):
+    from autonomo.core.config import secret
+
+    _, ring = cert_home
+    monkeypatch.delenv("AUTONOMO_FD_API_KEY", raising=False)
+    value = tmp_path / "v"
+    value.write_text("fd-key\n")
+
+    assert main(["secret", "set", "AUTONOMO_FD_API_KEY", "--value-file", str(value)]) == 0
+    assert secret("AUTONOMO_FD_API_KEY", "x") == "fd-key"
+    monkeypatch.setenv("AUTONOMO_FD_API_KEY", "from-env")
+    assert secret("AUTONOMO_FD_API_KEY", "x") == "from-env"
+    assert main(["secret", "set", "OTHER", "--value-file", str(value)]) == 2
+    assert main(["secret", "delete", "AUTONOMO_FD_API_KEY"]) == 0 and not ring.store

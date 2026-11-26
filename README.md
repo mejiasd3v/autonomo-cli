@@ -12,6 +12,7 @@ uv tool install -e .        # or: python3 -m venv .venv && .venv/bin/pip install
 cp config.example.toml ~/.config/autonomo/config.toml
 autonomo cert find                 # locate your .p12/.pfx or OS-store certificate
 autonomo cert import PATH          # hidden password prompt
+autonomo secret set AUTONOMO_FD_API_KEY   # FacturaDirecta key, hidden prompt
 autonomo doctor --online
 ```
 
@@ -53,7 +54,7 @@ autonomo config
 
 | Provider | Auth | Resources | Status |
 |---|---|---|---|
-| `facturadirecta` | API key header | 50: documents, contacts, banks, journal, reports, tax forms, attachments, versions, raw GET | Built from the official OpenAPI spec. Not yet run against a real account |
+| `facturadirecta` | API key header (OS keyring or env) | 49: documents, contacts, banks, journal, reports, tax forms, attachments, versions, raw GET | Verified live against a sandbox company (2026-11-26): every list, report and settings resource, item fetch, versions, cursor and offset pagination. The sandbox has almost no documents, so invoice/bill payloads and attachment downloads are untested |
 | `aeat` | Certificate (mTLS on www1) | `deudas`, `notificaciones` (unread summary), `alertas`, `ultimos-accesos`, `datos-fiscales` (parsed JSON), `domicilio-ratificado`, `page` | All verified live on a real account (2026-11-26). Lists with entries were seen only for `ultimos-accesos`; the others returned empty states, so non-empty pages are parsed generically (text + tables) |
 | `seguridad-social` | Certificate | `certificate`, `page` | Login flow not mapped. Needs a browser session study |
 

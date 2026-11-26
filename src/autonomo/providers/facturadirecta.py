@@ -7,6 +7,7 @@ Create the API key with read scopes only; `autonomo doctor` warns about write sc
 
 from __future__ import annotations
 
+import re
 from typing import Any
 from urllib.parse import urlparse
 
@@ -23,6 +24,8 @@ DEFAULT_BASE = "https://app.facturadirecta.com/api"
 MAX_LIMIT = 500
 MAX_PAGES = 200
 # OpenAPI array query params. "a,b" on the CLI becomes ?k=a&k=b.
+PATH_PARAMS = {"id", "documentType", "type"}
+SAFE_ID = re.compile(r"[A-Za-z0-9_-]{1,128}")
 ARRAY_PARAMS = {"related", "types", "allTheseTags", "anyOfTheseTags", "docTypes"}
 
 # (list name, item name or None, API path, summary, documented filters)
@@ -100,7 +103,6 @@ class FacturaDirecta(Provider):
             Resource("attachments", "Adjuntos de un documento (URLs de descarga)", (Param("type", ", ".join(sorted(ATTACHMENT_TYPES)), required=True), ID)),
             Resource("versions", "Historial de versiones de un documento", (Param("type", ", ".join(sorted(VERSION_TYPES)), required=True), ID)),
             Resource("download", "Descarga un adjunto por su URL (usa --out)", (Param("url", "URL devuelta por attachments", required=True),)),
-            Resource("profile", "Usuario y empresas accesibles con la API key", ()),
             Resource("raw", "GET de cualquier ruta de la API bajo /{companyId}/", (Param("path", "p. ej. invoices/inv_x/versions", required=True),), open_filters=True),
         ]
         return res
@@ -140,6 +142,9 @@ class FacturaDirecta(Provider):
     def fetch(self, resource: str, params: dict[str, str], options: FetchOptions) -> Any:
         self.resource(resource)  # validates the name
         params = dict(params)
+        for key in PATH_PARAMS & params.keys():
+            if not SAFE_ID.fullmatch(params[key]):
+                raise UsageError(f"Invalid {key} '{params[key]}'.", hint="Ids look like inv_... or con_... (letters, digits, _ and -).")
         if resource in self._routes:
             kind, path = self._routes[resource]
             if kind == "list":
@@ -159,10 +164,10 @@ class FacturaDirecta(Provider):
             return self._get(self._company_path(f"{path}/{item_id}/{resource}"), params)
         if resource == "download":
             return self._download(params["url"])
-        if resource == "profile":
-            return self._get("/profile")
         if resource == "raw":
             path = params.pop("path")
+            if ".." in path.split("/") or "://" in path or "?" in path:
+                raise UsageError("path must be a plain API path such as invoices/inv_x/versions; pass filters as key=value.")
             return self._list(self._company_path(path), params, options.all_pages)
         raise UsageError(f"Resource '{resource}' is declared but not implemented.")
 

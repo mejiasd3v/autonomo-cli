@@ -73,11 +73,7 @@ def keyring_get(fp: str) -> str | None:
 
 
 def keyring_set(fp: str, password: str) -> None:
-    keyring, KeyringError = _keyring()
-    try:
-        keyring.set_password(KEYRING_SERVICE, keyring_account(fp), password)
-    except KeyringError as exc:
-        raise ConfigError(f"OS keyring unavailable: {exc}", hint=_no_keyring_hint()) from exc
+    keyring_set_raw(keyring_account(fp), password)
 
 
 def keyring_delete(fp: str) -> bool:
@@ -96,10 +92,42 @@ def _no_keyring_hint() -> str:
     )
 
 
+# -- generic secrets (API keys) ---------------------------------------------------
+
+
+def secret_set(env: str, value: bytes) -> dict[str, Any]:
+    from .config import KNOWN_SECRETS
+
+    if env not in KNOWN_SECRETS:
+        raise UsageError(f"Unknown secret {env}.", hint=f"Known: {', '.join(KNOWN_SECRETS)}")
+    text = value.decode().strip()
+    if not text:
+        raise UsageError("Empty value.")
+    keyring_set_raw(f"secret:{env}", text)
+    return {"stored": env, "where": "OS keyring", "note": f"An exported {env} still takes precedence."}
+
+
+def secret_delete(env: str) -> dict[str, Any]:
+    keyring, KeyringError = _keyring()
+    try:
+        keyring.delete_password(KEYRING_SERVICE, f"secret:{env}")
+        return {"deleted": env}
+    except KeyringError:
+        return {"deleted": None, "detail": f"{env} was not in the keyring."}
+
+
+def keyring_set_raw(account: str, value: str) -> None:
+    keyring, KeyringError = _keyring()
+    try:
+        keyring.set_password(KEYRING_SERVICE, account, value)
+    except KeyringError as exc:
+        raise ConfigError(f"OS keyring unavailable: {exc}", hint=_no_keyring_hint()) from exc
+
+
 # -- import / status / remove --------------------------------------------------
 
 
-def read_password(password_file: Path | None, from_stdin: bool, stdin: Any, interactive: bool) -> bytes:
+def read_password(password_file: Path | None, from_stdin: bool, stdin: Any, interactive: bool, prompt: str = "Certificate password (hidden): ") -> bytes:
     if password_file:
         data = Path(password_file).expanduser().read_bytes()
         return _strip_newline(data)
@@ -108,10 +136,10 @@ def read_password(password_file: Path | None, from_stdin: bool, stdin: Any, inte
     if interactive:
         import getpass
 
-        return getpass.getpass("Certificate password (hidden): ").encode()
+        return getpass.getpass(prompt).encode()
     raise UsageError(
         "No password source.",
-        hint="Run the command in a terminal for a hidden prompt, or use --password-file FILE / --password-stdin. Never pass the password as an argument.",
+        hint="Run the command in a terminal for a hidden prompt, or use the --*-file / --*-stdin option. Never pass a secret as an argument.",
     )
 
 

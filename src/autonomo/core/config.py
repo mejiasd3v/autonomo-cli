@@ -56,14 +56,38 @@ def require_setting(section: dict[str, Any], key: str, env: str, table: str) -> 
     return value
 
 
+# Secrets that `autonomo secret set` may store in the OS keyring.
+KNOWN_SECRETS = {
+    "AUTONOMO_FD_API_KEY": "FacturaDirecta API key (create it with :read scopes only)",
+}
+
+
 def secret(env: str, purpose: str) -> str:
-    value = os.environ.get(env)
-    if not value:
-        raise ConfigError(
-            f"Missing secret {env} ({purpose}).",
-            hint=f"Export {env}, or run `prun autonomo ...` with {env}=pass://... in the project .env.",
-        )
-    return value
+    """Env var first (secret managers, CI, prun), then the OS keyring."""
+    if value := os.environ.get(env):
+        return value
+    if value := keyring_secret(env):
+        return value
+    raise ConfigError(
+        f"Missing secret {env} ({purpose}).",
+        hint=f"Run `autonomo secret set {env}` (hidden prompt, stored in the OS keyring), or export {env} from your secret manager.",
+    )
+
+
+def secret_source(env: str) -> str | None:
+    if os.environ.get(env):
+        return "env"
+    return "OS keyring" if keyring_secret(env) else None
+
+
+def keyring_secret(env: str) -> str | None:
+    try:
+        import keyring
+        from keyring.errors import KeyringError
+
+        return keyring.get_password("autonomo", f"secret:{env}")
+    except (ImportError, KeyringError):
+        return None
 
 
 # -- writing ------------------------------------------------------------------

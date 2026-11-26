@@ -14,7 +14,7 @@ from typing import Any
 
 from . import __version__
 from .core import certstore
-from .core.config import CONFIG_ENV, config_path, load_config
+from .core.config import CONFIG_ENV, KNOWN_SECRETS, config_path, load_config, secret_source
 from .core.errors import AutonomoError, RemoteError, UsageError
 from .core.provider import Binary, FetchOptions, Provider, Resource
 from .core.registry import get_provider, provider_classes
@@ -80,6 +80,17 @@ def _parser() -> argparse.ArgumentParser:
     src.add_argument("--password-stdin", action="store_true", help="Read the password from stdin")
     p.add_argument("--replace", action="store_true", help="Replace an already imported certificate")
     p.set_defaults(handler=cmd_cert_import)
+    secret = sub.add_parser("secret", help="Store API keys in the OS keyring").add_subparsers(required=True, metavar="action")
+    p = secret.add_parser("set", help="Store a secret. Value from a hidden prompt, --value-file or --value-stdin, never an argument")
+    p.add_argument("name", help="For example AUTONOMO_FD_API_KEY")
+    src = p.add_mutually_exclusive_group()
+    src.add_argument("--value-file", type=Path)
+    src.add_argument("--value-stdin", action="store_true")
+    p.set_defaults(handler=cmd_secret_set)
+    p = secret.add_parser("delete", help="Remove a stored secret")
+    p.add_argument("name")
+    p.set_defaults(handler=lambda a: certstore.secret_delete(a.name))
+
     p = cert.add_parser("status", help="Show the configured certificate and where its password comes from")
     p.set_defaults(handler=lambda a: certstore.status())
     p = cert.add_parser("remove", help="Delete autonomo's copy and keyring entry (never the original file)")
@@ -134,6 +145,13 @@ def cmd_cert_import(args: argparse.Namespace) -> Any:
     return certstore.import_certificate(args.path, password, replace=args.replace)
 
 
+def cmd_secret_set(args: argparse.Namespace) -> Any:
+    value = certstore.read_password(
+        args.value_file, args.value_stdin, sys.stdin, interactive=sys.stdin.isatty(), prompt=f"{args.name} (hidden): "
+    )
+    return certstore.secret_set(args.name, value)
+
+
 def cmd_doctor(args: argparse.Namespace) -> Any:
     names = [args.provider] if args.provider else list(provider_classes())
     out = {"config_file": str(config_path()), "config_exists": config_path().exists(), "providers": {}}
@@ -153,8 +171,9 @@ def cmd_config(args: argparse.Namespace) -> Any:
         "exists": path.exists(),
         "override_env": CONFIG_ENV,
         "sections": sorted(load_config().keys()),
+        "secrets": {name: {"purpose": purpose, "source": secret_source(name)} for name, purpose in KNOWN_SECRETS.items()},
         "env": {
-            "AUTONOMO_FD_API_KEY": "FacturaDirecta API key (secret)",
+            "AUTONOMO_FD_API_KEY": "FacturaDirecta API key (secret; or `autonomo secret set`)",
             "AUTONOMO_FD_COMPANY_ID": "FacturaDirecta company id (overrides [facturadirecta].company_id)",
             "AUTONOMO_CERT_PATH": "Path to the .p12/.pfx certificate (overrides [certificate].path)",
             "AUTONOMO_CERT_PASSWORD": "Certificate password (secret)",
@@ -186,7 +205,7 @@ def _parse_params(raw: list[str]) -> dict[str, str]:
 
 
 def _validate_params(resource: Resource, params: dict[str, str]) -> dict[str, str]:
-    missing = [p.name for p in resource.params if p.required and p.name not in params]
+    missing = [p.name for p in resource.params if p.required and not params.get(p.name, "").strip()]
     if missing:
         raise UsageError(f"Missing required parameter(s): {', '.join(missing)}.", hint=_usage(resource))
     if not resource.open_filters:
