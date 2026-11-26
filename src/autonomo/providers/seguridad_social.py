@@ -111,11 +111,10 @@ def _notif_items(page: prosa.ProsaPage) -> list[Any]:
 def _notif_range(params: dict[str, str]) -> tuple[dt.date, dt.date]:
     today = dt.date.today()
     try:
-        hasta = dt.date.fromisoformat(params["hasta"]) if params.get("hasta") else today
+        hasta = min(dt.date.fromisoformat(params["hasta"]), today) if params.get("hasta") else today
         desde = dt.date.fromisoformat(params["desde"]) if params.get("desde") else hasta - dt.timedelta(days=365)
     except ValueError:
         raise UsageError("desde and hasta must be YYYY-MM-DD.") from None
-    hasta = min(hasta, today)
     if desde > hasta:
         raise UsageError("desde must be on or before hasta.")
     if (hasta - desde).days > NOTIF_MAX_YEARS * 366:
@@ -173,7 +172,7 @@ class SeguridadSocial(CertPortal):
             f"{PORTAL}/wps/portal/importass/Seguridad/PortalRedirectorN2A?idApp=323",
             params=(
                 Param("historico", "si: pestaña de histórico en lugar de pendientes"),
-                Param("desde", "YYYY-MM-DD, puesta a disposición (solo con historico=si; por defecto, hace 12 meses)"),
+                Param("desde", "YYYY-MM-DD, puesta a disposición (solo con historico=si; por defecto, hace 12 meses; rango máximo 10 años)"),
                 Param("hasta", "YYYY-MM-DD (solo con historico=si; por defecto, hoy)"),
             ),
             status="stable",
