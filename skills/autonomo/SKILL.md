@@ -184,6 +184,8 @@ autonomo get seguridad-social regularizacion     # yearly regularization results
 autonomo get seguridad-social avisos             # Importass notices (not legal notifications)
 autonomo get seguridad-social expedientes        # files and requests before the TGSS
 autonomo get seguridad-social notificaciones     # pending sede notifications (list only, last 60 days)
+autonomo get seguridad-social notificaciones historico=si                    # history, last 12 months
+autonomo get seguridad-social notificaciones historico=si desde=2018-01-01  # history since a date (YYYY-MM-DD)
 autonomo get seguridad-social deudas             # pending debts: has_debts + the sede's own messages
 ```
 
@@ -201,7 +203,15 @@ concepts ("Regularización cuotas ...").
 sede's "No existen liquidaciones ni deudas" text; `true` returns the sede's
 screen data under `data`; `null` means the answer was unclear, so say so.
 Notifications: never try to open or sign one (comparecencia); tell the user to
-do it in the sede. The list covers the sede's default window only. Do not use
+do it in the sede. Without `historico` the list covers the sede's default
+window only (pending, last 60 days). `historico=si` reads the history tab:
+notifications already notified by acceptance or rejection, rejected after the
+deadline, published or archived. Pending ones are not in it. The sede limits a
+search to 60 days, so the CLI runs one search per 60-day window (`searches`).
+Each item has `FECHA_PUESTA_DISPOSICION`, `MATERIA`,
+`ORGANISMO`, `ASUNTO` and the state under `ACUSE/CLAVE_ACUSE/TEXTO_TIPO_ACUSE`.
+If `incomplete` is present, a window had more than one page and only the first
+was read: repeat with a narrower `desde`/`hasta`. Do not use
 `page` to follow links into trámites (altas, bajas, modificaciones, "Informar
 error"): the CLI blocks their form submissions anyway.
 

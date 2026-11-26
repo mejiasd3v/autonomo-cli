@@ -14,14 +14,18 @@ data (bajas, modificaciones, "informar error") cannot be submitted.
 
 Sede apps (sp.seg-social.es, "Prosa"): reached through Importass's redirector
 with the same IdP session (SSO). See prosa.py for the page format.
-* notificaciones: the list screen only. Signing a notification (SPM.ACC.FIRMARNOT)
-  is comparecencia and is never sent.
+* notificaciones: list screens only. Signing (SPM.ACC.FIRMARNOT) or viewing one
+  (SPM.ACC.VER_NOTIFICACION_HIST) is comparecencia and is never sent. With
+  historico=si it sends two list-only buttons, both read from the stylesheets:
+  the history tab (AC_PESTANNA_NOTIFICACIONES_HISTORICO) and the history search
+  (BUSQUEDA_HIST), once per 60-day window, the widest range the sede accepts.
 * deudas: one query step (option 1: by NAF). The later steps that generate a
   payment document are never sent.
 """
 
 from __future__ import annotations
 
+import datetime as dt
 import html
 import re
 from typing import Any
@@ -47,6 +51,12 @@ MAX_HISTORY_PAGES = 40
 # Search buttons that only filter a list. Any other "accion" (for example
 # AC_INFORMAR_ERROR on the bases page) is never submitted.
 HISTORY_SEARCH = {"recibos": "AC_BUSCAR_RECIBOS", "bases-cotizacion": "AC_AEIM_BUSCAR"}
+# Notification app buttons that only switch tab or filter the list (checked in
+# ListaNotif_ES.xsl and ListaNotifHistoricoPorReceptor_ES.xsl). Nothing else is sent.
+NOTIF_LIST_BUTTONS = {"AC_PESTANNA_NOTIFICACIONES_HISTORICO", "BUSQUEDA_HIST"}
+NOTIF_WINDOW_DAYS = 60  # the sede rejects a wider "Puesta a disposición" range
+NOTIF_MAX_YEARS = 10
+_NOTIF_PAGES_RE = re.compile(r'<ARQ\.EstPagNum\b(?=[^>]*id="PAGNOTIFICACIONES_HIST")[^>]*numTotalPaginas="(\d+)"')
 
 _HIDDEN_RE = re.compile(r"<input[^>]*type=[\"']hidden[\"'][^>]*name=[\"']([^\"']+)[\"'][^>]*value=[\"']([^\"']*)", re.I)
 _LOGIN_FORM_RE = re.compile(r'<form[^>]*id="P017_login"[^>]*action="([^"]+)"', re.I)
@@ -93,10 +103,40 @@ def _saml_form(page: str) -> tuple[str, dict[str, str]] | None:
     return url, fields
 
 
+def _notif_items(page: prosa.ProsaPage) -> list[Any]:
+    notifs = page.data.get("NOTIFICACIONES")
+    return [_mask_tree(n) for n in prosa.as_list(notifs.get("NOTIFICACION") if isinstance(notifs, dict) else None)]
+
+
+def _notif_range(params: dict[str, str]) -> tuple[dt.date, dt.date]:
+    today = dt.date.today()
+    try:
+        hasta = min(dt.date.fromisoformat(params["hasta"]), today) if params.get("hasta") else today
+        desde = dt.date.fromisoformat(params["desde"]) if params.get("desde") else hasta - dt.timedelta(days=365)
+    except ValueError:
+        raise UsageError("desde and hasta must be YYYY-MM-DD.") from None
+    if desde > hasta:
+        raise UsageError("desde must be on or before hasta.")
+    if (hasta - desde).days > NOTIF_MAX_YEARS * 366:
+        raise UsageError(f"The range is limited to {NOTIF_MAX_YEARS} years.")
+    return desde, hasta
+
+
+def _notif_windows(desde: dt.date, hasta: dt.date) -> list[tuple[dt.date, dt.date]]:
+    """Newest first, each at most NOTIF_WINDOW_DAYS days including both ends."""
+    windows = []
+    end = hasta
+    while end >= desde:
+        start = max(desde, end - dt.timedelta(days=NOTIF_WINDOW_DAYS - 1))
+        windows.append((start, end))
+        end = start - dt.timedelta(days=1)
+    return windows
+
+
 class SeguridadSocial(CertPortal):
     name = "seguridad-social"
     title = "Seguridad Social"
-    description = "Importass y sede con certificado digital: resumen, recibos, vida laboral, bases, regularización, avisos, expedientes, notificaciones (lista) y deudas."
+    description = "Importass y sede con certificado digital: resumen, recibos, vida laboral, bases, regularización, avisos, expedientes, notificaciones (pendientes e histórico, solo lista) y deudas."
     hosts = (
         "portal.seg-social.gob.es",
         "idp.seg-social.es",
@@ -128,8 +168,13 @@ class SeguridadSocial(CertPortal):
         Service("expedientes", "Expedientes y solicitudes presentados ante la TGSS", f"{IMPORTASS}/tramites/consultaTramitesConAutenticacion", status="stable"),
         Service(
             "notificaciones",
-            "Notificaciones telemáticas de la Seguridad Social pendientes en la sede (últimos 60 días). Solo la lista: nunca se abren ni firman, para no producir comparecencia",
+            "Notificaciones telemáticas de la Seguridad Social en la sede. Por defecto, las pendientes (últimos 60 días); con historico=si, el histórico (aceptadas, rechazadas, caducadas, publicadas, archivadas). Solo la lista: nunca se abren ni firman, para no producir comparecencia",
             f"{PORTAL}/wps/portal/importass/Seguridad/PortalRedirectorN2A?idApp=323",
+            params=(
+                Param("historico", "si: pestaña de histórico en lugar de pendientes"),
+                Param("desde", "YYYY-MM-DD, puesta a disposición (solo con historico=si; por defecto, hace 12 meses; rango máximo 10 años)"),
+                Param("hasta", "YYYY-MM-DD (solo con historico=si; por defecto, hoy)"),
+            ),
             status="stable",
         ),
         Service(
@@ -204,7 +249,7 @@ class SeguridadSocial(CertPortal):
         if service.name in HISTORY_SEARCH:
             return self._history(service, params)
         if service.name == "notificaciones":
-            return self._notificaciones(service)
+            return self._notificaciones(service, params)
         if service.name == "deudas":
             return self._deudas(service)
         return super().fetch_service(service, params)
@@ -227,11 +272,21 @@ class SeguridadSocial(CertPortal):
             response = self._next_login_step(response, page)
         raise RemoteError("Could not open the Seguridad Social sede app.")
 
-    def _notificaciones(self, service: Service) -> dict[str, Any]:
+    def _notificaciones(self, service: Service, params: dict[str, str]) -> dict[str, Any]:
+        historico = (params.get("historico") or "no").lower()
+        if historico not in {"si", "sí", "no"}:
+            raise UsageError("historico must be si or no.")
+        if historico == "no":
+            if params.get("desde") or params.get("hasta"):
+                raise UsageError("desde and hasta apply only to the history.", hint="Add historico=si.")
+            return self._notificaciones_pendientes(service)
+        return self._notificaciones_historico(service, *_notif_range(params))
+
+    def _notificaciones_pendientes(self, service: Service) -> dict[str, Any]:
         _, page = self._open_sede(service.url)
         if "ListaNotif" not in page.view:
             raise RemoteError(f"Unexpected sede screen: {page.view}", hint="The notifications app may have changed.")
-        items = [_mask_tree(n) for n in prosa.as_list(page.data.get("NOTIFICACIONES", {}).get("NOTIFICACION") if isinstance(page.data.get("NOTIFICACIONES"), dict) else None)]
+        items = _notif_items(page)
         criteria = page.data.get("CRITERIOS_BUSQUEDA", {})
         return {
             "items": items,
@@ -240,6 +295,59 @@ class SeguridadSocial(CertPortal):
             "messages": _mask_tree(page.messages),
             "note": "Pending notifications in the sede's default window. Opening one counts as comparecencia: the user must do it in the sede.",
         }
+
+    def _notificaciones_historico(self, service: Service, desde: dt.date, hasta: dt.date) -> dict[str, Any]:
+        _, page = self._open_sede(service.url)
+        if "ListaNotif" not in page.view:
+            raise RemoteError(f"Unexpected sede screen: {page.view}", hint="The notifications app may have changed.")
+        criteria = page.data.get("CRITERIOS_BUSQUEDA") if isinstance(page.data.get("CRITERIOS_BUSQUEDA"), dict) else {}
+        page, _ = self._notif_list_post(page, "AC_PESTANNA_NOTIFICACIONES_HISTORICO", {
+            "fechaDesde": criteria.get("FECHA_DESDE", ""), "fechaHasta": criteria.get("FECHA_HASTA", ""),
+        })
+        items: list[Any] = []
+        incomplete: list[dict[str, str]] = []
+        windows = _notif_windows(desde, hasta)
+        for start, end in windows:
+            page, body = self._notif_list_post(page, "BUSQUEDA_HIST", {
+                "fechaDesde": start.strftime("%d/%m/%Y"), "fechaHasta": end.strftime("%d/%m/%Y"),
+                "tipoCodigoDestinatario": "0", "codigoDestinatario": "", "idNotificacion": "",
+                "tipoAcuse": "0", "fechaDesdeRec": "", "fechaHastaRec": "", "materia": "0",
+                "fechaDesdeDisp": "", "fechaHastaDisp": "",
+            })
+            if errors := [m for m in page.messages if m["type"].upper() == "ERROR"]:
+                raise RemoteError("The sede rejected the history search: " + _mask(" ".join(m["text"] for m in errors)))
+            items += _notif_items(page)
+            pages = _NOTIF_PAGES_RE.search(body)
+            if pages and int(pages.group(1)) > 1:
+                # Only the first page is read: further pages need another button that is not verified.
+                incomplete.append({"desde": start.isoformat(), "hasta": end.isoformat()})
+        out: dict[str, Any] = {
+            "items": items,
+            "count": len(items),
+            "historico": True,
+            "window": {"desde": desde.isoformat(), "hasta": hasta.isoformat()},
+            "searches": len(windows),
+            "note": "Notification history (already notified, rejected, expired, published or archived). Pending ones are not here: run without historico. Viewing one counts as comparecencia: the user must do it in the sede.",
+        }
+        if incomplete:
+            out["incomplete"] = incomplete
+            out["more"] = "Some windows have more than one page; only the first was read. Repeat with a narrower desde/hasta."
+        return out
+
+    def _notif_list_post(self, page: prosa.ProsaPage, button: str, fields: dict[str, str]) -> tuple[prosa.ProsaPage, str]:
+        """Press one list-only button of the notifications app and return the new history screen."""
+        if button not in NOTIF_LIST_BUTTONS or any(k.startswith("SPM.ACC.") or k.startswith("CHECK") for k in fields):
+            raise RemoteError(f"Refusing to send {button}: not a verified list-only action.")
+        data = {**page.form_base(), **fields, f"SPM.ACC.{button}": button}
+        # Switching tab and filtering the list change nothing on the server: allowed as a query.
+        response = self.request("POST", page.form_url("sp.seg-social.es"), data=data, extensions={QUERY: True})
+        body = decode_body(response)
+        if not prosa.is_prosa(body):
+            raise RemoteError("The sede did not answer with the notification history.", body=_mask(html_to_page(body, str(response.url))["text"][:500]))
+        answer = prosa.parse(body)
+        if "ListaNotifHistorico" not in answer.view:
+            raise RemoteError(f"Unexpected sede screen: {answer.view}", hint="The notifications app may have changed.")
+        return answer, body
 
     def _deudas(self, service: Service) -> dict[str, Any]:
         response, page = self._open_sede(service.url)

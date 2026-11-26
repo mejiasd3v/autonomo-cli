@@ -448,6 +448,62 @@ def test_prosa_page_parsing():
     assert parsed.form_base()["ARQ.SPM.TICKET"] == "t1" and "ARQ" not in parsed.data
 
 
+def _prosa_html(view, body, pages=1):
+    return (
+        f'<html><script id="xslUri" href="/Notificaciones/templates/FW4/XV10U400_NotificacionesTelematicas/{view}_ES.xsl" type="text/plain"></script>'
+        f'<script id="xml" type="text/plain"><ProsaXMLData><SPM>{body}'
+        f'<ARQ.EstPagNum numPaginaActual="1" numTotalPaginas="{pages}" id="PAGNOTIFICACIONES_HIST">  </ARQ.EstPagNum>'
+        '<ARQ id="ARQ"><SPM.TICKET>t</SPM.TICKET><SPM.URLFRONTEND>/ProsaInternet/OnlineAccessUtf8</SPM.URLFRONTEND>'
+        "<SPM.IDSESSION>;jsessionid=s</SPM.IDSESSION></ARQ></SPM></ProsaXMLData></script></html>"
+    )
+
+
+def test_seguridad_social_notification_history_sends_only_list_buttons():
+    from autonomo.providers import prosa
+    from autonomo.providers.seguridad_social import SeguridadSocial
+
+    portal = "https://portal.seg-social.gob.es"
+    pending =_prosa_html("ListaNotif", "<CRITERIOS_BUSQUEDA><FECHA_DESDE>28/09/2026</FECHA_DESDE><FECHA_HASTA>26/11/2026</FECHA_HASTA></CRITERIOS_BUSQUEDA>")
+    notif = (
+        "<NOTIFICACION><ID_NOT_GESTION>{id}</ID_NOT_GESTION><MATERIA><NOMBRE_MATERIA>Recaudación</NOMBRE_MATERIA></MATERIA>"
+        "<FECHA_PUESTA_DISPOSICION>{fecha}</FECHA_PUESTA_DISPOSICION><COD_DESTINATARIO>12345678Z</COD_DESTINATARIO>"
+        "<ACUSE><CLAVE_ACUSE><TIPO_ACUSE>2</TIPO_ACUSE><TEXTO_TIPO_ACUSE>Notificada por aceptación</TEXTO_TIPO_ACUSE></CLAVE_ACUSE></ACUSE></NOTIFICACION>"
+    )
+    posts = []
+
+    def handler(request):
+        if request.method == "GET" and "PortalRedirectorN2A" in str(request.url):
+            return httpx.Response(200, html=f'<base href="{portal}/wps/"><a id="importassPortalRedirectorLinkPage" href="/sede">x</a>')
+        if request.method == "GET" and request.url.path == "/sede":
+            return httpx.Response(200, html=pending)
+        assert str(request.url) == "https://sp.seg-social.es/ProsaInternet/OnlineAccessUtf8;jsessionid=s"
+        form = dict(httpx.QueryParams(request.content.decode()))
+        posts.append(form)
+        if "SPM.ACC.AC_PESTANNA_NOTIFICACIONES_HISTORICO" in form:
+            return httpx.Response(200, html=_prosa_html("ListaNotifHistoricoPorReceptor", "<OPERACION><TIPO_OPERACION>SIN_REGISTROS_BUSQ_AVANZ</TIPO_OPERACION></OPERACION>"))
+        found = notif.format(id="N1", fecha="15/03/2026") if form["fechaDesde"] == "31/01/2026" else ""
+        pages = 2 if form["fechaDesde"] == "01/01/2026" else 1
+        return httpx.Response(200, html=_prosa_html("ListaNotifHistoricoPorReceptor", f"<NOTIFICACIONES>{found}</NOTIFICACIONES>", pages))
+
+    ss = SeguridadSocial({}, transport=httpx.MockTransport(handler))
+    ss._logged_in = True
+    result = ss.fetch("notificaciones", {"historico": "si", "desde": "2026-01-01", "hasta": "2026-03-31"}, FetchOptions())
+
+    buttons = [[k for k in form if k.startswith("SPM.ACC.")] for form in posts]
+    assert buttons == [["SPM.ACC.AC_PESTANNA_NOTIFICACIONES_HISTORICO"], ["SPM.ACC.BUSQUEDA_HIST"], ["SPM.ACC.BUSQUEDA_HIST"]]
+    assert not any(k.startswith("CHECK") or "FIRMAR" in k or "VER_NOTIFICACION" in k for form in posts for k in form)
+    assert [(f["fechaDesde"], f["fechaHasta"]) for f in posts[1:]] == [("31/01/2026", "31/03/2026"), ("01/01/2026", "30/01/2026")]
+    assert result["count"] == 1 and result["searches"] == 2
+    item = result["items"][0]
+    assert item["ID_NOT_GESTION"] == "N1" and item["ACUSE"]["CLAVE_ACUSE"]["TEXTO_TIPO_ACUSE"] == "Notificada por aceptación"
+    assert "12345678Z" not in str(result)
+    assert result["incomplete"] == [{"desde": "2026-01-01", "hasta": "2026-01-30"}]
+    with pytest.raises(UsageError):  # dates apply only to the history
+        ss.fetch("notificaciones", {"desde": "2026-01-01"}, FetchOptions())
+    with pytest.raises(RemoteError):  # anything but the verified list buttons is refused
+        ss._notif_list_post(prosa.parse(pending), "FIRMARNOT", {})
+
+
 # -- panel ---------------------------------------------------------------------------
 
 

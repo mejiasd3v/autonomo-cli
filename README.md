@@ -57,7 +57,7 @@ autonomo config
 | `facturadirecta` | API key header (OS keyring or env) | 49: documents, contacts, banks, journal, reports, tax forms, attachments, versions, raw GET | Verified live against a sandbox company (2026-11-26): every list, report and settings resource, item fetch, versions, cursor and offset pagination. The sandbox has almost no documents, so invoice/bill payloads and attachment downloads are untested |
 | `aeat` | Certificate (mTLS on www1) | `deudas`, `notificaciones` (unread summary), `alertas`, `ultimos-accesos`, `datos-fiscales` (parsed JSON), `domicilio-ratificado`, `verifactu` (SOAP consulta of invoice records), `page` | All verified live on a real account (2026-11-26). Lists with entries were seen only for `ultimos-accesos`; the others returned empty states, so non-empty pages are parsed generically (text + tables). `verifactu` (experimental): the request validates against the official XSD and AEAT accepts it, but the account has no Verifactu records (`SinDatos`), so record parsing is only tested with fixtures |
 | `panel` | Uses the others | `pendientes`, `reta`, `pagos-130` | Verified live (2026-11-26): `reta` matches to the cent for 2024 and 2025; `pagos-130` only had AEAT data (sandbox FacturaDirecta) |
-| `seguridad-social` | Certificate: SAML login through idp/ipce.seg-social.es, plain HTTP | `resumen`, `recibos`, `vida-laboral`, `bases-cotizacion`, `regularizacion`, `avisos`, `expedientes`, `notificaciones` (sede, list only), `deudas` (sede query), `page` | Verified live (2026-11-26). Both sede resources returned empty states on this account, so non-empty results are returned as the sede's raw data |
+| `seguridad-social` | Certificate: SAML login through idp/ipce.seg-social.es, plain HTTP | `resumen`, `recibos`, `vida-laboral`, `bases-cotizacion`, `regularizacion`, `avisos`, `expedientes`, `notificaciones` (sede, list only: pending, or history with `historico=si`), `deudas` (sede query), `page` | Verified live (2026-11-26). Pending notifications and debts returned empty states on this account; the notification history returned entries. Sede results are returned as the sede's raw data (masked) |
 
 ## Design
 
@@ -79,7 +79,9 @@ explicit confirmation; nothing uses it today.
 
 **AEAT notifications.** Opening a notification counts as legal receipt
 (comparecencia) and starts deadlines. The AEAT provider only reads the list and
-blocks every other URL of the notifications app.
+blocks every other URL of the notifications app. The Seguridad Social provider
+sends only the sede's list buttons (history tab and history search) and never
+`FIRMARNOT` or `VER_NOTIFICACION_HIST`.
 
 **Add a provider.** Subclass `Provider` (or `CertPortal` for certificate
 portals), declare `resources()`, implement `fetch()`, and register it under
@@ -89,6 +91,5 @@ same without touching this repo.
 ## Next candidates
 
 - DEHú `Localiza` (needs Gran Destinatario registration and WS-Security signing; never call `PeticionAcceso`).
-- Seguridad Social sede: notification history tab (older and already-read notifications).
 - Datos fiscales layout for each new fiscal year: `uv run --with openpyxl python scripts/build_datos_fiscales_layout.py FILE.xlsx YEAR` (source Excel: AEAT Desarrolladores > IRPF > Modelo 100 > Ejercicio YYYY).
 - AEAT full notification history (`GNNO-JDIT/SvInteresadosQuery`): blocked until verified that listing cannot trigger comparecencia.
