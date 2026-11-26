@@ -8,7 +8,7 @@ and redirects are followed by hand so the certificate session never leaves it.
 from __future__ import annotations
 
 import gzip
-from typing import Any
+from typing import Any, Callable
 from urllib.parse import urljoin, urlparse
 
 import httpx
@@ -16,7 +16,7 @@ import httpx
 from ..core.certificate import Certificate
 from ..core.errors import ConfigError, RemoteError, UsageError
 from ..core.html import html_to_page
-from ..core.http import make_client, send
+from ..core.http import make_client, safe_url, send
 from ..core.redact import mask_tree
 from ..core.provider import Binary, Check, FetchOptions, Param, Provider, Resource
 
@@ -78,8 +78,7 @@ class CertPortal(Provider):
         if resource == "certificate":
             return self.certificate.describe()
         if resource == "page":
-            self.check_page(params["url"])
-            return self.get_page(params["url"])
+            return self.get_page(params["url"], policy=self.check_page)
         service = next(s for s in self.services if s.name == resource)
         return self.fetch_service(service, params)
 
@@ -108,43 +107,48 @@ class CertPortal(Provider):
         return self._client
 
     def check_page(self, url: str) -> None:
-        """Policy for user-supplied URLs (`page`). Providers narrow it further."""
+        """Policy for user-supplied URLs (`page`), on every hop. Providers narrow it further."""
         self.check_host(url)
 
     def check_host(self, url: str) -> None:
         parsed = urlparse(url)
         if parsed.scheme != "https" or parsed.hostname not in self.hosts:
-            raise UsageError(f"URL not allowed: {url}", hint=f"Allowed hosts (https only): {', '.join(self.hosts)}")
+            raise UsageError(f"URL not allowed: {safe_url(url)}", hint=f"Allowed hosts (https only): {', '.join(self.hosts)}")
 
-    def request(self, method: str, url: str, **kwargs: Any) -> httpx.Response:
-        """Send a request and follow redirects only inside the host allowlist."""
-        self.check_host(url)
+    def request(self, method: str, url: str, *, policy: Callable[[str], None] | None = None, **kwargs: Any) -> httpx.Response:
+        """Send a request and follow redirects by hand, applying `policy` to every hop.
+
+        URLs are normalized (dot segments, host case, default port) before the
+        check, and the checked URL is the one sent.
+        """
+        check = policy or self.check_host
+        url = str(httpx.URL(url))
+        check(url)
         for _ in range(MAX_REDIRECTS):
             response = send(self.client, method, url, **kwargs)
             if not response.is_redirect:
                 return response
-            target = urljoin(str(response.url), response.headers.get("location", ""))
+            target = str(httpx.URL(urljoin(str(response.url), response.headers.get("location", ""))))
             host = urlparse(target).hostname or ""
             if any(marker in host for marker in self.login_host_markers):
                 raise RemoteError(
-                    f"{url} redirected to a login page ({host}).",
+                    f"{safe_url(url)} redirected to a login page ({host}).",
                     hint="This service needs Cl@ve or an interactive login. Certificate-only access is not available for it.",
                 )
             try:
-                # Same policy on every hop: https, allowed host, provider-specific blocks.
-                self.check_host(target)
+                check(target)
             except UsageError as exc:
                 raise RemoteError(f"Redirect blocked: {exc.message}", hint="Report the URL so the provider can be updated.") from exc
             url, method, kwargs = target, "GET", {}
         raise RemoteError(f"Too many redirects from {url}.")
 
-    def get_page(self, url: str) -> Any:
-        return self.parse(self.request("GET", url))
+    def get_page(self, url: str, policy: Callable[[str], None] | None = None) -> Any:
+        return self.parse(self.request("GET", url, policy=policy))
 
     def parse(self, response: httpx.Response) -> Any:
         """Parsed page with the holder's NIF and NUSS masked."""
         result = self._parse(response)
-        return mask_tree(result) if isinstance(result, (dict, list)) else result
+        return result if isinstance(result, Binary) else mask_tree(result)
 
     def _parse(self, response: httpx.Response) -> Any:
         content_type = response.headers.get("content-type", "")

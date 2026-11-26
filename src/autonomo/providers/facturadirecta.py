@@ -14,7 +14,7 @@ from urllib.parse import urljoin, urlparse
 import httpx
 
 from ..core.config import require_setting, secret, setting
-from ..core.errors import ConfigError, UsageError
+from ..core.errors import ConfigError, RemoteError, UsageError
 from ..core.http import make_client, send
 from ..core.provider import Binary, Check, FetchOptions, Param, Provider, Resource
 
@@ -23,6 +23,7 @@ COMPANY_ENV = "AUTONOMO_FD_COMPANY_ID"
 DEFAULT_BASE = "https://app.facturadirecta.com/api"
 MAX_LIMIT = 500
 MAX_PAGES = 200
+MAX_DOWNLOAD_REDIRECTS = 5
 # OpenAPI array query params. "a,b" on the CLI becomes ?k=a&k=b.
 PATH_PARAMS = {"id", "documentType", "type"}
 SAFE_ID = re.compile(r"[A-Za-z0-9_-]{1,128}")
@@ -193,25 +194,29 @@ class FacturaDirecta(Provider):
         return {"items": items, "count": len(items)}
 
     def _download(self, url: str) -> Binary:
-        parsed = urlparse(url)
-        if parsed.scheme != "https":
+        target = httpx.URL(url)
+        if target.scheme != "https":
             raise UsageError("Only https attachment URLs are allowed.")
-        api = urlparse(self.base_url)
-        if (parsed.hostname, parsed.port) == (api.hostname, api.port):
+        api = httpx.URL(self.base_url)
+        if (target.scheme, target.host, target.port) == (api.scheme, api.host, api.port):
             # Same origin as the API: the key is needed. Any redirect is followed without it.
-            response = send(self.client, "GET", url)
-            if response.is_redirect:
-                url = urljoin(url, response.headers.get("location", ""))
-                response = self._anonymous_get(url)
+            response = send(self.client, "GET", str(target))
         else:
             # Presigned storage URLs need no key.
-            response = self._anonymous_get(url)
-        name = urlparse(url).path.rsplit("/", 1)[-1] or None
+            response = None
+        with make_client(transport=self._transport, follow_redirects=False) as anon:
+            for _ in range(MAX_DOWNLOAD_REDIRECTS):
+                if response is not None and not response.is_redirect:
+                    break
+                if response is not None:
+                    target = httpx.URL(urljoin(str(target), response.headers.get("location", "")))
+                    if target.scheme != "https":
+                        raise RemoteError("Download redirected to a non-https URL; refused.")
+                response = send(anon, "GET", str(target))
+            else:
+                raise RemoteError("Too many redirects while downloading.")
+        name = target.path.rsplit("/", 1)[-1] or None
         return Binary(response.content, response.headers.get("content-type", "application/octet-stream"), name)
-
-    def _anonymous_get(self, url: str) -> httpx.Response:
-        with make_client(transport=self._transport) as anon:
-            return send(anon, "GET", url)
 
     # -- doctor --------------------------------------------------------------
 

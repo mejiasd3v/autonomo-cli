@@ -550,6 +550,50 @@ def test_cert_reimport_keeps_working_copy_when_keyring_fails(tmp_path, cert_home
         raise ConfigError("keyring down")
 
     monkeypatch.setattr(certstore, "keyring_set", broken)
-    assert main(["cert", "import", str(original), "--password-file", str(pw)]) == 3
-    assert Certificate.from_settings(load_config()["certificate"]).password_source == "OS keyring"
+    # Same certificate: the stored password is reused, so the keyring is not touched.
+    assert main(["cert", "import", str(original), "--password-file", str(pw)]) == 0
+    # Different certificate: keyring failure aborts before the active copy changes.
+    other = make_p12(tmp_path / "other.p12", password=b"pw")
+    assert main(["cert", "import", str(other), "--password-file", str(pw), "--replace"]) == 3
     assert load_config()["certificate"] == section
+    assert Certificate.from_settings(section).password_source == "OS keyring"
+    assert not list(Path(section["path"]).parent.glob("*.tmp"))
+
+
+def test_policy_checks_normalized_url_and_page_policy_on_every_hop():
+    from autonomo.providers.seguridad_social import SeguridadSocial
+
+    seen = []
+    aeat = AEAT({"nif": "12345678Z"}, transport=httpx.MockTransport(lambda r: seen.append(r) or httpx.Response(200, html="<p>x</p>")))
+    with pytest.raises(UsageError, match="comparecencia"):
+        aeat.get_page("https://www1.agenciatributaria.gob.es/x/../wlpl/gnno-JDIT/Abrir?nif=12345678Z")
+    assert not seen
+
+    def importass(request):
+        return httpx.Response(302, headers={"location": "https://sp.seg-social.es/ProsaInternet/OnlineAccess"})
+
+    ss = SeguridadSocial({}, transport=httpx.MockTransport(importass))
+    ss._logged_in = True
+    with pytest.raises(RemoteError, match="Redirect blocked"):
+        ss.fetch("page", {"url": "https://portal.seg-social.gob.es/wps/myportal/x"}, FetchOptions())
+
+
+def test_saml_form_rejects_unknown_endpoint_and_ambiguity():
+    from autonomo.providers.seguridad_social import _saml_form
+
+    form = '<form action="{}"><input type="hidden" name="SAMLResponse" value="x"/></form>'
+    with pytest.raises(RemoteError, match="unexpected endpoint"):
+        _saml_form(form.format("https://portal.seg-social.gob.es/wps/myportal/importass/importass/tramites/baja"))
+    with pytest.raises(RemoteError, match="more than one"):
+        _saml_form(form.format("https://idp.seg-social.es/PGIS/Login") * 2)
+
+
+def test_facturadirecta_download_refuses_plain_http_redirect(fd_env):
+    def handler(request):
+        if request.url.host == "app.facturadirecta.com":
+            return httpx.Response(302, headers={"location": "http://storage.example.com/f.pdf"})
+        return httpx.Response(200, content=b"%PDF")
+
+    fd = FacturaDirecta({}, transport=httpx.MockTransport(handler))
+    with pytest.raises(RemoteError, match="non-https"):
+        fd.fetch("download", {"url": "https://app.facturadirecta.com:443/api/f.pdf"}, FetchOptions())

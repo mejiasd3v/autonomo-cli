@@ -179,7 +179,9 @@ def import_certificate(source: Path, password: bytes, *, replace: bool = False) 
             hint="Run `autonomo cert remove` first, or repeat with --replace.",
         )
 
-    store_password = secrets.token_urlsafe(32)
+    # Same certificate again: keep its stored password, so the active file and the
+    # keyring entry never disagree, even if the file swap below fails.
+    store_password = (keyring_get(fp) if current.get("fingerprint") == fp else None) or secrets.token_urlsafe(32)
     encryption = (
         PrivateFormat.PKCS12.encryption_builder()
         .kdf_rounds(KDF_ROUNDS)
@@ -196,7 +198,8 @@ def import_certificate(source: Path, password: bytes, *, replace: bool = False) 
     # Order matters: a failure before the swap leaves the current certificate usable.
     staged = _write_private(target.with_suffix(".tmp"), blob)
     try:
-        keyring_set(fp, store_password)
+        if keyring_get(fp) != store_password:
+            keyring_set(fp, store_password)
     except Exception:
         staged.unlink(missing_ok=True)
         raise

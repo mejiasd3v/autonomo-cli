@@ -13,7 +13,7 @@ from __future__ import annotations
 
 import datetime as dt
 from typing import Any
-from urllib.parse import urlparse
+from urllib.parse import unquote, urlparse
 
 from ..core.config import setting
 from ..core.errors import ConfigError, RemoteError, UsageError
@@ -111,8 +111,8 @@ class AEAT(CertPortal):
 
     def check_host(self, url: str) -> None:
         super().check_host(url)
-        parsed = urlparse(url)
-        if parsed.path.startswith(NOTIFICATIONS_APP) and url != NOTIFICATIONS_LIST:
+        path = unquote(urlparse(url).path).upper()
+        if path.startswith(NOTIFICATIONS_APP.upper()) and url.split("#")[0] != NOTIFICATIONS_LIST:
             raise UsageError(
                 "Blocked: this URL can open a notification. Opening it counts as legal receipt (comparecencia) and starts deadlines.",
                 hint="Use `autonomo get aeat notificaciones` for the list. Open notifications yourself in the sede.",

@@ -25,13 +25,13 @@ from __future__ import annotations
 import html
 import re
 from typing import Any
-from urllib.parse import urljoin, urlparse
+from urllib.parse import unquote, urljoin, urlparse
 
 import httpx
 
 from ..core.redact import mask_text as _mask, mask_tree as _mask_tree
 from ..core.errors import RemoteError, UsageError
-from ..core.http import QUERY
+from ..core.http import QUERY, safe_url
 from ..core.html import html_to_page
 from ..core.provider import Check, FetchOptions, Param
 from . import prosa
@@ -58,14 +58,34 @@ _PORTLET_NOISE_RE = re.compile(r'^\{.*\}$|^[A-Z]{4}\d{2}[A-Za-z]+$', re.M)
 SAML_FIELDS = {"SAMLRequest", "SAMLResponse", "RelayState", "allowLegalPerson"}
 
 
+# The only endpoints a SAML message may be posted to (host, path prefix).
+SAML_ENDPOINTS = (
+    ("idp.seg-social.es", "/PGIS/Login"),
+    ("idp.seg-social.es", "/PGIS/PostLogin"),
+    ("ipce.seg-social.es", "/IPCE/Login"),
+    ("portal.seg-social.gob.es", "/wps/portal/importass/"),
+    ("sp.seg-social.es", "/SPAutenticacionClave/PostLogin"),
+    ("sp.seg-social.es", "/ProsaInternet/OnlineAccess"),
+)
+
+
 def _saml_form(page: str) -> tuple[str, dict[str, str]] | None:
     """The one form that carries a SAML message: its action and only its SAML fields."""
+    found = []
     for form in re.findall(r"<form\b.*?</form>", page, re.S | re.I):
         fields = {k: html.unescape(v) for k, v in _HIDDEN_RE.findall(form) if k in SAML_FIELDS}
         action = re.search(r'<form\b[^>]*action=["\']([^"\']+)', form, re.I)
         if action and {"SAMLRequest", "SAMLResponse"} & fields.keys():
-            return html.unescape(action.group(1)), fields
-    return None
+            found.append((str(httpx.URL(html.unescape(action.group(1)))), fields))
+    if not found:
+        return None
+    if len(found) > 1:
+        raise RemoteError("Login page with more than one SAML form.", hint="The login flow changed; refusing to guess.")
+    url, fields = found[0]
+    parsed = urlparse(url)
+    if parsed.scheme != "https" or not any(parsed.hostname == h and parsed.path.startswith(p) for h, p in SAML_ENDPOINTS):
+        raise RemoteError(f"SAML message addressed to an unexpected endpoint: {safe_url(url)}")
+    return url, fields
 
 
 class SeguridadSocial(CertPortal):
@@ -155,9 +175,9 @@ class SeguridadSocial(CertPortal):
         )
 
     def check_page(self, url: str) -> None:
-        """`page` reads Importass pages only: no IdP or sede hosts, no portlet actions."""
+        """`page` reads Importass pages only, on every hop: no IdP or sede hosts, no portlet actions."""
         super().check_page(url)
-        if urlparse(url).hostname != "portal.seg-social.gob.es" or "accion!" in url:
+        if urlparse(url).hostname != "portal.seg-social.gob.es" or "accion!" in unquote(url).lower():
             raise UsageError(
                 "`page` only reads plain Importass pages (portal.seg-social.gob.es, no portlet actions).",
                 hint="Use the named resources; sede apps and actions are reachable only through them.",
@@ -310,8 +330,8 @@ class SeguridadSocial(CertPortal):
         base = _BASE_RE.search(page)
         return urljoin(base.group(1) if base else str(response.url), html.unescape(m.group(1)).split("#")[0])
 
-    def get_page(self, url: str) -> Any:
-        page = super().get_page(url)
+    def get_page(self, url: str, policy: Any = None) -> Any:
+        page = super().get_page(url, policy=policy)
         if isinstance(page, dict) and "text" in page:
             if page.get("title") == "Iniciar sesión":
                 raise RemoteError("Seguridad Social session expired.", hint="Retry the command.")
