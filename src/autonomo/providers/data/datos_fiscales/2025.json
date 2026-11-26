@@ -1,0 +1,7856 @@
+{
+ "year": 2025,
+ "source": "2025_Datos_Fiscales_EEDD.xlsx",
+ "records": {
+  "DDFF": {
+   "type": "0",
+   "title": "Cabecera",
+   "fields": []
+  },
+  "": {
+   "type": "1",
+   "title": "Fecha de proceso",
+   "fields": [
+    {
+     "name": "fecha_de_proceso",
+     "label": "Fecha de proceso",
+     "pos": 52,
+     "len": 8,
+     "kind": "date"
+    }
+   ]
+  },
+  "DOM": {
+   "type": "2",
+   "title": "Datos del domicilio",
+   "fields": [
+    {
+     "name": "tipo_domicilio",
+     "label": "Tipo domicilio",
+     "pos": 10,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "tipo_de_via",
+     "label": "Tipo de via",
+     "pos": 12,
+     "len": 5,
+     "kind": "text"
+    },
+    {
+     "name": "codigo_de_via",
+     "label": "Codigo de via",
+     "pos": 17,
+     "len": 5,
+     "kind": "text"
+    },
+    {
+     "name": "nombre_largo_de_la_via",
+     "label": "Nombre largo de la via",
+     "pos": 22,
+     "len": 50,
+     "kind": "text"
+    },
+    {
+     "name": "nombre_corto_de_la_via",
+     "label": "Nombre corto de la via",
+     "pos": 72,
+     "len": 25,
+     "kind": "text"
+    },
+    {
+     "name": "tipo_de_numeracion",
+     "label": "Tipo de numeracion",
+     "pos": 97,
+     "len": 3,
+     "kind": "text"
+    },
+    {
+     "name": "numero",
+     "label": "Numero",
+     "pos": 100,
+     "len": 5,
+     "kind": "text"
+    },
+    {
+     "name": "calificador_numero",
+     "label": "Calificador numero",
+     "pos": 105,
+     "len": 3,
+     "kind": "text"
+    },
+    {
+     "name": "bloque",
+     "label": "Bloque",
+     "pos": 108,
+     "len": 3,
+     "kind": "text"
+    },
+    {
+     "name": "portal",
+     "label": "Portal",
+     "pos": 111,
+     "len": 3,
+     "kind": "text"
+    },
+    {
+     "name": "escalera",
+     "label": "Escalera",
+     "pos": 114,
+     "len": 3,
+     "kind": "text"
+    },
+    {
+     "name": "planta_piso",
+     "label": "Planta-piso",
+     "pos": 117,
+     "len": 3,
+     "kind": "text"
+    },
+    {
+     "name": "puerta",
+     "label": "Puerta",
+     "pos": 120,
+     "len": 3,
+     "kind": "text"
+    },
+    {
+     "name": "datos_complementarios",
+     "label": "Datos complementarios",
+     "pos": 123,
+     "len": 40,
+     "kind": "text"
+    },
+    {
+     "name": "poblacion",
+     "label": "Poblacion",
+     "pos": 163,
+     "len": 30,
+     "kind": "text"
+    },
+    {
+     "name": "codigo_postal",
+     "label": "Codigo postal",
+     "pos": 193,
+     "len": 5,
+     "kind": "text"
+    },
+    {
+     "name": "codigo_de_municipio_ine",
+     "label": "Codigo de municipio INE",
+     "pos": 198,
+     "len": 5,
+     "kind": "text"
+    },
+    {
+     "name": "municipio",
+     "label": "Municipio",
+     "pos": 203,
+     "len": 30,
+     "kind": "text"
+    },
+    {
+     "name": "codigo_de_provincia",
+     "label": "Codigo de provincia",
+     "pos": 233,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "provincia",
+     "label": "Provincia",
+     "pos": 235,
+     "len": 20,
+     "kind": "text"
+    },
+    {
+     "name": "referencia_catastral",
+     "label": "Referencia catastral",
+     "pos": 255,
+     "len": 20,
+     "kind": "text"
+    },
+    {
+     "name": "fecha_de_modificacion",
+     "label": "Fecha de modificación",
+     "pos": 275,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "domicilio_1_address_1",
+     "label": "Domicilio 1 / Address 1",
+     "pos": 12,
+     "len": 50,
+     "kind": "text"
+    },
+    {
+     "name": "datos_complementarios_del_domicilio",
+     "label": "Datos complementarios del domicilio",
+     "pos": 62,
+     "len": 40,
+     "kind": "text"
+    },
+    {
+     "name": "poblacion_ciudad",
+     "label": "Poblacion / Ciudad",
+     "pos": 102,
+     "len": 30,
+     "kind": "text"
+    },
+    {
+     "name": "codigo_postal_zip",
+     "label": "Codigo postal (ZIP)",
+     "pos": 132,
+     "len": 10,
+     "kind": "text"
+    },
+    {
+     "name": "provincia_region_estado",
+     "label": "Provincia / Region / Estado",
+     "pos": 142,
+     "len": 30,
+     "kind": "text"
+    },
+    {
+     "name": "pais",
+     "label": "Pais",
+     "pos": 172,
+     "len": 30,
+     "kind": "text"
+    },
+    {
+     "name": "codigo_de_pais",
+     "label": "Codigo de pais",
+     "pos": 202,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "fecha_de_modificacion_pos206",
+     "label": "Fecha de modificación",
+     "pos": 206,
+     "len": 8,
+     "kind": "date"
+    }
+   ]
+  },
+  "FA": {
+   "type": "2",
+   "title": "Familia numerosa",
+   "fields": [
+    {
+     "name": "nif_del_declarante",
+     "label": "NIF del declarante",
+     "pos": 9,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "nombre_del_declarante",
+     "label": "Nombre del declarante",
+     "pos": 18,
+     "len": 40,
+     "kind": "text"
+    },
+    {
+     "name": "tipo_de_familia_numerosa",
+     "label": "Tipo de familia numerosa",
+     "pos": 58,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "numero_de_identificacion_familia_numerosa",
+     "label": "Número de identificación familia numerosa",
+     "pos": 59,
+     "len": 30,
+     "kind": "text"
+    }
+   ]
+  },
+  "DI": {
+   "type": "2",
+   "title": "Discapacidad",
+   "fields": [
+    {
+     "name": "nif_del_declarante",
+     "label": "NIF del declarante",
+     "pos": 9,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "nombre_del_declarante",
+     "label": "Nombre del declarante",
+     "pos": 18,
+     "len": 40,
+     "kind": "text"
+    },
+    {
+     "name": "grado_de_discapacidad",
+     "label": "Grado de discapacidad",
+     "pos": 58,
+     "len": 3,
+     "kind": "text"
+    },
+    {
+     "name": "necesidad_de_ayuda_de_terceras_personas",
+     "label": "Necesidad de ayuda de terceras personas",
+     "pos": 61,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "movilidad_reducida",
+     "label": "Movilidad reducida",
+     "pos": 62,
+     "len": 1,
+     "kind": "text"
+    }
+   ]
+  },
+  "RTA": {
+   "type": "2",
+   "title": "Rdto. trabajo mod 190",
+   "fields": [
+    {
+     "name": "nif_pagador",
+     "label": "NIF pagador",
+     "pos": 9,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "nombre_del_pagador",
+     "label": "Nombre del pagador",
+     "pos": 18,
+     "len": 40,
+     "kind": "text"
+    },
+    {
+     "name": "clave_y_subclave_de_percepcion",
+     "label": "Clave y Subclave de percepcion",
+     "pos": 58,
+     "len": 3,
+     "kind": "text"
+    },
+    {
+     "name": "percepciones_dinerarias",
+     "label": "Percepciones dinerarias",
+     "pos": 61,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "retenciones",
+     "label": "Retenciones",
+     "pos": 74,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "retribuciones_en_especie",
+     "label": "Retribuciones en especie",
+     "pos": 87,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "valoracion",
+     "label": "Valoración",
+     "pos": 100,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "ingresos_a_cuenta_efectuados",
+     "label": "Ingresos a cuenta efectuados",
+     "pos": 113,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "ingresos_a_cuenta_repercutidos",
+     "label": "Ingresos a cuenta repercutidos",
+     "pos": 126,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "gastos_deducibles",
+     "label": "Gastos deducibles",
+     "pos": 139,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "reducciones_aplicables",
+     "label": "Reducciones aplicables",
+     "pos": 152,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "retribucion_dineraria_por_incapacidad_laboral",
+     "label": "Retribucion dineraria por Incapacidad Laboral",
+     "pos": 165,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "retencion_incapacidad_laboral",
+     "label": "Retencion  Incapacidad Laboral",
+     "pos": 178,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "retribucion_en_especie_incapacidad_laboral",
+     "label": "Retribucion en especie  Incapacidad Laboral",
+     "pos": 191,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "valoracion_incapacidad_laboral",
+     "label": "Valoracion Incapacidad Laboral",
+     "pos": 204,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "ingreso_a_cuenta_incapacidad_laboral",
+     "label": "Ingreso a cuenta Incapacidad Laboral",
+     "pos": 217,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "ingresos_a_cuenta_repercutidos_por_incapacidad_laboral",
+     "label": "Ingresos a cuenta repercutidos por Incapacidad Laboral",
+     "pos": 230,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "movilidad_geografica",
+     "label": "Movilidad geografica",
+     "pos": 243,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "discapacidad",
+     "label": "Discapacidad",
+     "pos": 244,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "marca_percepciones_fogasa",
+     "label": "Marca percepciones FOGASA",
+     "pos": 245,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "marca_especie",
+     "label": "Marca especie",
+     "pos": 246,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "subtipos_b01",
+     "label": "Subtipos B01",
+     "pos": 247,
+     "len": 5,
+     "kind": "text"
+    },
+    {
+     "name": "obtenidos_gestion_fondos",
+     "label": "Obtenidos Gestión Fondos",
+     "pos": 252,
+     "len": 1,
+     "kind": "text"
+    }
+   ]
+  },
+  "RTD": {
+   "type": "2",
+   "title": "Rentas exentas",
+   "fields": [
+    {
+     "name": "nif_del_pagador",
+     "label": "NIF del pagador",
+     "pos": 9,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "nombre_del_pagador",
+     "label": "Nombre del pagador",
+     "pos": 18,
+     "len": 40,
+     "kind": "text"
+    },
+    {
+     "name": "clave_y_subclave",
+     "label": "Clave y subclave",
+     "pos": 58,
+     "len": 3,
+     "kind": "text"
+    },
+    {
+     "name": "retribucion_dineraria",
+     "label": "Retribución dineraria",
+     "pos": 61,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "retribucion_en_especie",
+     "label": "Retribución en especie",
+     "pos": 74,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "gastos_deducibles",
+     "label": "Gastos deducibles",
+     "pos": 87,
+     "len": 13,
+     "kind": "amount"
+    }
+   ]
+  },
+  "RTB": {
+   "type": "2",
+   "title": "Premios y Ganancias Patr.",
+   "fields": [
+    {
+     "name": "nif_del_pagador",
+     "label": "NIF del pagador",
+     "pos": 9,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "nombre_del_pagador",
+     "label": "Nombre del pagador",
+     "pos": 18,
+     "len": 40,
+     "kind": "text"
+    },
+    {
+     "name": "clave_y_subclave",
+     "label": "Clave y subclave",
+     "pos": 58,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "retribucion_dineraria",
+     "label": "Retribución dineraria",
+     "pos": 60,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "retencion",
+     "label": "Retención",
+     "pos": 73,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "retribucion_en_especie",
+     "label": "Retribución en especie",
+     "pos": 86,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "valoracion",
+     "label": "Valoracion",
+     "pos": 99,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "ingreso_a_cta",
+     "label": "Ingreso a cta",
+     "pos": 112,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "ingreso_a_cta_repercutido",
+     "label": "Ingreso a cta repercutido",
+     "pos": 125,
+     "len": 13,
+     "kind": "amount"
+    }
+   ]
+  },
+  "RTC": {
+   "type": "2",
+   "title": "Activid. Econom. Mod.190",
+   "fields": [
+    {
+     "name": "nif_del_pagador",
+     "label": "NIF del pagador",
+     "pos": 9,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "nombre_del_pagador",
+     "label": "Nombre del pagador",
+     "pos": 18,
+     "len": 40,
+     "kind": "text"
+    },
+    {
+     "name": "clave_y_subclave",
+     "label": "Clave y subclave",
+     "pos": 58,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "retribucion_dineraria",
+     "label": "Retribución dineraria",
+     "pos": 60,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "retencion",
+     "label": "Retención",
+     "pos": 73,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "retribucion_en_especie",
+     "label": "Retribución en especie",
+     "pos": 86,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "valoracion",
+     "label": "Valoracion",
+     "pos": 99,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "ingreso_a_cta",
+     "label": "Ingreso a cta",
+     "pos": 112,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "ingreso_a_cta_repercutido",
+     "label": "Ingreso a cta repercutido",
+     "pos": 125,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "reducciones_aplicables",
+     "label": "Reducciones aplicables",
+     "pos": 138,
+     "len": 13,
+     "kind": "amount"
+    }
+   ]
+  },
+  "AA": {
+   "type": "2",
+   "title": "Devengo ant. al ejercicio",
+   "fields": [
+    {
+     "name": "nif_del_pagador",
+     "label": "NIF del Pagador",
+     "pos": 9,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "nombre_del_pagador",
+     "label": "Nombre del Pagador",
+     "pos": 18,
+     "len": 40,
+     "kind": "text"
+    },
+    {
+     "name": "ejercicio_del_devengo",
+     "label": "Ejercicio del devengo",
+     "pos": 58,
+     "len": 4,
+     "kind": "text"
+    },
+    {
+     "name": "clave",
+     "label": "Clave",
+     "pos": 62,
+     "len": 3,
+     "kind": "text"
+    },
+    {
+     "name": "retribuciones_dineraria",
+     "label": "Retribuciones Dineraria",
+     "pos": 65,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "retencion",
+     "label": "Retención",
+     "pos": 78,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "retribucion_en_especie",
+     "label": "Retribución en especie",
+     "pos": 91,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "valoracion",
+     "label": "Valoración",
+     "pos": 104,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "ingresos_a_cuenta",
+     "label": "Ingresos a cuenta",
+     "pos": 117,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "ingresos_a_cuenta_repercutido",
+     "label": "Ingresos a cuenta repercutido",
+     "pos": 130,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "gastos_deducibles",
+     "label": "Gastos deducibles",
+     "pos": 143,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "reducciones",
+     "label": "Reducciones",
+     "pos": 156,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "retribuciones_dineraria_incapacidad_laboral",
+     "label": "Retribuciones Dineraria Incapacidad Laboral",
+     "pos": 169,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "retencion_incapacidad_laboral",
+     "label": "Retención Incapacidad Laboral",
+     "pos": 182,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "retribucion_en_especie_incapacidad_laboral",
+     "label": "Retribución en Especie Incapacidad Laboral",
+     "pos": 195,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "valoracion_incapacidad_laboral",
+     "label": "Valoración Incapacidad Laboral",
+     "pos": 208,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "ingresos_a_cuenta_incapacidad_laboral",
+     "label": "Ingresos a cuenta Incapacidad Laboral",
+     "pos": 221,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "ingresos_a_cuenta_repercutido_incapacidad_laboral",
+     "label": "Ingresos a cuenta repercutido Incapacidad Laboral",
+     "pos": 234,
+     "len": 13,
+     "kind": "amount"
+    }
+   ]
+  },
+  "PP": {
+   "type": "2",
+   "title": "Planes de Pensiones",
+   "fields": [
+    {
+     "name": "nif_del_gestor_promotor",
+     "label": "NIF del Gestor/Promotor",
+     "pos": 9,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "nombre_del_gestor_promotor",
+     "label": "Nombre del Gestor/Promotor",
+     "pos": 18,
+     "len": 40,
+     "kind": "text"
+    },
+    {
+     "name": "clave",
+     "label": "Clave",
+     "pos": 58,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "subclave",
+     "label": "Subclave",
+     "pos": 59,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "aportacion",
+     "label": "Aportación",
+     "pos": 61,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "aport",
+     "label": "Aport.",
+     "pos": 74,
+     "len": 13,
+     "kind": "text"
+    },
+    {
+     "name": "nif_persona_con_discapacidad",
+     "label": "NIF persona con discapacidad",
+     "pos": 87,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "rendimientos_integros_del_trabajo",
+     "label": "Rendimientos íntegros del trabajo",
+     "pos": 96,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "nif_empleador",
+     "label": "NIF empleador",
+     "pos": 97,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "apellidos_y_nombre_del_empleador",
+     "label": "Apellidos y nombre del empleador",
+     "pos": 106,
+     "len": 40,
+     "kind": "text"
+    },
+    {
+     "name": "rtp_60_000",
+     "label": "RTP > 60.000 €",
+     "pos": 146,
+     "len": 1,
+     "kind": "text"
+    }
+   ]
+  },
+  "CB": {
+   "type": "2",
+   "title": "Rdto. cuentas bancarias",
+   "fields": [
+    {
+     "name": "nif_del_pagador",
+     "label": "NIF del Pagador",
+     "pos": 9,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "nombre_del_pagador",
+     "label": "Nombre del Pagador",
+     "pos": 18,
+     "len": 40,
+     "kind": "text"
+    },
+    {
+     "name": "cuenta",
+     "label": "Cuenta",
+     "pos": 58,
+     "len": 10,
+     "kind": "text"
+    },
+    {
+     "name": "tipo",
+     "label": "Tipo",
+     "pos": 68,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "numero_de_titulares",
+     "label": "Número de titulares",
+     "pos": 69,
+     "len": 3,
+     "kind": "text"
+    },
+    {
+     "name": "rendimientos_dinerarios",
+     "label": "Rendimientos dinerarios",
+     "pos": 72,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "retenciones",
+     "label": "Retenciones",
+     "pos": 85,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "rend_especie",
+     "label": "Rend. Especie",
+     "pos": 98,
+     "len": 13,
+     "kind": "text"
+    },
+    {
+     "name": "ingreso_a_cta",
+     "label": "Ingreso a Cta.",
+     "pos": 111,
+     "len": 13,
+     "kind": "amount"
+    }
+   ]
+  },
+  "LT": {
+   "type": "2",
+   "title": "Rdto. Letras del Tesoro",
+   "fields": [
+    {
+     "name": "nif_del_declarante",
+     "label": "NIF del Declarante",
+     "pos": 9,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "nombre_del_declarante",
+     "label": "Nombre del Declarante",
+     "pos": 18,
+     "len": 40,
+     "kind": "text"
+    },
+    {
+     "name": "importe_de_la_compra",
+     "label": "Importe de la compra",
+     "pos": 58,
+     "len": 15,
+     "kind": "amount"
+    },
+    {
+     "name": "fecha_de_la_compra",
+     "label": "Fecha de la compra",
+     "pos": 73,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "importe_de_la_venta",
+     "label": "Importe de la venta",
+     "pos": 81,
+     "len": 15,
+     "kind": "amount"
+    },
+    {
+     "name": "fecha_de_la_venta",
+     "label": "Fecha de la venta",
+     "pos": 96,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "numero_de_titulares",
+     "label": "Número de titulares",
+     "pos": 104,
+     "len": 3,
+     "kind": "text"
+    },
+    {
+     "name": "rendimiento",
+     "label": "Rendimiento",
+     "pos": 107,
+     "len": 15,
+     "kind": "amount"
+    },
+    {
+     "name": "gastos_de_la_operacion",
+     "label": "Gastos de la operación",
+     "pos": 122,
+     "len": 15,
+     "kind": "amount"
+    },
+    {
+     "name": "clave_de_traspaso",
+     "label": "Clave de traspaso",
+     "pos": 137,
+     "len": 1,
+     "kind": "text"
+    }
+   ]
+  },
+  "REA": {
+   "type": "2",
+   "title": "Rdtos. Explícito B.Imp A",
+   "fields": [
+    {
+     "name": "nif_del_emisor",
+     "label": "NIF del Emisor",
+     "pos": 9,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "nombre_del_emisor",
+     "label": "Nombre del Emisor",
+     "pos": 18,
+     "len": 40,
+     "kind": "text"
+    },
+    {
+     "name": "nif_del_declarante",
+     "label": "NIF del Declarante",
+     "pos": 58,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "nombre_del_declarante",
+     "label": "Nombre del Declarante",
+     "pos": 67,
+     "len": 40,
+     "kind": "text"
+    },
+    {
+     "name": "clave_y_subclave",
+     "label": "Clave y subclave",
+     "pos": 107,
+     "len": 3,
+     "kind": "text"
+    },
+    {
+     "name": "tipo",
+     "label": "Tipo",
+     "pos": 110,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "importe_integro",
+     "label": "Importe Integro",
+     "pos": 111,
+     "len": 15,
+     "kind": "amount"
+    },
+    {
+     "name": "retencion",
+     "label": "Retención",
+     "pos": 126,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "gastos_deducibles",
+     "label": "Gastos deducibles",
+     "pos": 139,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "penalizacion",
+     "label": "Penalización",
+     "pos": 152,
+     "len": 11,
+     "kind": "text"
+    }
+   ]
+  },
+  "REG": {
+   "type": "2",
+   "title": "Rdtos. Explícito B.Imp G",
+   "fields": [
+    {
+     "name": "nif_del_emisor",
+     "label": "NIF del Emisor",
+     "pos": 9,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "nombre_del_emisor",
+     "label": "Nombre del Emisor",
+     "pos": 18,
+     "len": 40,
+     "kind": "text"
+    },
+    {
+     "name": "nif_del_declarante",
+     "label": "NIF del Declarante",
+     "pos": 58,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "nombre_del_declarante",
+     "label": "Nombre del Declarante",
+     "pos": 67,
+     "len": 40,
+     "kind": "text"
+    },
+    {
+     "name": "clave_y_subclave",
+     "label": "Clave y subclave",
+     "pos": 107,
+     "len": 3,
+     "kind": "text"
+    },
+    {
+     "name": "tipo",
+     "label": "Tipo",
+     "pos": 110,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "importe_integro",
+     "label": "Importe Integro",
+     "pos": 111,
+     "len": 15,
+     "kind": "amount"
+    },
+    {
+     "name": "retencion",
+     "label": "Retención",
+     "pos": 126,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "reduccion",
+     "label": "Reducción",
+     "pos": 139,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "penalizacion",
+     "label": "Penalización",
+     "pos": 152,
+     "len": 11,
+     "kind": "text"
+    }
+   ]
+  },
+  "RI": {
+   "type": "2",
+   "title": "Rdtos. Implícito",
+   "fields": [
+    {
+     "name": "nif_del_emisor",
+     "label": "NIF del Emisor",
+     "pos": 9,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "nombre_del_emisor",
+     "label": "Nombre del Emisor",
+     "pos": 18,
+     "len": 40,
+     "kind": "text"
+    },
+    {
+     "name": "nif_del_declarante",
+     "label": "NIF del Declarante",
+     "pos": 58,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "nombre_del_declarante",
+     "label": "Nombre del Declarante",
+     "pos": 67,
+     "len": 40,
+     "kind": "text"
+    },
+    {
+     "name": "origen",
+     "label": "Origen",
+     "pos": 107,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "rendimiento",
+     "label": "Rendimiento",
+     "pos": 108,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "retencion",
+     "label": "Retención",
+     "pos": 121,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "vinculacion",
+     "label": "Vinculación",
+     "pos": 134,
+     "len": 1,
+     "kind": "text"
+    }
+   ]
+  },
+  "SG": {
+   "type": "2",
+   "title": "Rdtos. Operac. de Seguros",
+   "fields": [
+    {
+     "name": "nif_del_declarante",
+     "label": "NIF del Declarante",
+     "pos": 9,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "nombre_del_declarante",
+     "label": "Nombre del Declarante",
+     "pos": 18,
+     "len": 40,
+     "kind": "text"
+    },
+    {
+     "name": "modalidad",
+     "label": "Modalidad",
+     "pos": 58,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "rendimiento",
+     "label": "Rendimiento",
+     "pos": 59,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "retencion_e_ingreso_a_cuenta",
+     "label": "Retención e Ingreso a cuenta",
+     "pos": 72,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "reducccion_dt_4a",
+     "label": "Reduccción DT.4ª",
+     "pos": 85,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "base_de_retencion_e_ingreso_a_cuenta",
+     "label": "Base de retención e ingreso a cuenta",
+     "pos": 98,
+     "len": 13,
+     "kind": "amount"
+    }
+   ]
+  },
+  "CD": {
+   "type": "2",
+   "title": "Capitales Seguros de Vida",
+   "fields": [
+    {
+     "name": "importe",
+     "label": "Importe",
+     "pos": 9,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "importe_2015_conjunta",
+     "label": "Importe 2015 conjunta",
+     "pos": 22,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "tipo_de_tributacion_2015",
+     "label": "Tipo de tributación 2015",
+     "pos": 35,
+     "len": 1,
+     "kind": "text"
+    }
+   ]
+  },
+  "TV": {
+   "type": "2",
+   "title": "Venta activos financieros",
+   "fields": [
+    {
+     "name": "nif_del_emisor",
+     "label": "NIF del Emisor",
+     "pos": 9,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "nombre_del_emisor",
+     "label": "Nombre del Emisor",
+     "pos": 18,
+     "len": 40,
+     "kind": "text"
+    },
+    {
+     "name": "nif_del_declarante",
+     "label": "NIF del Declarante",
+     "pos": 58,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "nombre_del_declarante",
+     "label": "Nombre del Declarante",
+     "pos": 67,
+     "len": 40,
+     "kind": "text"
+    },
+    {
+     "name": "fecha_de_la_operacion",
+     "label": "Fecha de la operación",
+     "pos": 107,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "clave_mercado",
+     "label": "Clave Mercado",
+     "pos": 115,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "valor",
+     "label": "Valor",
+     "pos": 116,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "numero_de_titulares",
+     "label": "Número de titulares",
+     "pos": 117,
+     "len": 3,
+     "kind": "text"
+    },
+    {
+     "name": "importe_de_la_venta",
+     "label": "Importe de la venta",
+     "pos": 120,
+     "len": 15,
+     "kind": "amount"
+    },
+    {
+     "name": "rendimientos",
+     "label": "Rendimientos",
+     "pos": 135,
+     "len": 12,
+     "kind": "amount"
+    },
+    {
+     "name": "declarado",
+     "label": "Declarado",
+     "pos": 147,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "gastos_de_la_operacion",
+     "label": "Gastos de la operación",
+     "pos": 148,
+     "len": 12,
+     "kind": "amount"
+    }
+   ]
+  },
+  "AR": {
+   "type": "2",
+   "title": "Arrendamientos de locales",
+   "fields": [
+    {
+     "name": "nif_del_pagador",
+     "label": "NIF del Pagador",
+     "pos": 9,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "nombre_del_pagador",
+     "label": "Nombre del Pagador",
+     "pos": 18,
+     "len": 40,
+     "kind": "text"
+    },
+    {
+     "name": "ref_catastral",
+     "label": "Ref. Catastral",
+     "pos": 58,
+     "len": 20,
+     "kind": "text"
+    },
+    {
+     "name": "clave",
+     "label": "Clave",
+     "pos": 78,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "ingresos",
+     "label": "Ingresos",
+     "pos": 79,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "retencion",
+     "label": "Retención",
+     "pos": 92,
+     "len": 13,
+     "kind": "amount"
+    }
+   ]
+  },
+  "CT": {
+   "type": "2",
+   "title": "Cotizaciones Autonomos",
+   "fields": [
+    {
+     "name": "numero_de_afiliacion",
+     "label": "Número de afiliación",
+     "pos": 9,
+     "len": 12,
+     "kind": "text"
+    },
+    {
+     "name": "reg_de_cotizacion",
+     "label": "Reg de cotización",
+     "pos": 21,
+     "len": 4,
+     "kind": "text"
+    },
+    {
+     "name": "importe",
+     "label": "Importe",
+     "pos": 25,
+     "len": 17,
+     "kind": "amount"
+    }
+   ]
+  },
+  "AG": {
+   "type": "2",
+   "title": "Subvenciones agricultores",
+   "fields": [
+    {
+     "name": "nif_del_declarante",
+     "label": "NIF del Declarante",
+     "pos": 9,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "nombre_del_declarante",
+     "label": "Nombre del Declarante",
+     "pos": 18,
+     "len": 40,
+     "kind": "text"
+    },
+    {
+     "name": "tipo",
+     "label": "Tipo",
+     "pos": 58,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "concepto",
+     "label": "Concepto",
+     "pos": 59,
+     "len": 50,
+     "kind": "text"
+    },
+    {
+     "name": "importe",
+     "label": "Importe",
+     "pos": 109,
+     "len": 15,
+     "kind": "amount"
+    }
+   ]
+  },
+  "IP": {
+   "type": "2",
+   "title": "Otras subvenciones",
+   "fields": [
+    {
+     "name": "nif_del_declarante",
+     "label": "NIF del Declarante",
+     "pos": 9,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "nombre_del_declarante",
+     "label": "Nombre del Declarante",
+     "pos": 18,
+     "len": 40,
+     "kind": "text"
+    },
+    {
+     "name": "importe",
+     "label": "Importe",
+     "pos": 58,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "conv_bdns",
+     "label": "Conv. BDNS",
+     "pos": 71,
+     "len": 6,
+     "kind": "text"
+    }
+   ]
+  },
+  "SB": {
+   "type": "2",
+   "title": "Subvenc. B.Datos Nacional",
+   "fields": [
+    {
+     "name": "organo_gestor",
+     "label": "Órgano Gestor",
+     "pos": 9,
+     "len": 45,
+     "kind": "text"
+    },
+    {
+     "name": "tipo_de_operacion",
+     "label": "Tipo de operación",
+     "pos": 54,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "importe",
+     "label": "Importe",
+     "pos": 56,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "concepto",
+     "label": "Concepto",
+     "pos": 69,
+     "len": 46,
+     "kind": "text"
+    },
+    {
+     "name": "conv_bdns",
+     "label": "Conv. BDNS",
+     "pos": 117,
+     "len": 18,
+     "kind": "text"
+    }
+   ]
+  },
+  "EAA": {
+   "type": "2",
+   "title": "Atribuc.rdtos cap. mob",
+   "fields": [
+    {
+     "name": "nif_del_declarante",
+     "label": "NIF del Declarante",
+     "pos": 9,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "nombre_del_declarante",
+     "label": "Nombre del Declarante",
+     "pos": 18,
+     "len": 40,
+     "kind": "text"
+    },
+    {
+     "name": "de_participacion",
+     "label": "% de participación",
+     "pos": 58,
+     "len": 7,
+     "kind": "decimal",
+     "places": 4
+    },
+    {
+     "name": "subclave",
+     "label": "Subclave",
+     "pos": 65,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "importe",
+     "label": "Importe",
+     "pos": 67,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "reduccion",
+     "label": "Reducción",
+     "pos": 80,
+     "len": 11,
+     "kind": "amount"
+    }
+   ]
+  },
+  "EAB": {
+   "type": "2",
+   "title": "Atribuc.rdtos cap. inmob",
+   "fields": [
+    {
+     "name": "nif_del_declarante",
+     "label": "NIF del Declarante",
+     "pos": 9,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "nombre_del_declarante",
+     "label": "Nombre del Declarante",
+     "pos": 18,
+     "len": 40,
+     "kind": "text"
+    },
+    {
+     "name": "de_participacion",
+     "label": "% de participación",
+     "pos": 58,
+     "len": 7,
+     "kind": "decimal",
+     "places": 4
+    },
+    {
+     "name": "importe",
+     "label": "Importe",
+     "pos": 65,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "reduccion",
+     "label": "Reducción",
+     "pos": 78,
+     "len": 11,
+     "kind": "amount"
+    },
+    {
+     "name": "naturaleza_del_inmueble",
+     "label": "Naturaleza del inmueble",
+     "pos": 89,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "situacion_del_inmueble",
+     "label": "Situación del inmueble",
+     "pos": 90,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "ref_catastral_del_inmueble",
+     "label": "Ref Catastral del inmueble",
+     "pos": 91,
+     "len": 20,
+     "kind": "text"
+    },
+    {
+     "name": "clave_declarado_en_su_relacion_con_el_inmueble",
+     "label": "Clave Declarado en su relación con el inmueble",
+     "pos": 111,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "de_titularidad_del_inmueble",
+     "label": "% de titularidad del inmueble",
+     "pos": 112,
+     "len": 5,
+     "kind": "decimal",
+     "places": 2
+    }
+   ]
+  },
+  "EAC": {
+   "type": "2",
+   "title": "Atribuc.rdtos activ econo",
+   "fields": [
+    {
+     "name": "nif_del_declarante",
+     "label": "NIF del Declarante",
+     "pos": 9,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "nombre_del_declarante",
+     "label": "Nombre del Declarante",
+     "pos": 18,
+     "len": 40,
+     "kind": "text"
+    },
+    {
+     "name": "de_participacion",
+     "label": "% de participación",
+     "pos": 58,
+     "len": 7,
+     "kind": "decimal",
+     "places": 4
+    },
+    {
+     "name": "rendimiento_neto_atribuido",
+     "label": "Rendimiento neto atribuido",
+     "pos": 65,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "rendimiento_neto_previo",
+     "label": "Rendimiento neto previo",
+     "pos": 78,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "reduccion_art_32_1_ley_irpf",
+     "label": "Reducción art. 32.1 Ley IRPF",
+     "pos": 91,
+     "len": 11,
+     "kind": "amount"
+    },
+    {
+     "name": "provisiones_y_gastos_de_dificil_justificacion",
+     "label": "Provisiones y Gastos de difícil justificación",
+     "pos": 102,
+     "len": 12,
+     "kind": "amount"
+    },
+    {
+     "name": "subclave",
+     "label": "Subclave",
+     "pos": 114,
+     "len": 2,
+     "kind": "text"
+    }
+   ]
+  },
+  "EAD": {
+   "type": "2",
+   "title": "Atribuc. ganancias y perd",
+   "fields": [
+    {
+     "name": "nif_del_declarante",
+     "label": "NIF del Declarante",
+     "pos": 9,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "nombre_del_declarante",
+     "label": "Nombre del Declarante",
+     "pos": 18,
+     "len": 40,
+     "kind": "text"
+    },
+    {
+     "name": "de_participacion",
+     "label": "% de participación",
+     "pos": 58,
+     "len": 7,
+     "kind": "decimal",
+     "places": 4
+    },
+    {
+     "name": "clave",
+     "label": "Clave",
+     "pos": 65,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "subclave",
+     "label": "Subclave",
+     "pos": 66,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "importe",
+     "label": "Importe",
+     "pos": 68,
+     "len": 12,
+     "kind": "amount"
+    }
+   ]
+  },
+  "EAE": {
+   "type": "2",
+   "title": "Atribucion retenciones",
+   "fields": [
+    {
+     "name": "nif_del_declarante",
+     "label": "NIF del Declarante",
+     "pos": 9,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "nombre_del_declarante",
+     "label": "Nombre del Declarante",
+     "pos": 18,
+     "len": 40,
+     "kind": "text"
+    },
+    {
+     "name": "de_participacion",
+     "label": "% de participación",
+     "pos": 58,
+     "len": 7,
+     "kind": "decimal",
+     "places": 4
+    },
+    {
+     "name": "subclave",
+     "label": "Subclave",
+     "pos": 65,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "retencion",
+     "label": "Retención",
+     "pos": 67,
+     "len": 12,
+     "kind": "amount"
+    }
+   ]
+  },
+  "EAF": {
+   "type": "2",
+   "title": "Atribucion deducciones",
+   "fields": [
+    {
+     "name": "nif_del_declarante",
+     "label": "NIF del Declarante",
+     "pos": 9,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "nombre_del_declarante",
+     "label": "Nombre del Declarante",
+     "pos": 18,
+     "len": 40,
+     "kind": "text"
+    },
+    {
+     "name": "de_participacion",
+     "label": "% de participación",
+     "pos": 58,
+     "len": 7,
+     "kind": "decimal",
+     "places": 4
+    },
+    {
+     "name": "subclave",
+     "label": "Subclave",
+     "pos": 65,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "importe_deduccion",
+     "label": "Importe deducción",
+     "pos": 67,
+     "len": 12,
+     "kind": "amount"
+    }
+   ]
+  },
+  "AMI": {
+   "type": "2",
+   "title": "Amortización Inmuebles",
+   "fields": [
+    {
+     "name": "referencia_catastral",
+     "label": "Referencia Catastral",
+     "pos": 9,
+     "len": 20,
+     "kind": "text"
+    },
+    {
+     "name": "tipo_de_adquisicion",
+     "label": "Tipo de adquisición",
+     "pos": 29,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "fecha_de_adquisicion",
+     "label": "Fecha de adquisición",
+     "pos": 30,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "importe_de_la_adquisicion",
+     "label": "Importe de la adquisición",
+     "pos": 38,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "gastos_en_la_adquisicion",
+     "label": "Gastos en la adquisición",
+     "pos": 51,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "importe_mejoras_anos_anteriores",
+     "label": "Importe mejoras años anteriores",
+     "pos": 64,
+     "len": 13,
+     "kind": "text"
+    },
+    {
+     "name": "tipo_de_titularidad",
+     "label": "Tipo de titularidad",
+     "pos": 77,
+     "len": 1,
+     "kind": "text"
+    }
+   ]
+  },
+  "FIE": {
+   "type": "2",
+   "title": "Venta fondos inv. CON ret",
+   "fields": [
+    {
+     "name": "nif_del_fondo",
+     "label": "NIF del Fondo",
+     "pos": 9,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "nombre_del_fondo",
+     "label": "Nombre del Fondo",
+     "pos": 18,
+     "len": 40,
+     "kind": "text"
+    },
+    {
+     "name": "nif_gestora",
+     "label": "NIF Gestora",
+     "pos": 58,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "nombre_gestora",
+     "label": "Nombre Gestora",
+     "pos": 67,
+     "len": 40,
+     "kind": "text"
+    },
+    {
+     "name": "fecha_de_adquisicion",
+     "label": "Fecha de adquisición",
+     "pos": 107,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "fecha_de_operacion",
+     "label": "Fecha de operación",
+     "pos": 115,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "ganancia_pat_reducidad_dt9a_ley_35_2006",
+     "label": "Ganancia Pat. Reducidad (DT9ª Ley 35/2006)",
+     "pos": 123,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "ganancia",
+     "label": "Ganancia",
+     "pos": 124,
+     "len": 15,
+     "kind": "amount"
+    },
+    {
+     "name": "perdida",
+     "label": "Pérdida",
+     "pos": 139,
+     "len": 15,
+     "kind": "amount"
+    },
+    {
+     "name": "retencion",
+     "label": "Retención",
+     "pos": 154,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "tipo_resultado",
+     "label": "Tipo resultado",
+     "pos": 167,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "importe_enajenacion",
+     "label": "Importe enajenación",
+     "pos": 168,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "importe_adquisicion",
+     "label": "Importe adquisición",
+     "pos": 181,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "valor_de_adquisicion",
+     "label": "Valor de adquisición",
+     "pos": 194,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "valor_patrimonio_2005",
+     "label": "Valor Patrimonio 2005",
+     "pos": 207,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "reduccion_aplicada_dt9",
+     "label": "Reducción aplicada DT9",
+     "pos": 220,
+     "len": 13,
+     "kind": "amount"
+    }
+   ]
+  },
+  "FIC": {
+   "type": "2",
+   "title": "Venta fondos inv. SIN ret",
+   "fields": [
+    {
+     "name": "nif_del_fondo",
+     "label": "NIF del Fondo",
+     "pos": 9,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "nombre_del_fondo",
+     "label": "Nombre del Fondo",
+     "pos": 18,
+     "len": 40,
+     "kind": "text"
+    },
+    {
+     "name": "isin_fondo",
+     "label": "ISIN Fondo",
+     "pos": 58,
+     "len": 12,
+     "kind": "text"
+    },
+    {
+     "name": "nif_gestora",
+     "label": "NIF Gestora",
+     "pos": 70,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "nombre_gestora",
+     "label": "Nombre Gestora",
+     "pos": 79,
+     "len": 40,
+     "kind": "text"
+    },
+    {
+     "name": "fecha_de_adquisicion",
+     "label": "Fecha de adquisición",
+     "pos": 119,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "fecha_de_operacion",
+     "label": "Fecha de operación",
+     "pos": 127,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "valor",
+     "label": "Valor",
+     "pos": 135,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "numero_de_titulos",
+     "label": "Número de títulos",
+     "pos": 136,
+     "len": 16,
+     "kind": "decimal",
+     "places": 6
+    },
+    {
+     "name": "ganancia_pat_reducidad_dt9a_ley_35_2006",
+     "label": "Ganancia Pat. Reducidad (DT9ª Ley 35/2006)",
+     "pos": 152,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "ganancia",
+     "label": "Ganancia",
+     "pos": 153,
+     "len": 15,
+     "kind": "amount"
+    },
+    {
+     "name": "perdida",
+     "label": "Pérdida",
+     "pos": 168,
+     "len": 15,
+     "kind": "amount"
+    },
+    {
+     "name": "importe_de_la_venta",
+     "label": "Importe de la Venta",
+     "pos": 183,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "valor_de_adquisicion",
+     "label": "Valor de adquisición",
+     "pos": 196,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "valor_patrimonio_2005",
+     "label": "Valor Patrimonio 2005",
+     "pos": 209,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "reduccion_aplicada_dt9",
+     "label": "Reducción aplicada DT9",
+     "pos": 222,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "importe_adquisicion",
+     "label": "Importe Adquisición",
+     "pos": 235,
+     "len": 13,
+     "kind": "amount"
+    }
+   ]
+  },
+  "FID": {
+   "type": "2",
+   "title": "Venta transm. transit. 9",
+   "fields": [
+    {
+     "name": "importe",
+     "label": "Importe",
+     "pos": 9,
+     "len": 15,
+     "kind": "amount"
+    }
+   ]
+  },
+  "DS": {
+   "type": "2",
+   "title": "Venta derechos CON retenc",
+   "fields": [
+    {
+     "name": "nif_sociedad",
+     "label": "NIF Sociedad",
+     "pos": 9,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "nombre_sociedad",
+     "label": "Nombre sociedad",
+     "pos": 18,
+     "len": 40,
+     "kind": "text"
+    },
+    {
+     "name": "nif_declarante",
+     "label": "NIF declarante",
+     "pos": 58,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "nombre_dte",
+     "label": "Nombre DTE",
+     "pos": 67,
+     "len": 40,
+     "kind": "text"
+    },
+    {
+     "name": "fecha_adquisicion",
+     "label": "Fecha adquisición",
+     "pos": 107,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "fecha_operacion",
+     "label": "Fecha operación",
+     "pos": 115,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "ganacia_pat_reducida_dt_9a_ley_35_2006",
+     "label": "Ganacia pat. reducida (DT 9ª Ley 35/2006)",
+     "pos": 123,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "ganancia",
+     "label": "Ganancia",
+     "pos": 124,
+     "len": 15,
+     "kind": "amount"
+    },
+    {
+     "name": "perdida",
+     "label": "Pérdida",
+     "pos": 139,
+     "len": 15,
+     "kind": "amount"
+    },
+    {
+     "name": "retencion",
+     "label": "Retención",
+     "pos": 154,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "importe_enajenacion",
+     "label": "Importe enajenación",
+     "pos": 167,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "gastos_de_enajenacion",
+     "label": "Gastos de enajenación",
+     "pos": 180,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "valor_adquisicion",
+     "label": "Valor adquisición",
+     "pos": 193,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "valor_i_patrimonio_2005",
+     "label": "Valor I Patrimonio 2005",
+     "pos": 206,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "reduccion_aplicada_dt_9a",
+     "label": "Reducción aplicada DT 9ª",
+     "pos": 219,
+     "len": 13,
+     "kind": "amount"
+    }
+   ]
+  },
+  "TVD": {
+   "type": "2",
+   "title": "Venta derechos SIN retenc",
+   "fields": [
+    {
+     "name": "nif_emisor",
+     "label": "NIF Emisor",
+     "pos": 9,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "nombre_emisor",
+     "label": "Nombre emisor",
+     "pos": 18,
+     "len": 40,
+     "kind": "text"
+    },
+    {
+     "name": "nif_declarante",
+     "label": "NIF declarante",
+     "pos": 58,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "nombre_dte",
+     "label": "Nombre DTE",
+     "pos": 67,
+     "len": 40,
+     "kind": "text"
+    },
+    {
+     "name": "fecha_operacion",
+     "label": "Fecha operación",
+     "pos": 107,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "clave_mercado",
+     "label": "Clave mercado",
+     "pos": 115,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "valor",
+     "label": "Valor",
+     "pos": 116,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "titulares",
+     "label": "Titulares",
+     "pos": 117,
+     "len": 3,
+     "kind": "text"
+    },
+    {
+     "name": "importe_venta",
+     "label": "Importe venta",
+     "pos": 120,
+     "len": 15,
+     "kind": "amount"
+    },
+    {
+     "name": "declarado",
+     "label": "Declarado",
+     "pos": 135,
+     "len": 1,
+     "kind": "text"
+    }
+   ]
+  },
+  "DNP": {
+   "type": "2",
+   "title": "Aportaciones por discapac",
+   "fields": [
+    {
+     "name": "nif_entidad",
+     "label": "NIF entidad",
+     "pos": 9,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "nombre_entidad",
+     "label": "Nombre entidad",
+     "pos": 18,
+     "len": 40,
+     "kind": "text"
+    },
+    {
+     "name": "tipo",
+     "label": "Tipo",
+     "pos": 58,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "aportacion",
+     "label": "Aportación",
+     "pos": 59,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "nif_titular_patrimonio_protegido",
+     "label": "NIF Titular patrimonio protegido",
+     "pos": 72,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "apellidos_y_nombre_del_titular_de_patrim_prot",
+     "label": "Apellidos y Nombre del titular de patrim. Prot.",
+     "pos": 81,
+     "len": 40,
+     "kind": "text"
+    }
+   ]
+  },
+  "DN": {
+   "type": "2",
+   "title": "Donaciones",
+   "fields": [
+    {
+     "name": "nif_entidad",
+     "label": "NIF Entidad",
+     "pos": 9,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "nombre_entidad",
+     "label": "Nombre Entidad",
+     "pos": 18,
+     "len": 40,
+     "kind": "text"
+    },
+    {
+     "name": "tipo",
+     "label": "Tipo",
+     "pos": 58,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "clave",
+     "label": "Clave",
+     "pos": 59,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "deduccion_autonomica",
+     "label": "% Deducción autonomica",
+     "pos": 60,
+     "len": 5,
+     "kind": "decimal",
+     "places": 2
+    },
+    {
+     "name": "ccaa",
+     "label": "CCAA",
+     "pos": 65,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "importe",
+     "label": "Importe",
+     "pos": 67,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "deduccion_estatal",
+     "label": "% Deducción estatal",
+     "pos": 80,
+     "len": 5,
+     "kind": "decimal",
+     "places": 2
+    },
+    {
+     "name": "recurrencia_donativo",
+     "label": "Recurrencia donativo",
+     "pos": 85,
+     "len": 1,
+     "kind": "text"
+    }
+   ]
+  },
+  "CC": {
+   "type": "2",
+   "title": "Deducciones autonomicas",
+   "fields": [
+    {
+     "name": "nif_ccaa_dte",
+     "label": "NIF CCAA DTE",
+     "pos": 9,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "nombre_ccaa_dte",
+     "label": "Nombre  CCAA DTE",
+     "pos": 18,
+     "len": 50,
+     "kind": "text"
+    },
+    {
+     "name": "tipo",
+     "label": "Tipo",
+     "pos": 68,
+     "len": 4,
+     "kind": "text"
+    },
+    {
+     "name": "base_de_la_deduccion",
+     "label": "Base de la deducción",
+     "pos": 72,
+     "len": 10,
+     "kind": "amount"
+    },
+    {
+     "name": "importe_de_la_deduccion",
+     "label": "Importe de la deducción",
+     "pos": 82,
+     "len": 9,
+     "kind": "amount"
+    }
+   ]
+  },
+  "PHD": {
+   "type": "2",
+   "title": "Prestam. hipotec vivienda",
+   "fields": [
+    {
+     "name": "nif_del_declarante",
+     "label": "NIF del Declarante",
+     "pos": 9,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "nombre_del_declarante",
+     "label": "Nombre del Declarante",
+     "pos": 18,
+     "len": 40,
+     "kind": "text"
+    },
+    {
+     "name": "n_identificacion_del_prestamo",
+     "label": "N. Identificación del préstamo",
+     "pos": 58,
+     "len": 20,
+     "kind": "text"
+    },
+    {
+     "name": "participacion",
+     "label": "% Participación",
+     "pos": 78,
+     "len": 5,
+     "kind": "decimal",
+     "places": 2
+    },
+    {
+     "name": "de_financiacion",
+     "label": "% de Financiación",
+     "pos": 83,
+     "len": 5,
+     "kind": "decimal",
+     "places": 2
+    },
+    {
+     "name": "capital_amortizado",
+     "label": "Capital amortizado",
+     "pos": 88,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "intereses",
+     "label": "Intereses",
+     "pos": 101,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "gastos_financieros",
+     "label": "Gastos financieros",
+     "pos": 114,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "fecha_constitucion_prestamo",
+     "label": "Fecha Constitución Préstamo",
+     "pos": 127,
+     "len": 8,
+     "kind": "date"
+    }
+   ]
+  },
+  "PHI": {
+   "type": "2",
+   "title": "Prestam. hipotec interese",
+   "fields": [
+    {
+     "name": "nif_del_declarante",
+     "label": "NIF del Declarante",
+     "pos": 9,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "nombre_del_declarante",
+     "label": "Nombre del Declarante",
+     "pos": 18,
+     "len": 40,
+     "kind": "text"
+    },
+    {
+     "name": "n_identificacion",
+     "label": "N. Identificación",
+     "pos": 58,
+     "len": 20,
+     "kind": "text"
+    },
+    {
+     "name": "participacion",
+     "label": "% Participación",
+     "pos": 78,
+     "len": 5,
+     "kind": "decimal",
+     "places": 2
+    },
+    {
+     "name": "reintegro_gastos_financiacion_ajena",
+     "label": "Reintegro gastos financiación ajena",
+     "pos": 83,
+     "len": 10,
+     "kind": "amount"
+    },
+    {
+     "name": "intereses_indemniz_gastos_finan_ajena",
+     "label": "Intereses indemniz. Gastos finan. ajena",
+     "pos": 93,
+     "len": 9,
+     "kind": "amount"
+    },
+    {
+     "name": "otras_indemniz_gastos_finan_ajena",
+     "label": "Otras indemniz. Gastos finan. ajena",
+     "pos": 102,
+     "len": 9,
+     "kind": "amount"
+    }
+   ]
+  },
+  "PHM": {
+   "type": "2",
+   "title": "Prestam. hipotec minorac",
+   "fields": [
+    {
+     "name": "nif_del_declarante",
+     "label": "NIF del Declarante",
+     "pos": 9,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "nombre_del_declarante",
+     "label": "Nombre del Declarante",
+     "pos": 18,
+     "len": 40,
+     "kind": "text"
+    },
+    {
+     "name": "n_identificacion",
+     "label": "N. Identificación",
+     "pos": 58,
+     "len": 20,
+     "kind": "text"
+    },
+    {
+     "name": "participacion",
+     "label": "% Participación",
+     "pos": 78,
+     "len": 5,
+     "kind": "decimal",
+     "places": 2
+    },
+    {
+     "name": "financiacion",
+     "label": "% Financiación",
+     "pos": 83,
+     "len": 5,
+     "kind": "decimal",
+     "places": 2
+    },
+    {
+     "name": "minoracion_del_principal_por_la_entidad",
+     "label": "Minoración del principal por la entidad",
+     "pos": 88,
+     "len": 10,
+     "kind": "amount"
+    }
+   ]
+  },
+  "PF": {
+   "type": "2",
+   "title": "Pagos fraccionados",
+   "fields": [
+    {
+     "name": "modelo",
+     "label": "Modelo",
+     "pos": 9,
+     "len": 3,
+     "kind": "text"
+    },
+    {
+     "name": "tipo",
+     "label": "Tipo",
+     "pos": 12,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "periodo",
+     "label": "Período",
+     "pos": 13,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "delegacion",
+     "label": "Delegación",
+     "pos": 15,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "justificante",
+     "label": "Justificante",
+     "pos": 17,
+     "len": 13,
+     "kind": "text"
+    },
+    {
+     "name": "importe",
+     "label": "Importe",
+     "pos": 30,
+     "len": 13,
+     "kind": "amount"
+    }
+   ]
+  },
+  "UR": {
+   "type": "2",
+   "title": "Informacion catastral",
+   "fields": [
+    {
+     "name": "referencia_catastral_nrc",
+     "label": "Referencia Catastral (NRC)",
+     "pos": 9,
+     "len": 20,
+     "kind": "text"
+    },
+    {
+     "name": "tipo_de_via_ine",
+     "label": "Tipo de vía INE",
+     "pos": 29,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "via",
+     "label": "Vía",
+     "pos": 31,
+     "len": 25,
+     "kind": "text"
+    },
+    {
+     "name": "numero",
+     "label": "Número",
+     "pos": 56,
+     "len": 4,
+     "kind": "text"
+    },
+    {
+     "name": "escalera",
+     "label": "Escalera",
+     "pos": 60,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "planta",
+     "label": "Planta",
+     "pos": 62,
+     "len": 3,
+     "kind": "text"
+    },
+    {
+     "name": "puerta",
+     "label": "Puerta",
+     "pos": 65,
+     "len": 3,
+     "kind": "text"
+    },
+    {
+     "name": "municipio",
+     "label": "Municipio",
+     "pos": 68,
+     "len": 20,
+     "kind": "text"
+    },
+    {
+     "name": "clase_bien",
+     "label": "Clase bien",
+     "pos": 88,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "clave",
+     "label": "Clave",
+     "pos": 90,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "clasificacion_de_almacen",
+     "label": "Clasificación de Almacén",
+     "pos": 91,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "valor_catastral_total",
+     "label": "Valor catastral total",
+     "pos": 92,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "valor_catastral_construccion",
+     "label": "Valor catastral construcción",
+     "pos": 105,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "marca_valor_catastral_revisado",
+     "label": "Marca valor catastral revisado",
+     "pos": 118,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "codigo_derecho",
+     "label": "Codigo derecho",
+     "pos": 119,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "participacion",
+     "label": "% Participación",
+     "pos": 121,
+     "len": 5,
+     "kind": "decimal",
+     "places": 2
+    },
+    {
+     "name": "dias",
+     "label": "Días",
+     "pos": 126,
+     "len": 3,
+     "kind": "text"
+    },
+    {
+     "name": "marca_de_uso",
+     "label": "Marca de Uso",
+     "pos": 129,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "situacion",
+     "label": "Situación",
+     "pos": 131,
+     "len": 1,
+     "kind": "text"
+    }
+   ]
+  },
+  "TPU": {
+   "type": "2",
+   "title": "Transm patrim Urbanas",
+   "fields": [
+    {
+     "name": "fecha",
+     "label": "Fecha",
+     "pos": 9,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "referencia_catastral_nrc",
+     "label": "Referencia Catastral (NRC)",
+     "pos": 17,
+     "len": 20,
+     "kind": "text"
+    },
+    {
+     "name": "tipo_de_via_ine",
+     "label": "Tipo de vía INE",
+     "pos": 37,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "via",
+     "label": "Vía",
+     "pos": 39,
+     "len": 25,
+     "kind": "text"
+    },
+    {
+     "name": "numero",
+     "label": "Número",
+     "pos": 64,
+     "len": 4,
+     "kind": "text"
+    },
+    {
+     "name": "escalera",
+     "label": "Escalera",
+     "pos": 68,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "planta",
+     "label": "Planta",
+     "pos": 70,
+     "len": 3,
+     "kind": "text"
+    },
+    {
+     "name": "puerta",
+     "label": "Puerta",
+     "pos": 73,
+     "len": 3,
+     "kind": "text"
+    },
+    {
+     "name": "municipio",
+     "label": "Municipio",
+     "pos": 76,
+     "len": 30,
+     "kind": "text"
+    },
+    {
+     "name": "codigo_derecho",
+     "label": "Codigo derecho",
+     "pos": 106,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "cod_notaria",
+     "label": "Cod. Notaría",
+     "pos": 108,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "cod_protocolo",
+     "label": "Cod. Protocolo",
+     "pos": 117,
+     "len": 10,
+     "kind": "text"
+    },
+    {
+     "name": "cod_registro",
+     "label": "Cod. Registro",
+     "pos": 127,
+     "len": 5,
+     "kind": "text"
+    }
+   ]
+  },
+  "TPR": {
+   "type": "2",
+   "title": "Transm patrim Rústicas",
+   "fields": [
+    {
+     "name": "fecha",
+     "label": "Fecha",
+     "pos": 9,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "referencia_catastral_nrc",
+     "label": "Referencia Catastral (NRC)",
+     "pos": 17,
+     "len": 20,
+     "kind": "text"
+    },
+    {
+     "name": "codigo_zona",
+     "label": "Código zona",
+     "pos": 37,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "codigo_poligono",
+     "label": "Código Polígono",
+     "pos": 39,
+     "len": 3,
+     "kind": "text"
+    },
+    {
+     "name": "codigo_parcela",
+     "label": "Código Parcela",
+     "pos": 42,
+     "len": 5,
+     "kind": "text"
+    },
+    {
+     "name": "nombre_paraje",
+     "label": "Nombre Paraje",
+     "pos": 47,
+     "len": 30,
+     "kind": "text"
+    },
+    {
+     "name": "municipio",
+     "label": "Municipio",
+     "pos": 77,
+     "len": 30,
+     "kind": "text"
+    },
+    {
+     "name": "codigo_derecho",
+     "label": "Codigo derecho",
+     "pos": 107,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "codigo_notaria",
+     "label": "Codigo notaría",
+     "pos": 109,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "codigo_protocolo",
+     "label": "Codigo protocolo",
+     "pos": 118,
+     "len": 10,
+     "kind": "text"
+    },
+    {
+     "name": "codigo_registro",
+     "label": "Codigo registro",
+     "pos": 128,
+     "len": 5,
+     "kind": "text"
+    }
+   ]
+  },
+  "DM": {
+   "type": "2",
+   "title": "Deduccion maternidad",
+   "fields": [
+    {
+     "name": "01_importe_abonado",
+     "label": "(01) Importe Abonado",
+     "pos": 9,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "02_importe_abonado",
+     "label": "(02) Importe Abonado",
+     "pos": 17,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "03_importe_abonado",
+     "label": "(03) Importe Abonado",
+     "pos": 25,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "04_importe_abonado",
+     "label": "(04) Importe Abonado",
+     "pos": 33,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "05_importe_abonado",
+     "label": "(05) Importe Abonado",
+     "pos": 41,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "06_importe_abonado",
+     "label": "(06) Importe Abonado",
+     "pos": 49,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "07_importe_abonado",
+     "label": "(07) Importe Abonado",
+     "pos": 57,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "08_importe_abonado",
+     "label": "(08) Importe Abonado",
+     "pos": 65,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "09_importe_abonado",
+     "label": "(09) Importe Abonado",
+     "pos": 73,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "10_importe_abonado",
+     "label": "(10) Importe Abonado",
+     "pos": 81,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "11_importe_abonado",
+     "label": "(11) Importe Abonado",
+     "pos": 89,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "12_importe_abonado",
+     "label": "(12) Importe Abonado",
+     "pos": 97,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "13_importe_abonado",
+     "label": "(13) Importe Abonado",
+     "pos": 105,
+     "len": 8,
+     "kind": "amount"
+    }
+   ]
+  },
+  "DMG": {
+   "type": "2",
+   "title": "Deduc matern. guardería",
+   "fields": [
+    {
+     "name": "nif_declarante",
+     "label": "NIF Declarante",
+     "pos": 9,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "nombre_declarante",
+     "label": "Nombre declarante",
+     "pos": 18,
+     "len": 40,
+     "kind": "text"
+    },
+    {
+     "name": "nif_del_menor",
+     "label": "NIF del menor",
+     "pos": 58,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "apellidos_y_nombre_del_menor",
+     "label": "Apellidos y nombre del menor",
+     "pos": 67,
+     "len": 40,
+     "kind": "text"
+    },
+    {
+     "name": "fecha_nacimiento_del_menor",
+     "label": "Fecha nacimiento del menor",
+     "pos": 107,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "mes_completo_enero",
+     "label": "Mes completo Enero",
+     "pos": 115,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "mes_completo_febrero",
+     "label": "Mes completo Febrero",
+     "pos": 116,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "mes_completo_marzo",
+     "label": "Mes completo Marzo",
+     "pos": 117,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "mes_completo_abril",
+     "label": "Mes completo Abril",
+     "pos": 118,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "mes_completo_mayo",
+     "label": "Mes completo Mayo",
+     "pos": 119,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "mes_completo_junio",
+     "label": "Mes completo Junio",
+     "pos": 120,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "mes_completo_julio",
+     "label": "Mes completo Julio",
+     "pos": 121,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "mes_completo_agosto",
+     "label": "Mes completo Agosto",
+     "pos": 122,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "mes_completo_septiembre",
+     "label": "Mes completo Septiembre",
+     "pos": 123,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "mes_completo_octubre",
+     "label": "Mes completo Octubre",
+     "pos": 124,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "mes_completo_noviembre",
+     "label": "Mes completo Noviembre",
+     "pos": 125,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "mes_completo_diciembre",
+     "label": "Mes completo Diciembre",
+     "pos": 126,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "importe_total_satisfecho_en_el_ejercicio",
+     "label": "Importe Total satisfecho en el ejercicio",
+     "pos": 127,
+     "len": 8,
+     "kind": "text"
+    },
+    {
+     "name": "importe_subvencionado",
+     "label": "Importe Subvencionado",
+     "pos": 135,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "cantidades_subvencionadas_empresa",
+     "label": "Cantidades Subvencionadas Empresa",
+     "pos": 143,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "tipo_de_autorizacion",
+     "label": "Tipo de Autorización",
+     "pos": 169,
+     "len": 1,
+     "kind": "text"
+    }
+   ]
+  },
+  "DD": {
+   "type": "2",
+   "title": "Deduccion descend. discap.",
+   "fields": [
+    {
+     "name": "nif_dd_descendiente_discapacitado",
+     "label": "NIF DD (Descendiente Discapacitado)",
+     "pos": 9,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "apellidos_y_nombre_dd",
+     "label": "Apellidos y nombre DD",
+     "pos": 18,
+     "len": 40,
+     "kind": "text"
+    },
+    {
+     "name": "tipo_de_solicitud_abono_anticipado",
+     "label": "Tipo de solicitud abono anticipado",
+     "pos": 58,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "nif_del_cedente",
+     "label": "Nif del cedente",
+     "pos": 59,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "indicador_calidad_dd",
+     "label": "Indicador calidad DD",
+     "pos": 68,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "01_fecha_inicio_discapacidad",
+     "label": "(01) Fecha inicio discapacidad",
+     "pos": 69,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "01_fecha_fin_discapacidad",
+     "label": "(01) Fecha fin discapacidad",
+     "pos": 77,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "01_importe_abonado",
+     "label": "(01) Importe abonado",
+     "pos": 85,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "02_fecha_inicio_discapacidad",
+     "label": "(02) Fecha inicio discapacidad",
+     "pos": 93,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "02_fecha_fin_discapacidad",
+     "label": "(02) Fecha fin discapacidad",
+     "pos": 101,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "02_importe_abonado",
+     "label": "(02) Importe abonado",
+     "pos": 109,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "03_fecha_inicio_discapacidad",
+     "label": "(03) Fecha inicio discapacidad",
+     "pos": 117,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "03_fecha_fin_discapacidad",
+     "label": "(03) Fecha fin discapacidad",
+     "pos": 125,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "03_importe_abonado",
+     "label": "(03) Importe abonado",
+     "pos": 133,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "04_fecha_inicio_discapacidad",
+     "label": "(04) Fecha inicio discapacidad",
+     "pos": 141,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "04_fecha_fin_discapacidad",
+     "label": "(04) Fecha fin discapacidad",
+     "pos": 149,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "04_importe_abonado",
+     "label": "(04) Importe abonado",
+     "pos": 157,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "05_fecha_inicio_discapacidad",
+     "label": "(05) Fecha inicio discapacidad",
+     "pos": 165,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "05_fecha_fin_discapacidad",
+     "label": "(05) Fecha fin discapacidad",
+     "pos": 173,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "05_importe_abonado",
+     "label": "(05) Importe abonado",
+     "pos": 181,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "06_fecha_inicio_discapacidad",
+     "label": "(06) Fecha inicio discapacidad",
+     "pos": 189,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "06_fecha_fin_discapacidad",
+     "label": "(06) Fecha fin discapacidad",
+     "pos": 197,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "06_importe_abonado",
+     "label": "(06) Importe abonado",
+     "pos": 205,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "07_fecha_inicio_discapacidad",
+     "label": "(07) Fecha inicio discapacidad",
+     "pos": 213,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "07_fecha_fin_discapacidad",
+     "label": "(07) Fecha fin discapacidad",
+     "pos": 221,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "07_importe_abonado",
+     "label": "(07) Importe abonado",
+     "pos": 229,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "08_fecha_inicio_discapacidad",
+     "label": "(08) Fecha inicio discapacidad",
+     "pos": 237,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "08_fecha_fin_discapacidad",
+     "label": "(08) Fecha fin discapacidad",
+     "pos": 245,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "08_importe_abonado",
+     "label": "(08) Importe abonado",
+     "pos": 253,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "09_fecha_inicio_discapacidad",
+     "label": "(09) Fecha inicio discapacidad",
+     "pos": 261,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "09_fecha_fin_discapacidad",
+     "label": "(09) Fecha fin discapacidad",
+     "pos": 269,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "09_importe_abonado",
+     "label": "(09) Importe abonado",
+     "pos": 277,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "10_fecha_inicio_discapacidad",
+     "label": "(10) Fecha inicio discapacidad",
+     "pos": 285,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "10_fecha_fin_discapacidad",
+     "label": "(10) Fecha fin discapacidad",
+     "pos": 293,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "10_importe_abonado",
+     "label": "(10) Importe abonado",
+     "pos": 301,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "11_fecha_inicio_discapacidad",
+     "label": "(11) Fecha inicio discapacidad",
+     "pos": 309,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "11_fecha_fin_discapacidad",
+     "label": "(11) Fecha fin discapacidad",
+     "pos": 317,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "11_importe_abonado",
+     "label": "(11) Importe abonado",
+     "pos": 325,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "12_fecha_inicio_discapacidad",
+     "label": "(12) Fecha inicio discapacidad",
+     "pos": 333,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "12_fecha_fin_discapacidad",
+     "label": "(12) Fecha fin discapacidad",
+     "pos": 341,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "12_importe_abonado",
+     "label": "(12) Importe abonado",
+     "pos": 349,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "13_importe_abonado",
+     "label": "(13) Importe abonado",
+     "pos": 357,
+     "len": 8,
+     "kind": "amount"
+    }
+   ]
+  },
+  "AD": {
+   "type": "2",
+   "title": "Deduccion ascend. discap.",
+   "fields": [
+    {
+     "name": "nif_ad_ascendiente_discapacitado",
+     "label": "NIF AD (Ascendiente Discapacitado)",
+     "pos": 9,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "apellidos_y_nombre_ad",
+     "label": "Apellidos y nombre AD",
+     "pos": 18,
+     "len": 40,
+     "kind": "text"
+    },
+    {
+     "name": "tipo_de_solicitud_de_abono_anticipado",
+     "label": "Tipo de solicitud de abono anticipado",
+     "pos": 58,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "nif_del_cedente_1",
+     "label": "Nif del cedente 1",
+     "pos": 59,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "nif_del_cedente_2",
+     "label": "Nif del cedente 2",
+     "pos": 68,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "nif_del_cedente_3",
+     "label": "Nif del cedente 3",
+     "pos": 77,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "indicador_calidad_ad",
+     "label": "Indicador calidad AD",
+     "pos": 86,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "01_fecha_inicio_discapacidad",
+     "label": "(01) Fecha inicio discapacidad",
+     "pos": 87,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "01_fecha_fin_discapacidad",
+     "label": "(01) Fecha fin discapacidad",
+     "pos": 95,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "01_importe_abonado",
+     "label": "(01) Importe abonado",
+     "pos": 103,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "02_fecha_inicio_discapacidad",
+     "label": "(02) Fecha inicio discapacidad",
+     "pos": 111,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "02_fecha_fin_discapacidad",
+     "label": "(02) Fecha fin discapacidad",
+     "pos": 119,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "02_importe_abonado",
+     "label": "(02) Importe abonado",
+     "pos": 127,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "03_fecha_inicio_discapacidad",
+     "label": "(03) Fecha inicio discapacidad",
+     "pos": 135,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "03_fecha_fin_discapacidad",
+     "label": "(03) Fecha fin discapacidad",
+     "pos": 143,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "03_importe_abonado",
+     "label": "(03) Importe abonado",
+     "pos": 151,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "04_fecha_inicio_discapacidad",
+     "label": "(04) Fecha inicio discapacidad",
+     "pos": 159,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "04_fecha_fin_discapacidad",
+     "label": "(04) Fecha fin discapacidad",
+     "pos": 167,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "04_importe_abonado",
+     "label": "(04) Importe abonado",
+     "pos": 175,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "05_fecha_inicio_discapacidad",
+     "label": "(05) Fecha inicio discapacidad",
+     "pos": 183,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "05_fecha_fin_discapacidad",
+     "label": "(05) Fecha fin discapacidad",
+     "pos": 191,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "05_importe_abonado",
+     "label": "(05) Importe abonado",
+     "pos": 199,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "06_fecha_inicio_discapacidad",
+     "label": "(06) Fecha inicio discapacidad",
+     "pos": 207,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "06_fecha_fin_discapacidad",
+     "label": "(06) Fecha fin discapacidad",
+     "pos": 215,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "06_importe_abonado",
+     "label": "(06) Importe abonado",
+     "pos": 223,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "07_fecha_inicio_discapacidad",
+     "label": "(07) Fecha inicio discapacidad",
+     "pos": 231,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "07_fecha_fin_discapacidad",
+     "label": "(07) Fecha fin discapacidad",
+     "pos": 239,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "07_importe_abonado",
+     "label": "(07) Importe abonado",
+     "pos": 247,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "08_fecha_inicio_discapacidad",
+     "label": "(08) Fecha inicio discapacidad",
+     "pos": 255,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "08_fecha_fin_discapacidad",
+     "label": "(08) Fecha fin discapacidad",
+     "pos": 263,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "08_importe_abonado",
+     "label": "(08) Importe abonado",
+     "pos": 271,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "09_fecha_inicio_discapacidad",
+     "label": "(09) Fecha inicio discapacidad",
+     "pos": 279,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "09_fecha_fin_discapacidad",
+     "label": "(09) Fecha fin discapacidad",
+     "pos": 287,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "09_importe_abonado",
+     "label": "(09) Importe abonado",
+     "pos": 295,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "10_fecha_inicio_discapacidad",
+     "label": "(10) Fecha inicio discapacidad",
+     "pos": 303,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "10_fecha_fin_discapacidad",
+     "label": "(10) Fecha fin discapacidad",
+     "pos": 311,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "10_importe_abonado",
+     "label": "(10) Importe abonado",
+     "pos": 319,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "11_fecha_inicio_discapacidad",
+     "label": "(11) Fecha inicio discapacidad",
+     "pos": 327,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "11_fecha_fin_discapacidad",
+     "label": "(11) Fecha fin discapacidad",
+     "pos": 335,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "11_importe_abonado",
+     "label": "(11) Importe abonado",
+     "pos": 343,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "12_fecha_inicio_discapacidad",
+     "label": "(12) Fecha inicio discapacidad",
+     "pos": 351,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "12_fecha_fin_discapacidad",
+     "label": "(12) Fecha fin discapacidad",
+     "pos": 359,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "12_importe_abonado",
+     "label": "(12) Importe abonado",
+     "pos": 367,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "13_importe_abonado",
+     "label": "(13) Importe abonado",
+     "pos": 375,
+     "len": 8,
+     "kind": "amount"
+    }
+   ]
+  },
+  "FN": {
+   "type": "2",
+   "title": "Deduccion familia numerosa",
+   "fields": [
+    {
+     "name": "tipo_de_solicitud_abono_anticipado",
+     "label": "Tipo de solicitud abono anticipado",
+     "pos": 9,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "nif_del_cedente_1",
+     "label": "NIF del cedente 1",
+     "pos": 10,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "no_id_familia_numerosa",
+     "label": "Nº ID Familia Numerosa",
+     "pos": 37,
+     "len": 30,
+     "kind": "text"
+    },
+    {
+     "name": "nif_de_otro_titular",
+     "label": "NIF de otro titular",
+     "pos": 68,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "01_fecha_de_inicio_del_titulo_de_fn",
+     "label": "(01) Fecha de inicio del título de FN",
+     "pos": 77,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "01_fecha_de_fin_del_titulo_de_fn",
+     "label": "(01) Fecha de fin del título de FN",
+     "pos": 85,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "01_marca_de_fn",
+     "label": "(01) Marca de FN",
+     "pos": 93,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "01_importe_abonado",
+     "label": "(01) Importe abonado",
+     "pos": 94,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "01_numero_de_ascendientes_con_derecho",
+     "label": "(01) Número de ascendientes con derecho",
+     "pos": 102,
+     "len": 3,
+     "kind": "text"
+    },
+    {
+     "name": "01_numero_de_hijos_que_exceden",
+     "label": "(01) Número de hijos que exceden",
+     "pos": 105,
+     "len": 3,
+     "kind": "text"
+    },
+    {
+     "name": "02_fecha_de_inicio_del_titulo_de_fn",
+     "label": "(02) Fecha de inicio del título de FN",
+     "pos": 108,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "02_fecha_de_fin_del_titulo_de_fn",
+     "label": "(02) Fecha de fin del título de FN",
+     "pos": 116,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "02_marca_de_fn",
+     "label": "(02) Marca de FN",
+     "pos": 124,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "02_importe_abonado",
+     "label": "(02) Importe abonado",
+     "pos": 125,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "02_numero_de_ascendientes_con_derecho",
+     "label": "(02) Número de ascendientes con derecho",
+     "pos": 133,
+     "len": 3,
+     "kind": "text"
+    },
+    {
+     "name": "02_numero_de_hijos_que_exceden",
+     "label": "(02) Número de hijos que exceden",
+     "pos": 136,
+     "len": 3,
+     "kind": "text"
+    },
+    {
+     "name": "03_fecha_de_inicio_del_titulo_de_fn",
+     "label": "(03) Fecha de inicio del título de FN",
+     "pos": 139,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "03_fecha_de_fin_del_titulo_de_fn",
+     "label": "(03) Fecha de fin del título de FN",
+     "pos": 147,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "03_marca_de_fn",
+     "label": "(03) Marca de FN",
+     "pos": 155,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "03_importe_abonado",
+     "label": "(03) Importe abonado",
+     "pos": 156,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "03_numero_de_ascendientes_con_derecho",
+     "label": "(03) Número de ascendientes con derecho",
+     "pos": 164,
+     "len": 3,
+     "kind": "text"
+    },
+    {
+     "name": "03_numero_de_hijos_que_exceden",
+     "label": "(03) Número de hijos que exceden",
+     "pos": 167,
+     "len": 3,
+     "kind": "text"
+    },
+    {
+     "name": "04_fecha_de_inicio_del_titulo_de_fn",
+     "label": "(04) Fecha de inicio del título de FN",
+     "pos": 170,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "04_fecha_de_fin_del_titulo_de_fn",
+     "label": "(04) Fecha de fin del título de FN",
+     "pos": 178,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "04_marca_de_fn",
+     "label": "(04) Marca de FN",
+     "pos": 186,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "04_importe_abonado",
+     "label": "(04) Importe abonado",
+     "pos": 187,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "04_numero_de_ascendientes_con_derecho",
+     "label": "(04) Número de ascendientes con derecho",
+     "pos": 195,
+     "len": 3,
+     "kind": "text"
+    },
+    {
+     "name": "04_numero_de_hijos_que_exceden",
+     "label": "(04) Número de hijos que exceden",
+     "pos": 198,
+     "len": 3,
+     "kind": "text"
+    },
+    {
+     "name": "05_fecha_de_inicio_del_titulo_de_fn",
+     "label": "(05) Fecha de inicio del título de FN",
+     "pos": 201,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "05_fecha_de_fin_del_titulo_de_fn",
+     "label": "(05) Fecha de fin del título de FN",
+     "pos": 209,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "05_marca_de_fn",
+     "label": "(05) Marca de FN",
+     "pos": 217,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "05_importe_abonado",
+     "label": "(05) Importe abonado",
+     "pos": 218,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "05_numero_de_ascendientes_con_derecho",
+     "label": "(05) Número de ascendientes con derecho",
+     "pos": 226,
+     "len": 3,
+     "kind": "text"
+    },
+    {
+     "name": "05_numero_de_hijos_que_exceden",
+     "label": "(05) Número de hijos que exceden",
+     "pos": 229,
+     "len": 3,
+     "kind": "text"
+    },
+    {
+     "name": "06_fecha_de_inicio_del_titulo_de_fn",
+     "label": "(06) Fecha de inicio del título de FN",
+     "pos": 232,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "06_fecha_de_fin_del_titulo_de_fn",
+     "label": "(06) Fecha de fin del título de FN",
+     "pos": 240,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "06_marca_de_fn",
+     "label": "(06) Marca de FN",
+     "pos": 248,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "06_importe_abonado",
+     "label": "(06) Importe abonado",
+     "pos": 249,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "06_numero_de_ascendientes_con_derecho",
+     "label": "(06) Número de ascendientes con derecho",
+     "pos": 257,
+     "len": 3,
+     "kind": "text"
+    },
+    {
+     "name": "06_numero_de_hijos_que_exceden",
+     "label": "(06) Número de hijos que exceden",
+     "pos": 260,
+     "len": 3,
+     "kind": "text"
+    },
+    {
+     "name": "07_fecha_de_inicio_del_titulo_de_fn",
+     "label": "(07) Fecha de inicio del título de FN",
+     "pos": 263,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "07_fecha_de_fin_del_titulo_de_fn",
+     "label": "(07) Fecha de fin del título de FN",
+     "pos": 271,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "07_marca_de_fn",
+     "label": "(07) Marca de FN",
+     "pos": 279,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "07_importe_abonado",
+     "label": "(07) Importe abonado",
+     "pos": 280,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "07_numero_de_ascendientes_con_derecho",
+     "label": "(07) Número de ascendientes con derecho",
+     "pos": 288,
+     "len": 3,
+     "kind": "text"
+    },
+    {
+     "name": "07_numero_de_hijos_que_exceden",
+     "label": "(07) Número de hijos que exceden",
+     "pos": 291,
+     "len": 3,
+     "kind": "text"
+    },
+    {
+     "name": "08_fecha_de_inicio_del_titulo_de_fn",
+     "label": "(08) Fecha de inicio del título de FN",
+     "pos": 294,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "08_fecha_de_fin_del_titulo_de_fn",
+     "label": "(08) Fecha de fin del título de FN",
+     "pos": 302,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "08_marca_de_fn",
+     "label": "(08) Marca de FN",
+     "pos": 310,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "08_importe_abonado",
+     "label": "(08) Importe abonado",
+     "pos": 311,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "08_numero_de_ascendientes_con_derecho",
+     "label": "(08) Número de ascendientes con derecho",
+     "pos": 319,
+     "len": 3,
+     "kind": "text"
+    },
+    {
+     "name": "08_numero_de_hijos_que_exceden",
+     "label": "(08) Número de hijos que exceden",
+     "pos": 322,
+     "len": 3,
+     "kind": "text"
+    },
+    {
+     "name": "09_fecha_de_inicio_del_titulo_de_fn",
+     "label": "(09) Fecha de inicio del título de FN",
+     "pos": 325,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "09_fecha_de_fin_del_titulo_de_fn",
+     "label": "(09) Fecha de fin del título de FN",
+     "pos": 333,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "09_marca_de_fn",
+     "label": "(09) Marca de FN",
+     "pos": 341,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "09_importe_abonado",
+     "label": "(09) Importe abonado",
+     "pos": 342,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "09_numero_de_ascendientes_con_derecho",
+     "label": "(09) Número de ascendientes con derecho",
+     "pos": 350,
+     "len": 3,
+     "kind": "text"
+    },
+    {
+     "name": "09_numero_de_hijos_que_exceden",
+     "label": "(09) Número de hijos que exceden",
+     "pos": 353,
+     "len": 3,
+     "kind": "text"
+    },
+    {
+     "name": "10_fecha_de_inicio_del_titulo_de_fn",
+     "label": "(10) Fecha de inicio del título de FN",
+     "pos": 356,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "10_fecha_de_fin_del_titulo_de_fn",
+     "label": "(10) Fecha de fin del título de FN",
+     "pos": 364,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "10_marca_de_fn",
+     "label": "(10) Marca de FN",
+     "pos": 372,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "10_importe_abonado",
+     "label": "(10) Importe abonado",
+     "pos": 373,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "10_numero_de_ascendientes_con_derecho",
+     "label": "(10) Número de ascendientes con derecho",
+     "pos": 381,
+     "len": 3,
+     "kind": "text"
+    },
+    {
+     "name": "10_numero_de_hijos_que_exceden",
+     "label": "(10) Número de hijos que exceden",
+     "pos": 384,
+     "len": 3,
+     "kind": "text"
+    },
+    {
+     "name": "11_fecha_de_inicio_del_titulo_de_fn",
+     "label": "(11) Fecha de inicio del título de FN",
+     "pos": 387,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "11_fecha_de_fin_del_titulo_de_fn",
+     "label": "(11) Fecha de fin del título de FN",
+     "pos": 395,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "11_marca_de_fn",
+     "label": "(11) Marca de FN",
+     "pos": 403,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "11_importe_abonado",
+     "label": "(11) Importe abonado",
+     "pos": 404,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "11_numero_de_ascendientes_con_derecho",
+     "label": "(11) Número de ascendientes con derecho",
+     "pos": 412,
+     "len": 3,
+     "kind": "text"
+    },
+    {
+     "name": "11_numero_de_hijos_que_exceden",
+     "label": "(11) Número de hijos que exceden",
+     "pos": 415,
+     "len": 3,
+     "kind": "text"
+    },
+    {
+     "name": "12_fecha_de_inicio_del_titulo_de_fn",
+     "label": "(12) Fecha de inicio del título de FN",
+     "pos": 418,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "12_fecha_de_fin_del_titulo_de_fn",
+     "label": "(12) Fecha de fin del título de FN",
+     "pos": 426,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "12_marca_de_fn",
+     "label": "(12) Marca de FN",
+     "pos": 434,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "12_importe_abonado",
+     "label": "(12) Importe abonado",
+     "pos": 435,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "12_numero_de_ascendientes_con_derecho",
+     "label": "(12) Número de ascendientes con derecho",
+     "pos": 443,
+     "len": 3,
+     "kind": "text"
+    },
+    {
+     "name": "12_numero_de_hijos_que_exceden",
+     "label": "(12) Número de hijos que exceden",
+     "pos": 446,
+     "len": 3,
+     "kind": "text"
+    },
+    {
+     "name": "13_importe_abonado",
+     "label": "(13) Importe abonado",
+     "pos": 449,
+     "len": 8,
+     "kind": "amount"
+    }
+   ]
+  },
+  "FM": {
+   "type": "2",
+   "title": "Deduccion ascend. de separ",
+   "fields": [
+    {
+     "name": "01_importe_abonado",
+     "label": "(01) Importe abonado",
+     "pos": 10,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "02_importe_abonado",
+     "label": "(02) Importe abonado",
+     "pos": 18,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "03_importe_abonado",
+     "label": "(03) Importe abonado",
+     "pos": 26,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "04_importe_abonado",
+     "label": "(04) Importe abonado",
+     "pos": 34,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "05_importe_abonado",
+     "label": "(05) Importe abonado",
+     "pos": 42,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "06_importe_abonado",
+     "label": "(06) Importe abonado",
+     "pos": 50,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "07_importe_abonado",
+     "label": "(07) Importe abonado",
+     "pos": 58,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "08_importe_abonado",
+     "label": "(08) Importe abonado",
+     "pos": 66,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "09_importe_abonado",
+     "label": "(09) Importe abonado",
+     "pos": 74,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "10_importe_abonado",
+     "label": "(10) Importe abonado",
+     "pos": 82,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "11_importe_abonado",
+     "label": "(11) Importe abonado",
+     "pos": 90,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "12_importe_abonado",
+     "label": "(12) Importe abonado",
+     "pos": 98,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "13_importe_abonado",
+     "label": "(13) Importe abonado",
+     "pos": 106,
+     "len": 8,
+     "kind": "amount"
+    }
+   ]
+  },
+  "COD": {
+   "type": "2",
+   "title": "Deduccion cónyuge discap.",
+   "fields": [
+    {
+     "name": "nif_cod",
+     "label": "NIF COD",
+     "pos": 9,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "apellidos_y_nombre_cd",
+     "label": "Apellidos y Nombre CD",
+     "pos": 18,
+     "len": 40,
+     "kind": "text"
+    },
+    {
+     "name": "volumen_rentas_cd_8_000",
+     "label": "Volumen Rentas CD > 8.000",
+     "pos": 58,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "tipo_de_solicitud",
+     "label": "Tipo de solicitud",
+     "pos": 59,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "indicador_calidad_cd",
+     "label": "Indicador Calidad CD",
+     "pos": 60,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "01_fecha_inicio_discapacidad",
+     "label": "(01)Fecha inicio Discapacidad",
+     "pos": 61,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "01_fecha_fin_discapacidad",
+     "label": "(01)Fecha fin Discapacidad",
+     "pos": 69,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "01_importe_abonado",
+     "label": "(01) Importe abonado",
+     "pos": 77,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "02_fecha_inicio_discapacidad",
+     "label": "(02)Fecha inicio Discapacidad",
+     "pos": 85,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "02_fecha_fin_discapacidad",
+     "label": "(02)Fecha fin Discapacidad",
+     "pos": 93,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "02_importe_abonado",
+     "label": "(02) Importe abonado",
+     "pos": 101,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "03_fecha_inicio_discapacidad",
+     "label": "(03)Fecha inicio Discapacidad",
+     "pos": 109,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "03_fecha_fin_discapacidad",
+     "label": "(03)Fecha fin Discapacidad",
+     "pos": 117,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "03_importe_abonado",
+     "label": "(03) Importe abonado",
+     "pos": 125,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "04_fecha_inicio_discapacidad",
+     "label": "(04)Fecha inicio Discapacidad",
+     "pos": 133,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "04_fecha_fin_discapacidad",
+     "label": "(04)Fecha fin Discapacidad",
+     "pos": 141,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "04_importe_abonado",
+     "label": "(04) Importe abonado",
+     "pos": 149,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "05_fecha_inicio_discapacidad",
+     "label": "(05)Fecha inicio Discapacidad",
+     "pos": 157,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "05_fecha_fin_discapacidad",
+     "label": "(05)Fecha fin Discapacidad",
+     "pos": 165,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "05_importe_abonado",
+     "label": "(05) Importe abonado",
+     "pos": 173,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "06_fecha_inicio_discapacidad",
+     "label": "(06)Fecha inicio Discapacidad",
+     "pos": 181,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "06_fecha_fin_discapacidad",
+     "label": "(06)Fecha fin Discapacidad",
+     "pos": 189,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "06_importe_abonado",
+     "label": "(06) Importe abonado",
+     "pos": 197,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "07_fecha_inicio_discapacidad",
+     "label": "(07)Fecha inicio Discapacidad",
+     "pos": 205,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "07_fecha_fin_discapacidad",
+     "label": "(07)Fecha fin Discapacidad",
+     "pos": 213,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "07_importe_abonado",
+     "label": "(07) Importe abonado",
+     "pos": 221,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "08_fecha_inicio_discapacidad",
+     "label": "(08)Fecha inicio Discapacidad",
+     "pos": 229,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "08_fecha_fin_discapacidad",
+     "label": "(08)Fecha fin Discapacidad",
+     "pos": 237,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "08_importe_abonado",
+     "label": "(08) Importe abonado",
+     "pos": 245,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "09_fecha_inicio_discapacidad",
+     "label": "(09)Fecha inicio Discapacidad",
+     "pos": 253,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "09_fecha_fin_discapacidad",
+     "label": "(09)Fecha fin Discapacidad",
+     "pos": 261,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "09_importe_abonado",
+     "label": "(09) Importe abonado",
+     "pos": 269,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "10_fecha_inicio_discapacidad",
+     "label": "(10)Fecha inicio Discapacidad",
+     "pos": 277,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "10_fecha_fin_discapacidad",
+     "label": "(10)Fecha fin Discapacidad",
+     "pos": 285,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "10_importe_abonado",
+     "label": "(10) Importe abonado",
+     "pos": 293,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "11_fecha_inicio_discapacidad",
+     "label": "(11)Fecha inicio Discapacidad",
+     "pos": 301,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "11_fecha_fin_discapacidad",
+     "label": "(11)Fecha fin Discapacidad",
+     "pos": 309,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "11_importe_abonado",
+     "label": "(11) Importe abonado",
+     "pos": 317,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "12_fecha_inicio_discapacidad",
+     "label": "(12)Fecha inicio Discapacidad",
+     "pos": 325,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "12_fecha_fin_discapacidad",
+     "label": "(12)Fecha fin Discapacidad",
+     "pos": 333,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "12_importe_abonado",
+     "label": "(12) Importe abonado",
+     "pos": 341,
+     "len": 8,
+     "kind": "amount"
+    },
+    {
+     "name": "13_importe_abonado",
+     "label": "(13) Importe abonado",
+     "pos": 349,
+     "len": 8,
+     "kind": "amount"
+    }
+   ]
+  },
+  "PDA": {
+   "type": "2",
+   "title": "Pdtes deduc interes inmob",
+   "fields": [
+    {
+     "name": "referencia_catastral",
+     "label": "Referencia catastral",
+     "pos": 9,
+     "len": 20,
+     "kind": "text"
+    },
+    {
+     "name": "importe_2021",
+     "label": "Importe 2021",
+     "pos": 29,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "importe_2022",
+     "label": "Importe 2022",
+     "pos": 42,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "importe_2023",
+     "label": "Importe 2023",
+     "pos": 55,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "importe_2024",
+     "label": "Importe 2024",
+     "pos": 68,
+     "len": 13,
+     "kind": "amount"
+    }
+   ]
+  },
+  "PDB": {
+   "type": "2",
+   "title": "Saldo neto GP compen BIG",
+   "fields": [
+    {
+     "name": "importe_2021",
+     "label": "Importe 2021",
+     "pos": 9,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "importe_2022",
+     "label": "Importe 2022",
+     "pos": 22,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "importe_2023",
+     "label": "Importe 2023",
+     "pos": 35,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "importe_2024",
+     "label": "Importe 2024",
+     "pos": 48,
+     "len": 13,
+     "kind": "amount"
+    }
+   ]
+  },
+  "PDC": {
+   "type": "2",
+   "title": "Saldo neto GP compen BIA",
+   "fields": [
+    {
+     "name": "importe_2021",
+     "label": "Importe 2021",
+     "pos": 9,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "importe_2022",
+     "label": "Importe 2022",
+     "pos": 22,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "importe_2023",
+     "label": "Importe 2023",
+     "pos": 35,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "importe_2024",
+     "label": "Importe 2024",
+     "pos": 48,
+     "len": 13,
+     "kind": "amount"
+    }
+   ]
+  },
+  "PDD": {
+   "type": "2",
+   "title": "Rdtos negat compens BIA",
+   "fields": [
+    {
+     "name": "importe_2021",
+     "label": "Importe 2021",
+     "pos": 9,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "importe_2022",
+     "label": "Importe 2022",
+     "pos": 22,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "importe_2023",
+     "label": "Importe 2023",
+     "pos": 35,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "importe_2024",
+     "label": "Importe 2024",
+     "pos": 48,
+     "len": 13,
+     "kind": "amount"
+    }
+   ]
+  },
+  "PDE": {
+   "type": "2",
+   "title": "Exceso aportaciones pdtes",
+   "fields": [
+    {
+     "name": "importe_aportaciones_y_contribuciones_2020",
+     "label": "Importe aportaciones y contribuciones 2020",
+     "pos": 9,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "importe_aportaciones_y_contribuciones_2021",
+     "label": "Importe aportaciones y contribuciones 2021",
+     "pos": 22,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "importe_aportaciones_y_contribuciones_2022",
+     "label": "Importe aportaciones y contribuciones 2022",
+     "pos": 35,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "importe_aportaciones_y_contribuciones_2023",
+     "label": "Importe aportaciones y contribuciones 2023",
+     "pos": 48,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "importe_aportaciones_y_contribuciones_2024",
+     "label": "Importe aportaciones y contribuciones 2024",
+     "pos": 61,
+     "len": 13,
+     "kind": "amount"
+    }
+   ]
+  },
+  "PDF": {
+   "type": "2",
+   "title": "Exceso seguro colec pdtes",
+   "fields": [
+    {
+     "name": "importe_2020",
+     "label": "Importe 2020",
+     "pos": 9,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "importe_2021",
+     "label": "Importe 2021",
+     "pos": 22,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "importe_2022",
+     "label": "Importe 2022",
+     "pos": 35,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "importe_2023",
+     "label": "Importe 2023",
+     "pos": 48,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "importe_2024",
+     "label": "Importe 2024",
+     "pos": 61,
+     "len": 13,
+     "kind": "amount"
+    }
+   ]
+  },
+  "PDG": {
+   "type": "2",
+   "title": "Exceso aportac. discapac.",
+   "fields": [
+    {
+     "name": "importe_2020",
+     "label": "Importe 2020",
+     "pos": 9,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "importe_2021",
+     "label": "Importe 2021",
+     "pos": 22,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "importe_2022",
+     "label": "Importe 2022",
+     "pos": 35,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "importe_2023",
+     "label": "Importe 2023",
+     "pos": 48,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "importe_2024",
+     "label": "Importe 2024",
+     "pos": 61,
+     "len": 13,
+     "kind": "amount"
+    }
+   ]
+  },
+  "PDH": {
+   "type": "2",
+   "title": "Exceso aportac. tutores",
+   "fields": [
+    {
+     "name": "nif_persona_con_discapacidad",
+     "label": "NIF Persona con discapacidad",
+     "pos": 9,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "importe_2020",
+     "label": "Importe 2020",
+     "pos": 18,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "importe_2021",
+     "label": "Importe 2021",
+     "pos": 31,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "importe_2022",
+     "label": "Importe 2022",
+     "pos": 44,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "importe_2023",
+     "label": "Importe 2023",
+     "pos": 57,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "importe_2024",
+     "label": "Importe 2024",
+     "pos": 70,
+     "len": 13,
+     "kind": "amount"
+    }
+   ]
+  },
+  "PDI": {
+   "type": "2",
+   "title": "Exceso patrim. discapac.",
+   "fields": [
+    {
+     "name": "nif_persona_con_discapacidad",
+     "label": "NIF Persona con discapacidad",
+     "pos": 9,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "importe_2021",
+     "label": "Importe 2021",
+     "pos": 18,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "importe_2022",
+     "label": "Importe 2022",
+     "pos": 31,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "importe_2023",
+     "label": "Importe 2023",
+     "pos": 44,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "importe_2024",
+     "label": "Importe 2024",
+     "pos": 57,
+     "len": 13,
+     "kind": "amount"
+    }
+   ]
+  },
+  "PDJ": {
+   "type": "2",
+   "title": "Exceso aportac deportist.",
+   "fields": [
+    {
+     "name": "importe_2020",
+     "label": "Importe 2020",
+     "pos": 9,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "importe_2021",
+     "label": "Importe 2021",
+     "pos": 22,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "importe_2022",
+     "label": "Importe 2022",
+     "pos": 35,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "importe_2023",
+     "label": "Importe 2023",
+     "pos": 48,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "importe_2024",
+     "label": "Importe 2024",
+     "pos": 61,
+     "len": 13,
+     "kind": "amount"
+    }
+   ]
+  },
+  "PDK": {
+   "type": "2",
+   "title": "B. liquidable general neg",
+   "fields": [
+    {
+     "name": "importe_2021",
+     "label": "Importe 2021",
+     "pos": 9,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "importe_2022",
+     "label": "Importe 2022",
+     "pos": 22,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "importe_2023",
+     "label": "Importe 2023",
+     "pos": 35,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "importe_2024",
+     "label": "Importe 2024",
+     "pos": 48,
+     "len": 13,
+     "kind": "amount"
+    }
+   ]
+  },
+  "PDL": {
+   "type": "2",
+   "title": "Gananc. Patrim. Imput.",
+   "fields": [
+    {
+     "name": "tipo_de_ayuda_publica",
+     "label": "Tipo de Ayuda Pública",
+     "pos": 9,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "ano_en_el_que_se_ha_obtenido",
+     "label": "Año en el que se ha obtenido",
+     "pos": 10,
+     "len": 4,
+     "kind": "text"
+    },
+    {
+     "name": "importe_pendiente_de_imputacion",
+     "label": "Importe pendiente de Imputación",
+     "pos": 14,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "importe_total",
+     "label": "Importe total",
+     "pos": 27,
+     "len": 13,
+     "kind": "amount"
+    }
+   ]
+  },
+  "PDX": {
+   "type": "2",
+   "title": "Deduccion Mejoras Energ.",
+   "fields": [
+    {
+     "name": "tipo_de_tributacion_2024",
+     "label": "Tipo de Tributación 2024",
+     "pos": 9,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "importe_base_2024",
+     "label": "Importe Base 2024",
+     "pos": 10,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "marca_2023",
+     "label": "Marca 2023",
+     "pos": 23,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "tipo_de_tributacion_2023",
+     "label": "Tipo de Tributación 2023",
+     "pos": 24,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "importe_base_2023",
+     "label": "Importe Base 2023",
+     "pos": 25,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "marca_2022",
+     "label": "Marca 2022",
+     "pos": 38,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "tipo_de_tributacion_2022",
+     "label": "Tipo de Tributación 2022",
+     "pos": 39,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "importe_base_2022",
+     "label": "Importe Base 2022",
+     "pos": 40,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "marca_2021",
+     "label": "Marca 2021",
+     "pos": 53,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "tipo_de_tributacion_2021",
+     "label": "Tipo de Tributación 2021",
+     "pos": 54,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "importe_base_2021",
+     "label": "Importe Base 2021",
+     "pos": 55,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "importe_exceso_2021",
+     "label": "Importe exceso 2021",
+     "pos": 68,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "importe_exceso_2022",
+     "label": "Importe exceso 2022",
+     "pos": 81,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "importe_exceso_2023",
+     "label": "Importe exceso 2023",
+     "pos": 94,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "importe_exceso_2024",
+     "label": "Importe exceso 2024",
+     "pos": 107,
+     "len": 13,
+     "kind": "amount"
+    }
+   ]
+  },
+  "CLP": {
+   "type": "2",
+   "title": "Deduc. ptes Castilla Leon",
+   "fields": [
+    {
+     "name": "importe_pendiente_2022",
+     "label": "Importe pendiente 2022",
+     "pos": 9,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "tipo_de_tributacion",
+     "label": "Tipo de tributación",
+     "pos": 22,
+     "len": 1,
+     "kind": "text"
+    }
+   ]
+  },
+  "RTN": {
+   "type": "2",
+   "title": "Rdtos del trabajo Mod.296",
+   "fields": [
+    {
+     "name": "nif_del_pagador",
+     "label": "NIF del pagador",
+     "pos": 9,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "nombre_del_pagador",
+     "label": "Nombre del pagador",
+     "pos": 18,
+     "len": 40,
+     "kind": "text"
+    },
+    {
+     "name": "clave",
+     "label": "Clave",
+     "pos": 58,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "retribucion",
+     "label": "Retribución",
+     "pos": 60,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "retencion_o_ingreso_a_cuenta",
+     "label": "Retención o ingreso a cuenta",
+     "pos": 73,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "ingresos_a_cuenta_repercutidos",
+     "label": "Ingresos a cuenta repercutidos",
+     "pos": 86,
+     "len": 13,
+     "kind": "amount"
+    }
+   ]
+  },
+  "CNR": {
+   "type": "2",
+   "title": "Rdtos ctas bancar.Mod.291",
+   "fields": [
+    {
+     "name": "nif_del_pagador",
+     "label": "NIF del pagador",
+     "pos": 9,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "nombre_del_pagador",
+     "label": "Nombre del pagador",
+     "pos": 18,
+     "len": 40,
+     "kind": "text"
+    },
+    {
+     "name": "cuenta",
+     "label": "Cuenta",
+     "pos": 58,
+     "len": 10,
+     "kind": "text"
+    },
+    {
+     "name": "tipo",
+     "label": "Tipo",
+     "pos": 68,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "titulares",
+     "label": "Titulares",
+     "pos": 69,
+     "len": 3,
+     "kind": "text"
+    },
+    {
+     "name": "rendimientos_dinerarios",
+     "label": "Rendimientos dinerarios",
+     "pos": 72,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "rendimientos_en_especie",
+     "label": "Rendimientos en especie",
+     "pos": 85,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "indicador_retencion",
+     "label": "Indicador retención",
+     "pos": 98,
+     "len": 1,
+     "kind": "text"
+    }
+   ]
+  },
+  "CTP": {
+   "type": "2",
+   "title": "Cotizac. parados o pensio",
+   "fields": [
+    {
+     "name": "01_importe_cotizado_total",
+     "label": "(01) Importe cotizado total",
+     "pos": 9,
+     "len": 9,
+     "kind": "amount"
+    },
+    {
+     "name": "01_marca_de_parado_pensionista",
+     "label": "(01) Marca de parado/pensionista",
+     "pos": 18,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "02_importe_cotizado_total",
+     "label": "(02) Importe cotizado total",
+     "pos": 19,
+     "len": 9,
+     "kind": "amount"
+    },
+    {
+     "name": "02_marca_de_parado_pensionista",
+     "label": "(02) Marca de parado/pensionista",
+     "pos": 28,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "03_importe_cotizado_total",
+     "label": "(03) Importe cotizado total",
+     "pos": 29,
+     "len": 9,
+     "kind": "amount"
+    },
+    {
+     "name": "03_marca_de_parado_pensionista",
+     "label": "(03) Marca de parado/pensionista",
+     "pos": 38,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "04_importe_cotizado_total",
+     "label": "(04) Importe cotizado total",
+     "pos": 39,
+     "len": 9,
+     "kind": "amount"
+    },
+    {
+     "name": "04_marca_de_parado_pensionista",
+     "label": "(04) Marca de parado/pensionista",
+     "pos": 48,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "05_importe_cotizado_total",
+     "label": "(05) Importe cotizado total",
+     "pos": 49,
+     "len": 9,
+     "kind": "amount"
+    },
+    {
+     "name": "05_marca_de_parado_pensionista",
+     "label": "(05) Marca de parado/pensionista",
+     "pos": 58,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "06_importe_cotizado_total",
+     "label": "(06) Importe cotizado total",
+     "pos": 59,
+     "len": 9,
+     "kind": "amount"
+    },
+    {
+     "name": "06_marca_de_parado_pensionista",
+     "label": "(06) Marca de parado/pensionista",
+     "pos": 68,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "07_importe_cotizado_total",
+     "label": "(07) Importe cotizado total",
+     "pos": 69,
+     "len": 9,
+     "kind": "amount"
+    },
+    {
+     "name": "07_marca_de_parado_pensionista",
+     "label": "(07) Marca de parado/pensionista",
+     "pos": 78,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "08_importe_cotizado_total",
+     "label": "(08) Importe cotizado total",
+     "pos": 79,
+     "len": 9,
+     "kind": "amount"
+    },
+    {
+     "name": "08_marca_de_parado_pensionista",
+     "label": "(08) Marca de parado/pensionista",
+     "pos": 88,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "09_importe_cotizado_total",
+     "label": "(09) Importe cotizado total",
+     "pos": 89,
+     "len": 9,
+     "kind": "amount"
+    },
+    {
+     "name": "09_marca_de_parado_pensionista",
+     "label": "(09) Marca de parado/pensionista",
+     "pos": 98,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "10_importe_cotizado_total",
+     "label": "(10) Importe cotizado total",
+     "pos": 99,
+     "len": 9,
+     "kind": "amount"
+    },
+    {
+     "name": "10_marca_de_parado_pensionista",
+     "label": "(10) Marca de parado/pensionista",
+     "pos": 108,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "11_importe_cotizado_total",
+     "label": "(11) Importe cotizado total",
+     "pos": 109,
+     "len": 9,
+     "kind": "amount"
+    },
+    {
+     "name": "11_marca_de_parado_pensionista",
+     "label": "(11) Marca de parado/pensionista",
+     "pos": 118,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "12_importe_cotizado_total",
+     "label": "(12) Importe cotizado total",
+     "pos": 119,
+     "len": 9,
+     "kind": "amount"
+    },
+    {
+     "name": "12_marca_de_parado_pensionista",
+     "label": "(12) Marca de parado/pensionista",
+     "pos": 128,
+     "len": 1,
+     "kind": "text"
+    }
+   ]
+  },
+  "PUE": {
+   "type": "2",
+   "title": "Pensiones en Estados UE",
+   "fields": [
+    {
+     "name": "nombre_del_pagador",
+     "label": "Nombre del pagador",
+     "pos": 9,
+     "len": 40,
+     "kind": "text"
+    },
+    {
+     "name": "declarante",
+     "label": "Declarante",
+     "pos": 49,
+     "len": 30,
+     "kind": "text"
+    },
+    {
+     "name": "concepto",
+     "label": "Concepto",
+     "pos": 79,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "importe",
+     "label": "Importe",
+     "pos": 80,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "divisa",
+     "label": "Divisa",
+     "pos": 93,
+     "len": 3,
+     "kind": "text"
+    },
+    {
+     "name": "importe_en_euros",
+     "label": "Importe en euros",
+     "pos": 96,
+     "len": 13,
+     "kind": "amount"
+    }
+   ]
+  },
+  "RUE": {
+   "type": "2",
+   "title": "Rdtos. trabajo de la UE",
+   "fields": [
+    {
+     "name": "nombre_del_pagador",
+     "label": "Nombre del pagador",
+     "pos": 9,
+     "len": 40,
+     "kind": "text"
+    },
+    {
+     "name": "declarante",
+     "label": "Declarante",
+     "pos": 49,
+     "len": 30,
+     "kind": "text"
+    },
+    {
+     "name": "concepto",
+     "label": "Concepto",
+     "pos": 79,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "importe",
+     "label": "Importe",
+     "pos": 80,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "divisa",
+     "label": "Divisa",
+     "pos": 93,
+     "len": 3,
+     "kind": "text"
+    },
+    {
+     "name": "importe_en_euros",
+     "label": "Importe en euros",
+     "pos": 96,
+     "len": 13,
+     "kind": "amount"
+    }
+   ]
+  },
+  "RPT": {
+   "type": "2",
+   "title": "Rdtos. trabajo E_Terceros",
+   "fields": [
+    {
+     "name": "nombre_del_pagador",
+     "label": "Nombre del pagador",
+     "pos": 9,
+     "len": 40,
+     "kind": "text"
+    },
+    {
+     "name": "declarante",
+     "label": "Declarante",
+     "pos": 49,
+     "len": 30,
+     "kind": "text"
+    },
+    {
+     "name": "concepto",
+     "label": "Concepto",
+     "pos": 79,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "importe_en_euros",
+     "label": "Importe en euros",
+     "pos": 80,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "importe_retenido_en_euros",
+     "label": "Importe retenido en euros",
+     "pos": 93,
+     "len": 13,
+     "kind": "amount"
+    }
+   ]
+  },
+  "AY": {
+   "type": "2",
+   "title": "Ayudas personas bajo nivel",
+   "fields": [
+    {
+     "name": "nif_de_declarante",
+     "label": "NIF de declarante",
+     "pos": 9,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "nombre_del_declarante",
+     "label": "Nombre del declarante",
+     "pos": 18,
+     "len": 40,
+     "kind": "text"
+    },
+    {
+     "name": "importe_recibido",
+     "label": "Importe Recibido",
+     "pos": 58,
+     "len": 10,
+     "kind": "amount"
+    },
+    {
+     "name": "descripcion",
+     "label": "Descripción",
+     "pos": 68,
+     "len": 40,
+     "kind": "text"
+    }
+   ]
+  },
+  "ATR": {
+   "type": "2",
+   "title": "Ayudas Sector Transporte",
+   "fields": [
+    {
+     "name": "nif_de_declarante",
+     "label": "NIF de declarante",
+     "pos": 9,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "nombre_del_declarante",
+     "label": "Nombre del declarante",
+     "pos": 18,
+     "len": 40,
+     "kind": "text"
+    },
+    {
+     "name": "importe_percibido",
+     "label": "Importe Percibido",
+     "pos": 58,
+     "len": 10,
+     "kind": "amount"
+    },
+    {
+     "name": "descripcion",
+     "label": "Descripción",
+     "pos": 68,
+     "len": 40,
+     "kind": "text"
+    }
+   ]
+  },
+  "IAP": {
+   "type": "2",
+   "title": "Intereses abonad Administ",
+   "fields": [
+    {
+     "name": "nif_del_pagador",
+     "label": "NIF del Pagador",
+     "pos": 9,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "nombre_del_pagador",
+     "label": "Nombre del Pagador",
+     "pos": 18,
+     "len": 40,
+     "kind": "text"
+    },
+    {
+     "name": "importe",
+     "label": "Importe",
+     "pos": 58,
+     "len": 15,
+     "kind": "amount"
+    },
+    {
+     "name": "tipo_de_tributacion",
+     "label": "Tipo de Tributación",
+     "pos": 73,
+     "len": 1,
+     "kind": "text"
+    }
+   ]
+  },
+  "GPP": {
+   "type": "2",
+   "title": "GyP patrim. pdtes imput.",
+   "fields": [
+    {
+     "name": "referencia_catastral_1",
+     "label": "Referencia catastral 1",
+     "pos": 9,
+     "len": 20,
+     "kind": "text"
+    },
+    {
+     "name": "referencia_catastral_2",
+     "label": "Referencia catastral 2",
+     "pos": 29,
+     "len": 20,
+     "kind": "text"
+    },
+    {
+     "name": "referencia_catastral_3",
+     "label": "Referencia catastral 3",
+     "pos": 49,
+     "len": 20,
+     "kind": "text"
+    },
+    {
+     "name": "ganancia_patrim_imputable_a_2025",
+     "label": "Ganancia patrim. Imputable a 2025",
+     "pos": 69,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "perdida_patrim_imputable_a_2025",
+     "label": "Pérdida patrim. Imputable a 2025",
+     "pos": 82,
+     "len": 13,
+     "kind": "amount"
+    }
+   ]
+  },
+  "GPA": {
+   "type": "2",
+   "title": "GyP Inmuebles aplazado",
+   "fields": [
+    {
+     "name": "referencia_catastral_1",
+     "label": "Referencia catastral 1",
+     "pos": 9,
+     "len": 20,
+     "kind": "text"
+    },
+    {
+     "name": "referencia_catastral_2",
+     "label": "Referencia catastral 2",
+     "pos": 29,
+     "len": 20,
+     "kind": "text"
+    },
+    {
+     "name": "referencia_catastral_3",
+     "label": "Referencia catastral 3",
+     "pos": 49,
+     "len": 20,
+     "kind": "text"
+    },
+    {
+     "name": "ganancia_patrimonial_imputable_a_2025",
+     "label": "Ganancia patrimonial imputable a 2025",
+     "pos": 69,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "perdida_patrimonial_imputable_a_2025",
+     "label": "Pérdida patrimonial imputable a 2025",
+     "pos": 82,
+     "len": 13,
+     "kind": "amount"
+    }
+   ]
+  },
+  "GPR": {
+   "type": "2",
+   "title": "GyP Moneda Virtual",
+   "fields": [
+    {
+     "name": "ganancia_patrimonial_imputable_a_2025",
+     "label": "Ganancia patrimonial imputable a 2025",
+     "pos": 9,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "perdida_patrimonial_imputable_a_2025",
+     "label": "Pérdida patrimonial imputable a 2025",
+     "pos": 22,
+     "len": 13,
+     "kind": "amount"
+    }
+   ]
+  },
+  "GPS": {
+   "type": "2",
+   "title": "GyP Otros elementos",
+   "fields": [
+    {
+     "name": "ganancia_patrimonial_imputable_a_2025",
+     "label": "Ganancia patrimonial imputable a 2025",
+     "pos": 9,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "perdida_patrimonial_imputable_a_2025",
+     "label": "Pérdida patrimonial imputable a 2025",
+     "pos": 22,
+     "len": 13,
+     "kind": "amount"
+    }
+   ]
+  },
+  "TIU": {
+   "type": "2",
+   "title": "Herederos Inmueb. Urbanos",
+   "fields": [
+    {
+     "name": "referencia",
+     "label": "Referencia",
+     "pos": 9,
+     "len": 20,
+     "kind": "text"
+    },
+    {
+     "name": "tipo_de_via",
+     "label": "Tipo de via",
+     "pos": 29,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "via",
+     "label": "Via",
+     "pos": 31,
+     "len": 25,
+     "kind": "text"
+    },
+    {
+     "name": "numero",
+     "label": "Número",
+     "pos": 56,
+     "len": 4,
+     "kind": "text"
+    },
+    {
+     "name": "escalera",
+     "label": "Escalera",
+     "pos": 60,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "planta",
+     "label": "Planta",
+     "pos": 62,
+     "len": 3,
+     "kind": "text"
+    },
+    {
+     "name": "puerta",
+     "label": "Puerta",
+     "pos": 65,
+     "len": 3,
+     "kind": "text"
+    },
+    {
+     "name": "municipio",
+     "label": "Municipio",
+     "pos": 68,
+     "len": 20,
+     "kind": "text"
+    },
+    {
+     "name": "clase_de_bien",
+     "label": "Clase de Bien",
+     "pos": 88,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "clave",
+     "label": "Clave",
+     "pos": 90,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "clasificacion_almacen",
+     "label": "Clasificación Almacen",
+     "pos": 91,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "valor_catastral_total",
+     "label": "Valor catastral Total",
+     "pos": 92,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "valor_catastral_construccion",
+     "label": "Valor catastral Construcción",
+     "pos": 105,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "marca_valor_catastral_revisado",
+     "label": "Marca Valor catastral Revisado",
+     "pos": 118,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "situacion",
+     "label": "Situación",
+     "pos": 119,
+     "len": 1,
+     "kind": "text"
+    }
+   ]
+  },
+  "DDM": {
+   "type": "2",
+   "title": "Derecho Deduc. Maternidad",
+   "fields": [
+    {
+     "name": "enero_2022_dias_de_alta",
+     "label": "Enero 2022 - Dias de Alta",
+     "pos": 9,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "enero_2022_prestacion_sepe",
+     "label": "Enero 2022 - Prestación SEPE",
+     "pos": 11,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "febrero_2022_dias_de_alta",
+     "label": "Febrero 2022 - Dias de Alta",
+     "pos": 12,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "febrero_2022_prestacion_sepe",
+     "label": "Febrero 2022 - Prestación SEPE",
+     "pos": 14,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "marzo_2022_dias_de_alta",
+     "label": "Marzo 2022 - Dias de Alta",
+     "pos": 15,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "marzo_2022_prestacion_sepe",
+     "label": "Marzo 2022 - Prestación SEPE",
+     "pos": 17,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "abril_2022_dias_de_alta",
+     "label": "Abril 2022 - Dias de Alta",
+     "pos": 18,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "abril_2022_prestacion_sepe",
+     "label": "Abril 2022 - Prestación SEPE",
+     "pos": 20,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "mayo_2022_dias_de_alta",
+     "label": "Mayo 2022 - Dias de Alta",
+     "pos": 21,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "mayo_2022_prestacion_sepe",
+     "label": "Mayo 2022 - Prestación SEPE",
+     "pos": 23,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "junio_2022_dias_de_alta",
+     "label": "Junio 2022 - Dias de Alta",
+     "pos": 24,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "junio_2022_prestacion_sepe",
+     "label": "Junio 2022 - Prestación SEPE",
+     "pos": 26,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "julio_2022_dias_de_alta",
+     "label": "Julio 2022 - Dias de Alta",
+     "pos": 27,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "julio_2022_prestacion_sepe",
+     "label": "Julio 2022 - Prestación SEPE",
+     "pos": 29,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "agosto_2022_dias_de_alta",
+     "label": "Agosto 2022 - Dias de Alta",
+     "pos": 30,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "agosto_2022_prestacion_sepe",
+     "label": "Agosto 2022 - Prestación SEPE",
+     "pos": 32,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "septiembre_2022_dias_de_alta",
+     "label": "Septiembre 2022 - Dias de Alta",
+     "pos": 33,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "septiembre_2022_prestacion_sepe",
+     "label": "Septiembre 2022 - Prestación SEPE",
+     "pos": 35,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "octubre_2022_dias_de_alta",
+     "label": "Octubre 2022 - Dias de Alta",
+     "pos": 36,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "octubre_2022_prestacion_sepe",
+     "label": "Octubre 2022 - Prestación SEPE",
+     "pos": 38,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "noviembre_2022_dias_de_alta",
+     "label": "Noviembre 2022 - Dias de Alta",
+     "pos": 39,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "noviembre_2022_prestacion_sepe",
+     "label": "Noviembre 2022 - Prestación SEPE",
+     "pos": 41,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "diciembre_2022_dias_de_alta",
+     "label": "Diciembre 2022 - Dias de Alta",
+     "pos": 42,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "diciembre_2022_prestacion_sepe",
+     "label": "Diciembre 2022 - Prestación SEPE",
+     "pos": 44,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "enero_2023_dias_de_alta",
+     "label": "Enero 2023 - Dias de Alta",
+     "pos": 45,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "enero_2023_prestacion_sepe",
+     "label": "Enero 2023 - Prestación SEPE",
+     "pos": 47,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "febrero_2023_dias_de_alta",
+     "label": "Febrero 2023 - Dias de Alta",
+     "pos": 48,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "febrero_2023_prestacion_sepe",
+     "label": "Febrero 2023 - Prestación SEPE",
+     "pos": 50,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "marzo_2023_dias_de_alta",
+     "label": "Marzo 2023 - Dias de Alta",
+     "pos": 51,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "marzo_2023_prestacion_sepe",
+     "label": "Marzo 2023 - Prestación SEPE",
+     "pos": 53,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "abril_2023_dias_de_alta",
+     "label": "Abril 2023 - Dias de Alta",
+     "pos": 54,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "abril_2023_prestacion_sepe",
+     "label": "Abril 2023 - Prestación SEPE",
+     "pos": 56,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "mayo_2023_dias_de_alta",
+     "label": "Mayo 2023 - Dias de Alta",
+     "pos": 57,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "mayo_2023_prestacion_sepe",
+     "label": "Mayo 2023 - Prestación SEPE",
+     "pos": 59,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "junio_2023_dias_de_alta",
+     "label": "Junio 2023 - Dias de Alta",
+     "pos": 60,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "junio_2023_prestacion_sepe",
+     "label": "Junio 2023 - Prestación SEPE",
+     "pos": 62,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "julio_2023_dias_de_alta",
+     "label": "Julio 2023 - Dias de Alta",
+     "pos": 63,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "julio_2023_prestacion_sepe",
+     "label": "Julio 2023 - Prestación SEPE",
+     "pos": 65,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "agosto_2023_dias_de_alta",
+     "label": "Agosto 2023 - Dias de Alta",
+     "pos": 66,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "agosto_2023_prestacion_sepe",
+     "label": "Agosto 2023 - Prestación SEPE",
+     "pos": 68,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "septiembre_2023_dias_de_alta",
+     "label": "Septiembre 2023 - Dias de Alta",
+     "pos": 69,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "septiembre_2023_prestacion_sepe",
+     "label": "Septiembre 2023 - Prestación SEPE",
+     "pos": 71,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "octubre_2023_dias_de_alta",
+     "label": "Octubre 2023 - Dias de Alta",
+     "pos": 72,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "octubre_2023_prestacion_sepe",
+     "label": "Octubre 2023 - Prestación SEPE",
+     "pos": 74,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "noviembre_2023_dias_de_alta",
+     "label": "Noviembre 2023 - Dias de Alta",
+     "pos": 75,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "noviembre_2023_prestacion_sepe",
+     "label": "Noviembre 2023 - Prestación SEPE",
+     "pos": 77,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "diciembre_2023_dias_de_alta",
+     "label": "Diciembre 2023 - Dias de Alta",
+     "pos": 78,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "diciembre_2023_prestacion_sepe",
+     "label": "Diciembre 2023 - Prestación SEPE",
+     "pos": 80,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "enero_2024_dias_de_alta",
+     "label": "Enero 2024 - Dias de Alta",
+     "pos": 81,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "enero_2024_prestacion_sepe",
+     "label": "Enero 2024 - Prestación SEPE",
+     "pos": 83,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "febrero_2024_dias_de_alta",
+     "label": "Febrero 2024 - Dias de Alta",
+     "pos": 84,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "febrero_2024_prestacion_sepe",
+     "label": "Febrero 2024 - Prestación SEPE",
+     "pos": 86,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "marzo_2024_dias_de_alta",
+     "label": "Marzo 2024 - Dias de Alta",
+     "pos": 87,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "marzo_2024_prestacion_sepe",
+     "label": "Marzo 2024 - Prestación SEPE",
+     "pos": 89,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "abril_2024_dias_de_alta",
+     "label": "Abril 2024 - Dias de Alta",
+     "pos": 90,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "abril_2024_prestacion_sepe",
+     "label": "Abril 2024 - Prestación SEPE",
+     "pos": 92,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "mayo_2024_dias_de_alta",
+     "label": "Mayo 2024 - Dias de Alta",
+     "pos": 93,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "mayo_2024_prestacion_sepe",
+     "label": "Mayo 2024 - Prestación SEPE",
+     "pos": 95,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "junio_2024_dias_de_alta",
+     "label": "Junio 2024 - Dias de Alta",
+     "pos": 96,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "junio_2024_prestacion_sepe",
+     "label": "Junio 2024 - Prestación SEPE",
+     "pos": 98,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "julio_2024_dias_de_alta",
+     "label": "Julio 2024 - Dias de Alta",
+     "pos": 99,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "julio_2024_prestacion_sepe",
+     "label": "Julio 2024 - Prestación SEPE",
+     "pos": 101,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "agosto_2024_dias_de_alta",
+     "label": "Agosto 2024 - Dias de Alta",
+     "pos": 102,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "agosto_2024_prestacion_sepe",
+     "label": "Agosto 2024 - Prestación SEPE",
+     "pos": 104,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "septiembre_2024_dias_de_alta",
+     "label": "Septiembre 2024 - Dias de Alta",
+     "pos": 105,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "septiembre_2024_prestacion_sepe",
+     "label": "Septiembre 2024 - Prestación SEPE",
+     "pos": 107,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "octubre_2024_dias_de_alta",
+     "label": "Octubre 2024 - Dias de Alta",
+     "pos": 108,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "octubre_2024_prestacion_sepe",
+     "label": "Octubre 2024 - Prestación SEPE",
+     "pos": 110,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "noviembre_2024_dias_de_alta",
+     "label": "Noviembre 2024 - Dias de Alta",
+     "pos": 111,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "noviembre_2024_prestacion_sepe",
+     "label": "Noviembre 2024 - Prestación SEPE",
+     "pos": 113,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "diciembre_2024_dias_de_alta",
+     "label": "Diciembre 2024 - Dias de Alta",
+     "pos": 114,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "diciembre_2024_prestacion_sepe",
+     "label": "Diciembre 2024 - Prestación SEPE",
+     "pos": 116,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "enero_2025_dias_de_alta",
+     "label": "Enero 2025 - Dias de Alta",
+     "pos": 117,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "enero_2025_prestacion_sepe",
+     "label": "Enero 2025 - Prestación SEPE",
+     "pos": 119,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "febrero_2025_dias_de_alta",
+     "label": "Febrero 2025 - Dias de Alta",
+     "pos": 120,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "febrero_2025_prestacion_sepe",
+     "label": "Febrero 2025 - Prestación SEPE",
+     "pos": 122,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "marzo_2025_dias_de_alta",
+     "label": "Marzo 2025 - Dias de Alta",
+     "pos": 123,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "marzo_2025_prestacion_sepe",
+     "label": "Marzo 2025 - Prestación SEPE",
+     "pos": 125,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "abril_2025_dias_de_alta",
+     "label": "Abril 2025 - Dias de Alta",
+     "pos": 126,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "abril_2025_prestacion_sepe",
+     "label": "Abril 2025 - Prestación SEPE",
+     "pos": 128,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "mayo_2025_dias_de_alta",
+     "label": "Mayo 2025 - Dias de Alta",
+     "pos": 129,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "mayo_2025_prestacion_sepe",
+     "label": "Mayo 2025 - Prestación SEPE",
+     "pos": 131,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "junio_2025_dias_de_alta",
+     "label": "Junio 2025 - Dias de Alta",
+     "pos": 132,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "junio_2025_prestacion_sepe",
+     "label": "Junio 2025 - Prestación SEPE",
+     "pos": 134,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "julio_2025_dias_de_alta",
+     "label": "Julio 2025 - Dias de Alta",
+     "pos": 135,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "julio_2025_prestacion_sepe",
+     "label": "Julio 2025 - Prestación SEPE",
+     "pos": 137,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "agosto_2025_dias_de_alta",
+     "label": "Agosto 2025 - Dias de Alta",
+     "pos": 138,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "agosto_2025_prestacion_sepe",
+     "label": "Agosto 2025 - Prestación SEPE",
+     "pos": 140,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "septiembre_2025_dias_de_alta",
+     "label": "Septiembre 2025 - Dias de Alta",
+     "pos": 141,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "septiembre_2025_prestacion_sepe",
+     "label": "Septiembre 2025 - Prestación SEPE",
+     "pos": 143,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "octubre_2025_dias_de_alta",
+     "label": "Octubre 2025 - Dias de Alta",
+     "pos": 144,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "octubre_2025_prestacion_sepe",
+     "label": "Octubre 2025 - Prestación SEPE",
+     "pos": 146,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "noviembre_2025_dias_de_alta",
+     "label": "Noviembre 2025 - Dias de Alta",
+     "pos": 147,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "noviembre_2025_prestacion_sepe",
+     "label": "Noviembre 2025 - Prestación SEPE",
+     "pos": 149,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "diciembre_2025_dias_de_alta",
+     "label": "Diciembre 2025 - Dias de Alta",
+     "pos": 150,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "diciembre_2025_prestacion_sepe",
+     "label": "Diciembre 2025 - Prestación SEPE",
+     "pos": 152,
+     "len": 1,
+     "kind": "text"
+    }
+   ]
+  },
+  "API": {
+   "type": "2",
+   "title": "Ayuda a la Infancia",
+   "fields": [
+    {
+     "name": "enero",
+     "label": "Enero",
+     "pos": 9,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "febrero",
+     "label": "Febrero",
+     "pos": 10,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "marzo",
+     "label": "Marzo",
+     "pos": 11,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "abril",
+     "label": "Abril",
+     "pos": 12,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "mayo",
+     "label": "Mayo",
+     "pos": 13,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "junio",
+     "label": "Junio",
+     "pos": 14,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "julio",
+     "label": "Julio",
+     "pos": 15,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "agosto",
+     "label": "Agosto",
+     "pos": 16,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "septiembre",
+     "label": "Septiembre",
+     "pos": 17,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "octubre",
+     "label": "Octubre",
+     "pos": 18,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "noviembre",
+     "label": "Noviembre",
+     "pos": 19,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "diciembre",
+     "label": "Diciembre",
+     "pos": 20,
+     "len": 1,
+     "kind": "text"
+    }
+   ]
+  },
+  "DGJ": {
+   "type": "2",
+   "title": "Ganancias Juego On-Line",
+   "fields": [
+    {
+     "name": "nombre_del_operador",
+     "label": "Nombre del operador",
+     "pos": 9,
+     "len": 28,
+     "kind": "text"
+    },
+    {
+     "name": "web_del_operador",
+     "label": "Web del operador",
+     "pos": 37,
+     "len": 40,
+     "kind": "text"
+    },
+    {
+     "name": "ganancia_juego",
+     "label": "Ganancia juego",
+     "pos": 77,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "perdida_juego",
+     "label": "Pérdida juego",
+     "pos": 90,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "saldo_inicial",
+     "label": "Saldo inicial",
+     "pos": 103,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "saldo_final",
+     "label": "Saldo final",
+     "pos": 116,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "depositos",
+     "label": "Depósitos",
+     "pos": 129,
+     "len": 13,
+     "kind": "text"
+    },
+    {
+     "name": "retiradas",
+     "label": "Retiradas",
+     "pos": 142,
+     "len": 13,
+     "kind": "text"
+    },
+    {
+     "name": "importe_de_la_casilla_xxxxx",
+     "label": "Importe de la casilla xxxxx",
+     "pos": 155,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "referencia_pacs",
+     "label": "Referencia PACS",
+     "pos": 168,
+     "len": 13,
+     "kind": "text"
+    }
+   ]
+  },
+  "VBP": {
+   "type": "2",
+   "title": "Venta de Bienes plataform",
+   "fields": [
+    {
+     "name": "nif_del_declarante_operador_de_la_plataforma",
+     "label": "NIF del declarante (operador de la plataforma)",
+     "pos": 9,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "nombre_del_declarante",
+     "label": "Nombre del declarante",
+     "pos": 18,
+     "len": 40,
+     "kind": "text"
+    },
+    {
+     "name": "contraprestacion_en_euros",
+     "label": "Contraprestación en euros",
+     "pos": 58,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "comisiones_en_euros",
+     "label": "Comisiones en euros",
+     "pos": 71,
+     "len": 13,
+     "kind": "text"
+    }
+   ]
+  },
+  "ATP": {
+   "type": "2",
+   "title": "Arrendamiento de medios",
+   "fields": [
+    {
+     "name": "nif_del_declarante_operador_de_la_plataforma",
+     "label": "NIF del declarante (operador de la plataforma)",
+     "pos": 9,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "nombre_del_declarante",
+     "label": "Nombre del declarante",
+     "pos": 18,
+     "len": 40,
+     "kind": "text"
+    },
+    {
+     "name": "contraprestacion_en_euros",
+     "label": "Contraprestación en euros",
+     "pos": 58,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "comisiones_en_euros",
+     "label": "Comisiones en euros",
+     "pos": 71,
+     "len": 13,
+     "kind": "text"
+    }
+   ]
+  },
+  "PSP": {
+   "type": "2",
+   "title": "Prestación servicios pers",
+   "fields": [
+    {
+     "name": "nif_del_declarante_operador_de_la_plataforma",
+     "label": "NIF del declarante (operador de la plataforma)",
+     "pos": 9,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "nombre_del_declarante",
+     "label": "Nombre del declarante",
+     "pos": 18,
+     "len": 40,
+     "kind": "text"
+    },
+    {
+     "name": "contraprestacion_en_euros",
+     "label": "Contraprestación en euros",
+     "pos": 58,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "comisiones_en_euros",
+     "label": "Comisiones en euros",
+     "pos": 71,
+     "len": 13,
+     "kind": "text"
+    }
+   ]
+  },
+  "AT2": {
+   "type": "2",
+   "title": "Arrendamiento de uso Inmu",
+   "fields": [
+    {
+     "name": "nif_del_declarante_operador_de_la_plataforma",
+     "label": "NIF del declarante (operador de la plataforma)",
+     "pos": 9,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "nombre_del_declarante",
+     "label": "Nombre del declarante",
+     "pos": 18,
+     "len": 40,
+     "kind": "text"
+    },
+    {
+     "name": "contraprestacion_en_euros",
+     "label": "Contraprestación en euros",
+     "pos": 58,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "comisiones_en_euros",
+     "label": "Comisiones en euros",
+     "pos": 71,
+     "len": 13,
+     "kind": "text"
+    },
+    {
+     "name": "referencia",
+     "label": "Referencia",
+     "pos": 84,
+     "len": 20,
+     "kind": "text"
+    }
+   ]
+  },
+  "CR3": {
+   "type": "2",
+   "title": "Operaciones monedas virt",
+   "fields": [
+    {
+     "name": "nif_del_declarante",
+     "label": "NIF del declarante",
+     "pos": 9,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "nombre_del_declarante",
+     "label": "Nombre del declarante",
+     "pos": 18,
+     "len": 40,
+     "kind": "text"
+    },
+    {
+     "name": "tipo_de_operacion",
+     "label": "Tipo de operación",
+     "pos": 58,
+     "len": 20,
+     "kind": "text"
+    },
+    {
+     "name": "siglas_de_la_moneda_virtual",
+     "label": "Siglas de la moneda virtual",
+     "pos": 78,
+     "len": 10,
+     "kind": "text"
+    },
+    {
+     "name": "numero_de_operaciones",
+     "label": "Número de operaciones",
+     "pos": 88,
+     "len": 12,
+     "kind": "text"
+    },
+    {
+     "name": "importe_total_de_operaciones",
+     "label": "Importe total de operaciones",
+     "pos": 100,
+     "len": 13,
+     "kind": "amount"
+    }
+   ]
+  },
+  "RET": {
+   "type": "2",
+   "title": "Regularizacion RETA",
+   "fields": [
+    {
+     "name": "regularizacion_reta_a_ingresar",
+     "label": "Regularizacion RETA a ingresar",
+     "pos": 9,
+     "len": 17,
+     "kind": "amount"
+    },
+    {
+     "name": "regularizacion_reta_a_devolver",
+     "label": "Regularizacion RETA a devolver",
+     "pos": 26,
+     "len": 17,
+     "kind": "amount"
+    }
+   ]
+  },
+  "URE": {
+   "type": "2",
+   "title": "Bien Inmueble Extranjero",
+   "fields": [
+    {
+     "name": "clave_de_condicion_del_declarante",
+     "label": "Clave de Condición del Declarante",
+     "pos": 9,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "clave_tipo_de_bien_o_derecho",
+     "label": "Clave Tipo de Bien o Derecho",
+     "pos": 10,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "subclave",
+     "label": "Subclave",
+     "pos": 11,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "nombre_de_la_via_publica_y_numero_de_casa",
+     "label": "Nombre de la via pública y número de casa",
+     "pos": 12,
+     "len": 52,
+     "kind": "text"
+    },
+    {
+     "name": "complemento",
+     "label": "Complemento",
+     "pos": 64,
+     "len": 10,
+     "kind": "text"
+    },
+    {
+     "name": "poblacion_ciudad",
+     "label": "Población/Ciudad",
+     "pos": 74,
+     "len": 30,
+     "kind": "text"
+    },
+    {
+     "name": "provincia_region_estado",
+     "label": "Provincia/Región/Estado",
+     "pos": 104,
+     "len": 30,
+     "kind": "text"
+    },
+    {
+     "name": "codigo_postal",
+     "label": "Código postal",
+     "pos": 134,
+     "len": 10,
+     "kind": "text"
+    },
+    {
+     "name": "codigo_pais",
+     "label": "Código país",
+     "pos": 144,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "fecha_de_adquisicion_de_la_titularidad",
+     "label": "Fecha de adquisición de la titularidad",
+     "pos": 146,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "fecha_de_transmision_extincion_de_la_titularidad",
+     "label": "Fecha de transmisión/extinción de la titularidad",
+     "pos": 154,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "valoracion",
+     "label": "Valoración",
+     "pos": 162,
+     "len": 14,
+     "kind": "amount"
+    },
+    {
+     "name": "situacion",
+     "label": "Situación",
+     "pos": 176,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "clave_tipo_de_bien_inmueble",
+     "label": "Clave tipo de Bien Inmueble",
+     "pos": 177,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "porcentaje_de_participacion",
+     "label": "Porcentaje de participación",
+     "pos": 178,
+     "len": 5,
+     "kind": "text"
+    }
+   ]
+  },
+  "DG": {
+   "type": "3",
+   "title": "Datos generales",
+   "fields": [
+    {
+     "name": "estado_civil",
+     "label": "Estado civil",
+     "pos": 9,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "conyuge_no_residente",
+     "label": "Cónyuge no residente",
+     "pos": 10,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "conyuge_no_residente_que_residee_en_ue_ee",
+     "label": "Cónyuge no residente que residee en UE/EE",
+     "pos": 11,
+     "len": 1,
+     "kind": "text"
+    }
+   ]
+  },
+  "TI": {
+   "type": "3",
+   "title": "Datos del titular",
+   "fields": [
+    {
+     "name": "nif",
+     "label": "NIF",
+     "pos": 20,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "apellidos_y_nombre",
+     "label": "Apellidos y Nombre",
+     "pos": 29,
+     "len": 60,
+     "kind": "text"
+    },
+    {
+     "name": "discapacidad_irpf",
+     "label": "Discapacidad-IRPF",
+     "pos": 89,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "discapacidad_990",
+     "label": "Discapacidad-990",
+     "pos": 90,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "fecha_de_nacimiento",
+     "label": "Fecha de nacimiento",
+     "pos": 91,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "sexo",
+     "label": "Sexo",
+     "pos": 99,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "fecha_de_fallecimiento",
+     "label": "Fecha de fallecimiento",
+     "pos": 101,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "comunidad_autonoma",
+     "label": "Comunidad autónoma",
+     "pos": 109,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "iban",
+     "label": "IBAN",
+     "pos": 111,
+     "len": 34,
+     "kind": "text"
+    },
+    {
+     "name": "swift",
+     "label": "SWIFT",
+     "pos": 145,
+     "len": 11,
+     "kind": "text"
+    },
+    {
+     "name": "fecha_adquisicion_vivienda_habitual",
+     "label": "Fecha adquisición vivienda habitual",
+     "pos": 156,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "numero_de_prestamo_hipotecario",
+     "label": "Número de préstamo hipotecario",
+     "pos": 164,
+     "len": 20,
+     "kind": "text"
+    },
+    {
+     "name": "porcentaje_del_prestamo_destinado_a_la_compra_de_la_vivienda_habitual",
+     "label": "Porcentaje del préstamo destinado a la compra de la vivienda habitual",
+     "pos": 184,
+     "len": 5,
+     "kind": "decimal",
+     "places": 2
+    },
+    {
+     "name": "deduccion_en_vivienda_ejercicio_anterior",
+     "label": "Deducción en vivienda ejercicio anterior",
+     "pos": 189,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "asignacion_a_la_iglesia_catolica",
+     "label": "Asignación a la iglesia católica",
+     "pos": 190,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "asignacion_a_otros_fines_sociales",
+     "label": "Asignación a otros fines sociales",
+     "pos": 191,
+     "len": 1,
+     "kind": "text"
+    }
+   ]
+  },
+  "DE": {
+   "type": "3",
+   "title": "Descendientes",
+   "fields": [
+    {
+     "name": "origen_dato",
+     "label": "Origen dato",
+     "pos": 9,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "nif",
+     "label": "NIF",
+     "pos": 21,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "apellidos_y_nombre",
+     "label": "Apellidos y nombre",
+     "pos": 30,
+     "len": 60,
+     "kind": "text"
+    },
+    {
+     "name": "discapacidad_irpf",
+     "label": "Discapacidad-IRPF",
+     "pos": 90,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "discapacidad_990",
+     "label": "Discapacidad - 990",
+     "pos": 91,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "fecha_de_nacimiento",
+     "label": "Fecha de nacimiento",
+     "pos": 92,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "fecha_de_adopcion",
+     "label": "Fecha de adopción",
+     "pos": 100,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "fecha_de_acogimiento",
+     "label": "Fecha de acogimiento",
+     "pos": 108,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "vinculacion",
+     "label": "Vinculación",
+     "pos": 116,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "otras_situaciones",
+     "label": "Otras situaciones",
+     "pos": 117,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "comunidad_autonoma",
+     "label": "Comunidad Autónoma",
+     "pos": 118,
+     "len": 2,
+     "kind": "text"
+    },
+    {
+     "name": "indicador_de_pertenencia_a_la_unidad_familiar",
+     "label": "Indicador de pertenencia a la unidad familiar",
+     "pos": 120,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "fecha_de_fallecimiento",
+     "label": "Fecha de fallecimiento",
+     "pos": 121,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "obligacion_de_declarar",
+     "label": "Obligación de declarar",
+     "pos": 129,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "volumen_de_rentas",
+     "label": "Volumen de rentas",
+     "pos": 130,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "sexo",
+     "label": "Sexo",
+     "pos": 156,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "asignacion_a_la_iglesia_catolica",
+     "label": "Asignación a la iglesia católica",
+     "pos": 157,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "asignacion_a_otros_fines_sociales",
+     "label": "Asignación a otros fines sociales",
+     "pos": 158,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "nif_otro_progenitor",
+     "label": "NIF otro progenitor",
+     "pos": 170,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "apellidos_y_nombre_otro_progenitor",
+     "label": "Apellidos y nombre otro progenitor",
+     "pos": 179,
+     "len": 60,
+     "kind": "text"
+    },
+    {
+     "name": "otro_progenitor_sin_nif",
+     "label": "Otro progenitor sin NIF",
+     "pos": 239,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "sexo_otro_progenitor",
+     "label": "Sexo otro progenitor",
+     "pos": 240,
+     "len": 1,
+     "kind": "text"
+    }
+   ]
+  },
+  "AS": {
+   "type": "3",
+   "title": "Ascendientes",
+   "fields": [
+    {
+     "name": "nif",
+     "label": "NIF",
+     "pos": 20,
+     "len": 9,
+     "kind": "text"
+    },
+    {
+     "name": "apellidos_y_nombre",
+     "label": "Apellidos y nombre",
+     "pos": 29,
+     "len": 60,
+     "kind": "text"
+    },
+    {
+     "name": "discapacidad_irpf",
+     "label": "Discapacidad-IRPF",
+     "pos": 89,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "discapacidad_990",
+     "label": "Discapacidad-990",
+     "pos": 90,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "fecha_de_nacimiento",
+     "label": "Fecha de nacimiento",
+     "pos": 91,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "vinculacion",
+     "label": "Vinculación",
+     "pos": 99,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "convivencia",
+     "label": "Convivencia",
+     "pos": 100,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "fecha_de_fallecimiento",
+     "label": "Fecha de fallecimiento",
+     "pos": 101,
+     "len": 8,
+     "kind": "date"
+    },
+    {
+     "name": "obligacion_de_declarar",
+     "label": "Obligación de declarar",
+     "pos": 109,
+     "len": 1,
+     "kind": "text"
+    },
+    {
+     "name": "volumen_de_rentas",
+     "label": "Volumen de rentas",
+     "pos": 110,
+     "len": 13,
+     "kind": "amount"
+    },
+    {
+     "name": "volumen_de_rentas_indeterminado",
+     "label": "Volumen de rentas indeterminado",
+     "pos": 123,
+     "len": 13,
+     "kind": "amount"
+    }
+   ]
+  },
+  "99": {
+   "type": "9",
+   "title": "Cierre",
+   "fields": []
+  }
+ }
+}
