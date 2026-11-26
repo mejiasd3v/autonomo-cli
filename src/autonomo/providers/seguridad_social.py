@@ -84,8 +84,9 @@ def _saml_form(page: str) -> tuple[str, dict[str, str]] | None:
         raise RemoteError("Login page with more than one SAML form.", hint="The login flow changed; refusing to guess.")
     url, fields = found[0]
     parsed = httpx.URL(url)
-    allowed = (parsed.host, parsed.path) in SAML_ENDPOINTS or (
-        parsed.host == SAML_PREFIX_ENDPOINT[0] and parsed.path.startswith(SAML_PREFIX_ENDPOINT[1])
+    wire_path = parsed.raw_path.decode("ascii").split("?", 1)[0]  # the path as sent, still encoded
+    allowed = (parsed.host, wire_path) in SAML_ENDPOINTS or (
+        parsed.host == SAML_PREFIX_ENDPOINT[0] and wire_path.startswith(SAML_PREFIX_ENDPOINT[1])
     )
     if parsed.scheme != "https" or parsed.port is not None or not allowed:
         raise RemoteError(f"SAML message addressed to an unexpected endpoint: {safe_url(url)}")

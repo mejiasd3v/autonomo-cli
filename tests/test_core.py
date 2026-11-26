@@ -586,7 +586,7 @@ def test_saml_form_rejects_unknown_endpoint_and_ambiguity():
         _saml_form(form.format("https://portal.seg-social.gob.es/wps/myportal/importass/importass/tramites/baja"))
     with pytest.raises(RemoteError, match="more than one"):
         _saml_form(form.format("https://idp.seg-social.es/PGIS/Login") * 2)
-    for bad in ("https://idp.seg-social.es/PGIS/Login/extra", "https://idp.seg-social.es:8443/PGIS/Login"):
+    for bad in ("https://idp.seg-social.es/PGIS/Login/extra", "https://idp.seg-social.es:8443/PGIS/Login", "https://idp.seg-social.es/PGIS%2FLogin"):
         with pytest.raises(RemoteError, match="unexpected endpoint"):
             _saml_form(form.format(bad))
     assert _saml_form(form.format("https://idp.seg-social.es:443/PGIS/Login"))[0] == "https://idp.seg-social.es/PGIS/Login"
