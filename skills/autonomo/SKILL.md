@@ -1,6 +1,6 @@
 ---
 name: autonomo
-description: Read the user's Spanish self-employed (autónomo) data with the autonomo CLI. FacturaDirecta invoices, expenses, contacts, banks, accounting, and generated tax forms; AEAT debts, unread notifications, alerts, recent logins, Renta datos fiscales (modelo 130 payments, RETA contributions, income, properties), and fiscal address status; Seguridad Social (Importass: next cuota, RETA receipts, vida laboral, contribution bases, regularization, notices, files). Read-only. Use for questions about the user's invoices, taxes, Hacienda, Seguridad Social, or cuotas.
+description: Read the user's Spanish self-employed (autónomo) data with the autonomo CLI. FacturaDirecta invoices, expenses, contacts, banks, accounting, and generated tax forms; AEAT debts, unread notifications, alerts, recent logins, Verifactu invoice records, Renta datos fiscales (modelo 130 payments, RETA contributions, income, properties), and fiscal address status; Seguridad Social (Importass: next cuota, RETA receipts, vida laboral, contribution bases, regularization, notices, files). Read-only. Use for questions about the user's invoices, taxes, Hacienda, Seguridad Social, or cuotas.
 ---
 
 # autonomo
@@ -129,6 +129,8 @@ autonomo get aeat alertas                            # personal alerts
 autonomo get aeat ultimos-accesos                    # recent logins to the sede (table)
 autonomo get aeat datos-fiscales year=2025           # Renta data as JSON, amounts in euros
 autonomo get aeat domicilio-ratificado year=2025
+autonomo get aeat verifactu year=2026 mes=03          # Verifactu invoice records you issued, as AEAT has them
+autonomo get aeat verifactu rol=recibidas year=2026 --all   # records where you are the recipient
 autonomo get aeat certificate                        # no network
 autonomo get aeat page url=https://www1.agenciatributaria.gob.es/...
 ```
@@ -147,6 +149,20 @@ missing year is exit 5 with a hint. NIF and IBAN are masked unless the user
 asks; `mascara=no` shows them. `formato=raw` returns the official fixed-width
 file. If `warnings` says the layout year differs, flag the numbers as
 unverified.
+
+`verifactu` (experimental) runs the official `ConsultaFactuSistemaFacturacion`
+query, one request per month. Params: `rol` (`emitidas` default, `recibidas`),
+`year`, `mes` (01-12; without it, every month of the year up to now), `numserie`,
+`desde`/`hasta` (`YYYY-MM-DD`, same year). It returns `{rol, year, periodos,
+count, more, items}`. Each item has `periodo`, `IDFactura`,
+`DatosRegistroFacturacion` (TipoFactura, Desglose, CuotaTotal, ImporteTotal,
+Huella...) and `EstadoRegistro` (`Correcto`, `AceptadoConErrores`, `Anulado`),
+with AEAT's own field names; amounts are strings in euros. `more: true` means a
+month has more than one page: repeat with `--all` before you sum. `count: 0`
+means AEAT has no Verifactu records for that period: invoices from a non
+Verifactu system (or before the obligation applies) do not appear here, so do
+not read it as "no invoices". It only queries; the CLI never sends or cancels
+records.
 
 Do not follow links from `deudas` (they lead to payment flows) or from
 `notificaciones`.

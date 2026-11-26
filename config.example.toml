@@ -13,3 +13,4 @@ company_id = "com_..."   # Ajustes > API e integraciones
 
 [aeat]
 # nif = "..."            # optional; by default read from the certificate
+# nombre = "..."         # optional; Verifactu holder name, by default the certificate CN without the NIF
