@@ -1,19 +1,53 @@
-<img src="assets/icon.svg" width="64" height="64" alt="">
+<p align="center">
+  <img src="assets/banner.png" alt="autonomo: Hacienda, Seguridad Social and your invoices, as JSON. A read-only CLI and agent skill for Spanish autónomos." width="100%">
+</p>
+
+<p align="center">
+  <a href="https://github.com/mejiasd3v/autonomo-cli/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/mejiasd3v/autonomo-cli/ci.yml?branch=main&style=flat-square&label=tests" alt="Tests"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-0d9488?style=flat-square" alt="MIT license"></a>
+  <img src="https://img.shields.io/badge/python-3.11%2B-0d9488?style=flat-square&logo=python&logoColor=white" alt="Python 3.11+">
+  <img src="https://img.shields.io/badge/writes-blocked-0d9488?style=flat-square&logo=shieldsdotio&logoColor=white" alt="Read-only: writes blocked">
+  <a href="skills/autonomo/SKILL.md"><img src="https://img.shields.io/badge/agent_skill-Claude_Code-0d9488?style=flat-square&logo=claude&logoColor=white" alt="Agent skill for Claude Code"></a>
+  <img src="https://img.shields.io/badge/hecho_en-Espa%C3%B1a-c60b1e?style=flat-square" alt="Hecho en España">
+</p>
 
 # autonomo
 
 Read-only CLI and agent skill for the data of a Spanish autónomo:
 FacturaDirecta, Agencia Tributaria (AEAT) and Seguridad Social. JSON output.
 
+Ask your agent *"¿tengo algo pendiente con Hacienda o la Seguridad Social?"*
+and it runs `autonomo get panel pendientes`: debts, unread notifications,
+alerts, your next RETA cuota and overdue invoices, in one answer.
+
+- **Read-only by construction.** The HTTP layer refuses write requests. The
+  few POSTs that are pure queries must be marked as such. Nothing can file,
+  pay, sign or send.
+- **Never opens a notification.** Opening one counts as legal receipt and
+  starts deadlines. autonomo only reads the lists.
+- **Your certificate stays yours.** Re-encrypted with AES-256, password in the
+  OS keyring, decrypted key never written to disk in clear.
+- **No telemetry.** Requests go only to AEAT, Seguridad Social and
+  FacturaDirecta.
+
 ## Install
 
+Needs Python 3.11+ and [uv](https://docs.astral.sh/uv/).
+
 ```sh
-uv tool install -e .        # or: python3 -m venv .venv && .venv/bin/pip install -e .
-cp config.example.toml ~/.config/autonomo/config.toml
+git clone https://github.com/mejiasd3v/autonomo-cli && cd autonomo-cli
+uv tool install -e .               # or: python3 -m venv .venv && .venv/bin/pip install -e .
+mkdir -p ~/.config/autonomo && cp config.example.toml ~/.config/autonomo/config.toml
 autonomo cert find                 # locate your .p12/.pfx or OS-store certificate
 autonomo cert import PATH          # hidden password prompt
 autonomo secret set AUTONOMO_FD_API_KEY   # FacturaDirecta key, hidden prompt
 autonomo doctor --online
+```
+
+Agent skill (Claude Code):
+
+```sh
+ln -s "$PWD/skills/autonomo" ~/.claude/skills/autonomo
 ```
 
 ## Digital certificate
@@ -37,8 +71,6 @@ No OS keyring (headless Linux, CI)? Skip import. Set `[certificate].path` and
 provide `AUTONOMO_CERT_PASSWORD` from your secret manager.
 `autonomo cert remove` deletes autonomo's copy and keyring entry, never your
 original file.
-
-Agent skill: `skills/autonomo/SKILL.md`. Link it into `~/.claude/skills/autonomo`.
 
 ## Commands
 
@@ -93,3 +125,15 @@ same without touching this repo.
 - DEHú `Localiza` (needs Gran Destinatario registration and WS-Security signing; never call `PeticionAcceso`).
 - Datos fiscales layout for each new fiscal year: `uv run --with openpyxl python scripts/build_datos_fiscales_layout.py FILE.xlsx YEAR` (source Excel: AEAT Desarrolladores > IRPF > Modelo 100 > Ejercicio YYYY).
 - AEAT full notification history (`GNNO-JDIT/SvInteresadosQuery`): blocked until verified that listing cannot trigger comparecencia.
+
+## Disclaimer
+
+autonomo is an independent project. It is not affiliated with, endorsed by or
+supported by the Agencia Tributaria, the Tesorería General de la Seguridad
+Social or FacturaDirecta. It reads public web portals that can change without
+notice, so a resource can break until it is updated. The output is not tax or
+legal advice: check anything important in the official sede.
+
+## License
+
+[MIT](LICENSE)
