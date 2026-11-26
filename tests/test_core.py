@@ -586,6 +586,10 @@ def test_saml_form_rejects_unknown_endpoint_and_ambiguity():
         _saml_form(form.format("https://portal.seg-social.gob.es/wps/myportal/importass/importass/tramites/baja"))
     with pytest.raises(RemoteError, match="more than one"):
         _saml_form(form.format("https://idp.seg-social.es/PGIS/Login") * 2)
+    for bad in ("https://idp.seg-social.es/PGIS/Login/extra", "https://idp.seg-social.es:8443/PGIS/Login"):
+        with pytest.raises(RemoteError, match="unexpected endpoint"):
+            _saml_form(form.format(bad))
+    assert _saml_form(form.format("https://idp.seg-social.es:443/PGIS/Login"))[0] == "https://idp.seg-social.es/PGIS/Login"
 
 
 def test_facturadirecta_download_refuses_plain_http_redirect(fd_env):
@@ -597,3 +601,14 @@ def test_facturadirecta_download_refuses_plain_http_redirect(fd_env):
     fd = FacturaDirecta({}, transport=httpx.MockTransport(handler))
     with pytest.raises(RemoteError, match="non-https"):
         fd.fetch("download", {"url": "https://app.facturadirecta.com:443/api/f.pdf"}, FetchOptions())
+
+
+def test_facturadirecta_download_follows_up_to_the_redirect_limit(fd_env):
+    def handler(request):
+        hop = int(request.url.path.rsplit("/", 1)[-1] or 0)
+        if hop < 5:
+            return httpx.Response(302, headers={"location": f"https://storage.example.com/{hop + 1}"})
+        return httpx.Response(200, content=b"%PDF")
+
+    fd = FacturaDirecta({}, transport=httpx.MockTransport(handler))
+    assert fd.fetch("download", {"url": "https://storage.example.com/0"}, FetchOptions()).content == b"%PDF"

@@ -205,16 +205,16 @@ class FacturaDirecta(Provider):
             # Presigned storage URLs need no key.
             response = None
         with make_client(transport=self._transport, follow_redirects=False) as anon:
-            for _ in range(MAX_DOWNLOAD_REDIRECTS):
-                if response is not None and not response.is_redirect:
-                    break
+            hops = 0
+            while response is None or response.is_redirect:
                 if response is not None:
+                    hops += 1
+                    if hops > MAX_DOWNLOAD_REDIRECTS:
+                        raise RemoteError("Too many redirects while downloading.")
                     target = httpx.URL(urljoin(str(target), response.headers.get("location", "")))
                     if target.scheme != "https":
                         raise RemoteError("Download redirected to a non-https URL; refused.")
                 response = send(anon, "GET", str(target))
-            else:
-                raise RemoteError("Too many redirects while downloading.")
         name = target.path.rsplit("/", 1)[-1] or None
         return Binary(response.content, response.headers.get("content-type", "application/octet-stream"), name)
 

@@ -140,7 +140,7 @@ class CertPortal(Provider):
             except UsageError as exc:
                 raise RemoteError(f"Redirect blocked: {exc.message}", hint="Report the URL so the provider can be updated.") from exc
             url, method, kwargs = target, "GET", {}
-        raise RemoteError(f"Too many redirects from {url}.")
+        raise RemoteError(f"Too many redirects from {safe_url(url)}.")
 
     def get_page(self, url: str, policy: Callable[[str], None] | None = None) -> Any:
         return self.parse(self.request("GET", url, policy=policy))

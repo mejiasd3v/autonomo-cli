@@ -58,15 +58,16 @@ _PORTLET_NOISE_RE = re.compile(r'^\{.*\}$|^[A-Z]{4}\d{2}[A-Za-z]+$', re.M)
 SAML_FIELDS = {"SAMLRequest", "SAMLResponse", "RelayState", "allowLegalPerson"}
 
 
-# The only endpoints a SAML message may be posted to (host, path prefix).
-SAML_ENDPOINTS = (
+# The only endpoints a SAML message may be posted to: exact paths, plus the
+# Importass subtree (its assertion consumer URL carries per-session portlet state).
+SAML_ENDPOINTS = {
     ("idp.seg-social.es", "/PGIS/Login"),
     ("idp.seg-social.es", "/PGIS/PostLogin"),
     ("ipce.seg-social.es", "/IPCE/Login"),
-    ("portal.seg-social.gob.es", "/wps/portal/importass/"),
     ("sp.seg-social.es", "/SPAutenticacionClave/PostLogin"),
     ("sp.seg-social.es", "/ProsaInternet/OnlineAccess"),
-)
+}
+SAML_PREFIX_ENDPOINT = ("portal.seg-social.gob.es", "/wps/portal/importass/")
 
 
 def _saml_form(page: str) -> tuple[str, dict[str, str]] | None:
@@ -82,8 +83,11 @@ def _saml_form(page: str) -> tuple[str, dict[str, str]] | None:
     if len(found) > 1:
         raise RemoteError("Login page with more than one SAML form.", hint="The login flow changed; refusing to guess.")
     url, fields = found[0]
-    parsed = urlparse(url)
-    if parsed.scheme != "https" or not any(parsed.hostname == h and parsed.path.startswith(p) for h, p in SAML_ENDPOINTS):
+    parsed = httpx.URL(url)
+    allowed = (parsed.host, parsed.path) in SAML_ENDPOINTS or (
+        parsed.host == SAML_PREFIX_ENDPOINT[0] and parsed.path.startswith(SAML_PREFIX_ENDPOINT[1])
+    )
+    if parsed.scheme != "https" or parsed.port is not None or not allowed:
         raise RemoteError(f"SAML message addressed to an unexpected endpoint: {safe_url(url)}")
     return url, fields
 
