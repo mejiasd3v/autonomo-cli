@@ -90,6 +90,5 @@ same without touching this repo.
 - AEAT Verifactu `ConsultaFactuSistemaFacturacion` (SOAP over mTLS, official WSDL).
 - DEHú `Localiza` (needs Gran Destinatario registration and WS-Security signing; never call `PeticionAcceso`).
 - Seguridad Social sede (`sp.seg-social.es`, Prosa apps): debts and notifications. SSO already works; the apps render XML client-side and need their ticket flow. Notifications: list only, never comparecencia.
-- Seguridad Social: receipts for past years and older contribution bases (filter forms and pagination).
 - Datos fiscales layout for each new fiscal year: `uv run --with openpyxl python scripts/build_datos_fiscales_layout.py FILE.xlsx YEAR` (source Excel: AEAT Desarrolladores > IRPF > Modelo 100 > Ejercicio YYYY).
 - AEAT full notification history (`GNNO-JDIT/SvInteresadosQuery`): blocked until verified that listing cannot trigger comparecencia.

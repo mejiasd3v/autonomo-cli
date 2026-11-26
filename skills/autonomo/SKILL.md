@@ -142,9 +142,10 @@ notification themselves when they decide to.
 
 ```sh
 autonomo get seguridad-social resumen            # alta status, days, current base, next cuota + breakdown
-autonomo get seguridad-social recibos            # RETA receipts this year: amount, breakdown, charge date
+autonomo get seguridad-social recibos --all      # every RETA receipt since 2018: period, amount, breakdown, charge date
+autonomo get seguridad-social recibos desde=2025-01 hasta=2025-12 --all
 autonomo get seguridad-social vida-laboral       # table: employer/regime, dates, days per period
-autonomo get seguridad-social bases-cotizacion   # monthly bases, 12 most recent months
+autonomo get seguridad-social bases-cotizacion --all   # every monthly base, by regime or employer
 autonomo get seguridad-social regularizacion     # yearly regularization results (a ingresar / a devolver)
 autonomo get seguridad-social avisos             # Importass notices (not legal notifications)
 autonomo get seguridad-social expedientes        # files and requests before the TGSS
@@ -152,9 +153,12 @@ autonomo get seguridad-social expedientes        # files and requests before the
 
 Each call logs in with the certificate (about 10 seconds). Pages come back as
 `{title, text, tables, links}`; amounts are Spanish formatted text such as
-`607,35 €`. NIF and NUSS are masked. `recibos` covers the current year and
-`bases-cotizacion` the latest 12 months; say so when the user asks about older
-periods.
+`607,35 €`. NIF and NUSS are masked. `recibos` and `bases-cotizacion` return
+`{items, count, page, pages}` with `period` (YYYY-MM) and `amount_eur` per
+entry, 12 per page. Without `--all` you only have the newest page: check
+`more` before you sum or claim completeness. A period with no entries returns
+`count: 0` and a `note`. Receipts include regularization charges as separate
+concepts ("Regularización cuotas ...").
 
 Not available yet: Seguridad Social notifications and debts. Both live in the
 sede, not in Importass. Tell the user to check them in the sede. Do not use

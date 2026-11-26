@@ -394,3 +394,28 @@ def test_seguridad_social_certificate_login_chain():
     assert page["text"].startswith("Hola") and "12345678Z" not in page["text"] and "12345678/90" not in page["text"]
     with pytest.raises(ReadOnlyViolation):  # only login steps may POST
         ss.client.post(f"{portal}/wps/myportal/importass/importass/tramites/baja")
+
+
+def test_importass_quota_history_parser():
+    from autonomo.providers.importass import page_position, parse_quota_history
+
+    html = """
+    <div class="quota-history__year"><span class="ss-h3">2026</span> Total cuotas: 1.122,06 €</div>
+    <div class="quota-history__month"><h3> Noviembre </h3></div>
+    <div class="quota-history__item"><a class="ss-collapse__btn quota-history__item-title">Cuota autónomos</a>
+      <div class="quota-history__item-amount">607,35 €</div>
+      <ul class="quota-history__breakdown"><li><div class="quota-history__breakdown-amount"> 545,65 € </div><p class="encabezadoLista">Contingencias Comunes</p></li></ul><hr>
+      <ul class="quota-history__breakdown"><li><p class="encabezadoLista">Fecha de cargo en cuenta</p><p>30/11/2026</p></li></ul></div>
+    <div class="quota-history__month"><span> Octubre </span></div>
+    <div class="quota-history__item"><div class="quota-history__item-title quota-history__item-title-simple"><span>Régimen Especial</span></div>
+      <div class="quota-history__item-amount"><span>1.633,99 €</span></div></div>
+    <p>1 de 7</p>"""
+
+    items = parse_quota_history(html)
+
+    assert items[0] == {
+        "period": "2026-11", "concept": "Cuota autónomos", "amount_eur": 607.35,
+        "breakdown_eur": {"Contingencias Comunes": 545.65}, "details": {"Fecha de cargo en cuenta": "30/11/2026"},
+    }
+    assert items[1] == {"period": "2026-10", "concept": "Régimen Especial", "amount_eur": 1633.99}
+    assert page_position("1 de 7") == (1, 7)

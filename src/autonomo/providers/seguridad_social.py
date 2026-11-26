@@ -27,16 +27,22 @@ from urllib.parse import urljoin, urlparse
 import httpx
 
 from ..core.certificate import mask_ids
-from ..core.errors import RemoteError
+from ..core.errors import RemoteError, UsageError
 from ..core.http import QUERY
-from ..core.provider import Check, FetchOptions
+from ..core.html import html_to_page
+from ..core.provider import Check, FetchOptions, Param
 from ._cert_portal import CertPortal, Service, decode_body
+from .importass import page_position, parse_quota_history
 
 PORTAL = "https://portal.seg-social.gob.es"
 IMPORTASS = f"{PORTAL}/wps/myportal/importass/importass"
 PERSONAL = f"{IMPORTASS}/personal/"
 IDP_CHOOSE_CERT = "https://idp.seg-social.es/PGIS/Login?seleccion=IPCE"
 MAX_LOGIN_STEPS = 10
+MAX_HISTORY_PAGES = 40
+# Search buttons that only filter a list. Any other "accion" (for example
+# AC_INFORMAR_ERROR on the bases page) is never submitted.
+HISTORY_SEARCH = {"recibos": "AC_BUSCAR_RECIBOS", "bases-cotizacion": "AC_AEIM_BUSCAR"}
 
 _HIDDEN_RE = re.compile(r"<input[^>]*type=[\"']hidden[\"'][^>]*name=[\"']([^\"']+)[\"'][^>]*value=[\"']([^\"']*)", re.I)
 _LOGIN_FORM_RE = re.compile(r'<form[^>]*id="P017_login"[^>]*action="([^"]+)"', re.I)
@@ -66,9 +72,21 @@ class SeguridadSocial(CertPortal):
     probe_url = PERSONAL
     services = (
         Service("resumen", "Área personal: situación de alta, días cotizados, base actual y próxima cuota con su desglose", PERSONAL, status="stable"),
-        Service("recibos", "Historial de recibos de autónomo: importe, desglose, fecha de cargo y referencia (año en curso)", f"{IMPORTASS}/tramites/historialRecibosRETA", status="stable"),
+        Service(
+            "recibos",
+            "Recibos de autónomo desde 2018: periodo, importe, desglose por contingencia, fecha de cargo y referencia. 12 por página; --all sigue la paginación",
+            f"{IMPORTASS}/tramites/historialRecibosRETA",
+            params=(Param("desde", "YYYY-MM (opcional)"), Param("hasta", "YYYY-MM (opcional)")),
+            status="stable",
+        ),
         Service("vida-laboral", "Vida laboral completa: empresas y regímenes, fechas de alta y baja, días cotizados", f"{IMPORTASS}/tramites/datosvidalaboral/inicio", status="stable"),
-        Service("bases-cotizacion", "Bases de cotización por mes (primera página, 12 meses más recientes)", f"{IMPORTASS}/tramites/informebases/inicio", status="stable"),
+        Service(
+            "bases-cotizacion",
+            "Bases de cotización por mes y régimen o empresa. 12 por página; --all sigue la paginación",
+            f"{IMPORTASS}/tramites/informebases/inicio",
+            params=(Param("desde", "YYYY-MM (opcional)"), Param("hasta", "YYYY-MM (opcional)")),
+            status="stable",
+        ),
         Service("regularizacion", "Regularización anual de cuotas de años anteriores: resultado por año (a ingresar o a devolver)", f"{IMPORTASS}/tramites/regularizacionCuotasAnyosAnteriores", status="stable"),
         Service("avisos", "Avisos de Importass, leídos y no leídos (no son notificaciones oficiales)", f"{IMPORTASS}/tramites/avisosComunicaciones/", status="stable"),
         Service("expedientes", "Expedientes y solicitudes presentados ante la TGSS", f"{IMPORTASS}/tramites/consultaTramitesConAutenticacion", status="stable"),
@@ -77,6 +95,7 @@ class SeguridadSocial(CertPortal):
     def __init__(self, settings: dict[str, Any], transport: httpx.BaseTransport | None = None):
         super().__init__(settings, transport)
         self._logged_in = False
+        self._all_pages = False
 
     # -- session -------------------------------------------------------------
 
@@ -123,9 +142,72 @@ class SeguridadSocial(CertPortal):
     # -- fetch ---------------------------------------------------------------
 
     def fetch(self, resource: str, params: dict[str, str], options: FetchOptions) -> Any:
+        self._all_pages = options.all_pages
         if resource != "certificate":
             self.login()
         return super().fetch(resource, params, options)
+
+    def fetch_service(self, service: Service, params: dict[str, str]) -> Any:
+        if service.name in HISTORY_SEARCH:
+            return self._history(service, params)
+        return super().fetch_service(service, params)
+
+    def _history(self, service: Service, params: dict[str, str]) -> dict[str, Any]:
+        """Receipts or bases as records. Search form only when a range is given."""
+        response = self.request("GET", service.url)
+        page = decode_body(response)
+        searched = bool(params.get("desde") or params.get("hasta"))
+        if searched:
+            response = self._search(response, page, HISTORY_SEARCH[service.name], params)
+            page = decode_body(response)
+            found = re.search(r"(\d+)\s+resultados?\s+en el periodo", html_to_page(page, str(response.url))["text"])
+            if not found or found.group(1) == "0":
+                # With no matches the portal shows the default list instead: do not return it.
+                return {"items": [], "count": 0, "note": "No entries in that period."}
+        items = parse_quota_history(page)
+        position = page_position(html_to_page(page, str(response.url))["text"])
+        pages = 1
+        while self._all_pages and position and position[0] < position[1] and pages < MAX_HISTORY_PAGES:
+            link = self._next_page_link(response, page)
+            if not link:
+                break
+            response = self.request("GET", link)
+            page = decode_body(response)
+            items += parse_quota_history(page)
+            position = page_position(html_to_page(page, str(response.url))["text"])
+            pages += 1
+        for item in items:
+            if details := item.get("details"):
+                item["details"] = {k: _mask(v) for k, v in details.items()}
+        out: dict[str, Any] = {"items": items, "count": len(items)}
+        if position:
+            out["page"], out["pages"] = position
+            if position[0] < position[1]:
+                out["more"] = "Older entries exist. Repeat with --all, or narrow with desde=YYYY-MM hasta=YYYY-MM."
+        return out
+
+    def _search(self, response: httpx.Response, page: str, accion: str, params: dict[str, str]) -> httpx.Response:
+        form = next((f for f in re.findall(r"<form\b.*?</form>", page, re.S | re.I) if f'value="{accion}"' in f), None)
+        if not form:
+            raise RemoteError(f"Search form {accion} not found on {response.url}.", hint="The page layout may have changed.")
+        action = html.unescape(re.search(r'action="([^"]+)"', form).group(1)).split("#")[0]
+        base = _BASE_RE.search(page)
+        data = {"accion": accion}
+        for side in ("desde", "hasta"):
+            if value := params.get(side):
+                m = re.fullmatch(r"(\d{4})-(\d{2})", value)
+                if not m:
+                    raise UsageError(f"{side} must be YYYY-MM.")
+                data[f"{side}Anio"], data[f"{side}Mes"] = m.group(1), m.group(2)
+        # A filter search changes nothing on the server: allowed as a query.
+        return self.request("POST", urljoin(base.group(1) if base else str(response.url), action), data=data, extensions={QUERY: True})
+
+    def _next_page_link(self, response: httpx.Response, page: str) -> str | None:
+        m = re.search(r'<a\b[^>]*href="([^"]*accion!PAGINA_SIGUIENTE_[^"]*)"', page)
+        if not m:
+            return None
+        base = _BASE_RE.search(page)
+        return urljoin(base.group(1) if base else str(response.url), html.unescape(m.group(1)).split("#")[0])
 
     def get_page(self, url: str) -> Any:
         page = super().get_page(url)
