@@ -1,0 +1,34 @@
+[project]
+name = "autonomo"
+version = "0.1.0"
+description = "Read-only CLI for agents: AEAT, Seguridad Social and FacturaDirecta data for Spanish self-employed workers."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "httpx>=0.27",
+    "cryptography>=42",
+    "certifi",
+    "keyring>=25.7.0",
+]
+
+[project.scripts]
+autonomo = "autonomo.cli:main"
+
+# Providers are plugins. Third-party packages can add their own with the same group.
+[project.entry-points."autonomo.providers"]
+facturadirecta = "autonomo.providers.facturadirecta:FacturaDirecta"
+aeat = "autonomo.providers.aeat:AEAT"
+seguridad-social = "autonomo.providers.seguridad_social:SeguridadSocial"
+
+[dependency-groups]
+dev = ["pytest>=8"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/autonomo"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

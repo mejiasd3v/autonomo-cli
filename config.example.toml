@@ -1,0 +1,15 @@
+# Copy to ~/.config/autonomo/config.toml (or set AUTONOMO_CONFIG).
+# Secrets never go here. Export them, or use `prun autonomo ...` with pass:// refs:
+#   AUTONOMO_FD_API_KEY      FacturaDirecta API key (create it with :read scopes only)
+#   AUTONOMO_CERT_PASSWORD   only without `autonomo cert import` (no OS keyring)
+
+[facturadirecta]
+company_id = "com_..."   # Ajustes > API e integraciones
+
+# [certificate] is written by `autonomo cert import`. Set it by hand only
+# when there is no OS keyring:
+# [certificate]
+# path = "~/secure/fnmt.p12"
+
+[aeat]
+# nif = "..."            # optional; by default read from the certificate

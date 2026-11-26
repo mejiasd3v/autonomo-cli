@@ -1,5 +1,93 @@
 <img src="assets/icon.svg" width="64" height="64" alt="">
 
-# autonomo-cli
+# autonomo
 
-Created in [T3 Code](https://t3.codes).
+Read-only CLI and agent skill for the data of a Spanish autónomo:
+FacturaDirecta, Agencia Tributaria (AEAT) and Seguridad Social. JSON output.
+
+## Install
+
+```sh
+uv tool install -e .        # or: python3 -m venv .venv && .venv/bin/pip install -e .
+cp config.example.toml ~/.config/autonomo/config.toml
+autonomo cert find                 # locate your .p12/.pfx or OS-store certificate
+autonomo cert import PATH          # hidden password prompt
+autonomo doctor --online
+```
+
+## Digital certificate
+
+`autonomo cert import` opens your `.p12`/`.pfx` once and stores its own copy:
+
+- **Re-encrypted** with PBES2 (PBKDF2-SHA256, AES-256-CBC). Many exported
+  `.p12` files, including some FNMT and Keychain exports, use 40-bit RC2, which
+  can be brute-forced. The stored copy does not use it.
+- **Random password in the OS keyring** (macOS Keychain, Windows Credential
+  Manager, Secret Service). Your own password is not stored anywhere.
+- **Private files**: `<config dir>/certs/<fingerprint>.p12`, mode 0600, directory 0700.
+- **Password input** comes from a hidden prompt, `--password-file` or
+  `--password-stdin`, never from command arguments.
+
+At connection time the key is decrypted in memory. Python's `ssl` module only
+loads files, so the key is written to a 0700 temporary directory encrypted
+with a one-time random password, then deleted.
+
+No OS keyring (headless Linux, CI)? Skip import. Set `[certificate].path` and
+provide `AUTONOMO_CERT_PASSWORD` from your secret manager.
+`autonomo cert remove` deletes autonomo's copy and keyring entry, never your
+original file.
+
+Agent skill: `skills/autonomo/SKILL.md`. Link it into `~/.claude/skills/autonomo`.
+
+## Commands
+
+```sh
+autonomo providers
+autonomo resources PROVIDER
+autonomo get PROVIDER RESOURCE [key=value ...] [--all] [--out PATH]
+autonomo doctor [PROVIDER] [--online]
+autonomo config
+```
+
+## Status
+
+| Provider | Auth | Resources | Status |
+|---|---|---|---|
+| `facturadirecta` | API key header | 50: documents, contacts, banks, journal, reports, tax forms, attachments, versions, raw GET | Built from the official OpenAPI spec. Not yet run against a real account |
+| `aeat` | Certificate (mTLS on www1) | `deudas`, `notificaciones` (unread summary), `alertas`, `ultimos-accesos`, `datos-fiscales` (parsed JSON), `domicilio-ratificado`, `page` | All verified live on a real account (2026-11-26). Lists with entries were seen only for `ultimos-accesos`; the others returned empty states, so non-empty pages are parsed generically (text + tables) |
+| `seguridad-social` | Certificate | `certificate`, `page` | Login flow not mapped. Needs a browser session study |
+
+## Design
+
+```
+cli.py            argparse, JSON in/out, exit codes
+core/provider.py  Provider / Resource / Param contract
+core/registry.py  providers from entry points "autonomo.providers"
+core/http.py      httpx client + ReadOnlyTransport (blocks POST/PUT/PATCH/DELETE)
+core/certificate  PKCS#12 -> ssl context; decrypted key never on disk
+core/certstore    cert find / import / status / remove; OS keyring
+core/config.py    TOML settings + secrets only from env
+providers/        facturadirecta, aeat, seguridad_social, _cert_portal (mTLS + host allowlist)
+```
+
+**Read-only by construction.** The HTTP transport refuses write methods. A POST
+that is a pure query (for example a SOAP consulta) must carry the `QUERY`
+extension. `writes_unlocked()` exists for a future write command that asks for
+explicit confirmation; nothing uses it today.
+
+**AEAT notifications.** Opening a notification counts as legal receipt
+(comparecencia) and starts deadlines. The AEAT provider only reads the list and
+blocks every other URL of the notifications app.
+
+**Add a provider.** Subclass `Provider` (or `CertPortal` for certificate
+portals), declare `resources()`, implement `fetch()`, and register it under
+`[project.entry-points."autonomo.providers"]`. External packages can do the
+same without touching this repo.
+
+## Next candidates
+
+- AEAT Verifactu `ConsultaFactuSistemaFacturacion` (SOAP over mTLS, official WSDL).
+- DEHú `Localiza` (needs Gran Destinatario registration and WS-Security signing; never call `PeticionAcceso`).
+- Seguridad Social: map the certificate login (`ipce.seg-social.es`) and Importass pages.
+- Datos fiscales layout for each new fiscal year: `uv run --with openpyxl python scripts/build_datos_fiscales_layout.py FILE.xlsx YEAR` (source Excel: AEAT Desarrolladores > IRPF > Modelo 100 > Ejercicio YYYY).
+- AEAT full notification history (`GNNO-JDIT/SvInteresadosQuery`): blocked until verified that listing cannot trigger comparecencia.
