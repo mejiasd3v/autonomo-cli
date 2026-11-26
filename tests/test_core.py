@@ -441,3 +441,55 @@ def test_prosa_page_parsing():
     assert parsed.messages == [{"type": "AVISO", "text": "No existen deudas."}]
     assert parsed.form_url("sp.seg-social.es") == "https://sp.seg-social.es/ProsaInternet/OnlineAccessUtf8;jsessionid=abc"
     assert parsed.form_base()["ARQ.SPM.TICKET"] == "t1" and "ARQ" not in parsed.data
+
+
+# -- panel ---------------------------------------------------------------------------
+
+
+class FakeProvider:
+    def __init__(self, answers, ok=True):
+        self.answers, self.ok = answers, ok
+
+    def doctor(self, online=False):
+        from autonomo.core.provider import Check
+
+        return [Check("x", self.ok)]
+
+    def fetch(self, resource, params, options):
+        value = self.answers[resource]
+        if isinstance(value, Exception):
+            raise value
+        return value
+
+    def close(self):
+        pass
+
+
+def test_panel_pendientes_reports_every_source():
+    from autonomo.providers.panel import Panel
+
+    panel = Panel({})
+    panel._providers = {
+        "aeat": FakeProvider({
+            "deudas": {"text": "Avisos\nTiene 1 deuda pendiente: 120,00 €"},  # unknown content -> attention
+            "notificaciones": {"text": "No tiene notificaciones pendientes de notificar no leídas\nNo tiene notificaciones notificadas no leídas\nNo tiene comunicaciones no leídas"},
+            "alertas": RemoteError("AEAT down"),
+        }),
+        "seguridad-social": FakeProvider({
+            "deudas": {"has_debts": False, "messages": [{"type": "AVISO", "text": "No existen deudas"}]},
+            "notificaciones": {"count": 0, "window": {"desde": "a", "hasta": "b"}},
+            "avisos": {"text": "Tus avisos\nAvisos no leídos\nAviso X\nAvisos leídos\nViejo"},
+            "resumen": {"text": "Tu próxima cuota\n607,35\n€\nPago\n30\nnov\n2026"},
+        }),
+        "facturadirecta": FakeProvider({}, ok=False),
+    }
+
+    result = panel.fetch("pendientes", {}, FetchOptions())
+    status = {(c["source"], c["item"]): c["status"] for c in result["checks"]}
+
+    assert status[("aeat", "deudas")] == "attention"
+    assert status[("aeat", "notificaciones")] == "ok"
+    assert status[("aeat", "alertas")] == "error"
+    assert status[("seguridad-social", "avisos no leídos")] == "info"
+    assert status[("facturadirecta", "facturas vencidas")] == "skipped"
+    assert next(c for c in result["checks"] if c["item"] == "próxima cuota")["detail"] == "607,35 € on 30 nov 2026"

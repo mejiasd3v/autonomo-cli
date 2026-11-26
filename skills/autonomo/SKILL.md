@@ -65,6 +65,24 @@ set `[certificate].path` and provide `AUTONOMO_CERT_PASSWORD` from the user's
 secret manager. `Another certificate is already imported` means ask the user
 before you use `--replace`. To undo an import: `autonomo cert remove`.
 
+## Start here: panel
+
+For "anything pending?", "do I owe anything?", or a general status question,
+run the panel first. It checks every source in one call (about 10 seconds):
+
+```sh
+autonomo get panel pendientes        # debts, notifications, alerts, unread notices, next cuota, overdue invoices
+autonomo get panel reta year=2025    # RETA paid (Importass receipts) vs reported to AEAT; regularizations
+autonomo get panel pagos-130 year=2025   # modelo 130 per quarter: AEAT vs FacturaDirecta
+```
+
+Each `pendientes` check has `status`: `ok`, `attention` (act or tell the
+user), `info`, `unknown` (say you could not tell), `error` (that source
+failed; report it), `skipped` (source not configured). Never present `error`,
+`unknown` or `skipped` as "nothing pending". `reta` returns `status` `match`,
+`mismatch` (with `difference_eur` and a note on why amounts can shift between
+years) or `incomplete`. Drill down with the provider resources below.
+
 ## Read
 
 ```sh

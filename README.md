@@ -56,6 +56,7 @@ autonomo config
 |---|---|---|---|
 | `facturadirecta` | API key header (OS keyring or env) | 49: documents, contacts, banks, journal, reports, tax forms, attachments, versions, raw GET | Verified live against a sandbox company (2026-11-26): every list, report and settings resource, item fetch, versions, cursor and offset pagination. The sandbox has almost no documents, so invoice/bill payloads and attachment downloads are untested |
 | `aeat` | Certificate (mTLS on www1) | `deudas`, `notificaciones` (unread summary), `alertas`, `ultimos-accesos`, `datos-fiscales` (parsed JSON), `domicilio-ratificado`, `page` | All verified live on a real account (2026-11-26). Lists with entries were seen only for `ultimos-accesos`; the others returned empty states, so non-empty pages are parsed generically (text + tables) |
+| `panel` | Uses the others | `pendientes`, `reta`, `pagos-130` | Verified live (2026-11-26): `reta` matches to the cent for 2024 and 2025; `pagos-130` only had AEAT data (sandbox FacturaDirecta) |
 | `seguridad-social` | Certificate: SAML login through idp/ipce.seg-social.es, plain HTTP | `resumen`, `recibos`, `vida-laboral`, `bases-cotizacion`, `regularizacion`, `avisos`, `expedientes`, `notificaciones` (sede, list only), `deudas` (sede query), `page` | Verified live (2026-11-26). Both sede resources returned empty states on this account, so non-empty results are returned as the sede's raw data |
 
 ## Design
@@ -90,6 +91,5 @@ same without touching this repo.
 - AEAT Verifactu `ConsultaFactuSistemaFacturacion` (SOAP over mTLS, official WSDL).
 - DEHú `Localiza` (needs Gran Destinatario registration and WS-Security signing; never call `PeticionAcceso`).
 - Seguridad Social sede: notification history tab (older and already-read notifications).
-- Cross-source summary: RETA receipts (Importass) vs RETA in AEAT datos fiscales vs FacturaDirecta expenses.
 - Datos fiscales layout for each new fiscal year: `uv run --with openpyxl python scripts/build_datos_fiscales_layout.py FILE.xlsx YEAR` (source Excel: AEAT Desarrolladores > IRPF > Modelo 100 > Ejercicio YYYY).
 - AEAT full notification history (`GNNO-JDIT/SvInteresadosQuery`): blocked until verified that listing cannot trigger comparecencia.

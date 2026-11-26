@@ -19,6 +19,7 @@ autonomo = "autonomo.cli:main"
 facturadirecta = "autonomo.providers.facturadirecta:FacturaDirecta"
 aeat = "autonomo.providers.aeat:AEAT"
 seguridad-social = "autonomo.providers.seguridad_social:SeguridadSocial"
+panel = "autonomo.providers.panel:Panel"
 
 [dependency-groups]
 dev = ["pytest>=8"]
